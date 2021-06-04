@@ -36,7 +36,7 @@
           <!-- 侧边菜单栏 -->
             <el-aside :width="el_aside_width">
               <el-menu
-                default-active="2"
+                default-active="User"
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
                 @close="handleClose"
@@ -44,28 +44,29 @@
                 text-color="#fff"
                 active-text-color="#ffd04b"
                 :collapse="isCollapse"
+                router="true"
                 >
-                <el-menu-item index="1">
+                <el-menu-item index="User">
                   <i class="el-icon-s-custom"></i>
                   <span slot="title">用户管理</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="Notice">
                   <i class="el-icon-bell"></i>
                   <span slot="title">公告管理</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="Place">
                   <i class="el-icon-map-location"></i>
                   <span slot="title">场地管理</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="Contest">
                   <i class="el-icon-timer"></i>
                   <span slot="title">赛事管理</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="Equipment">
                   <i class="el-icon-basketball"></i>
                   <span slot="title">器材管理</span>
                 </el-menu-item>
-                <el-menu-item index="6">
+                <el-menu-item index="Money">
                   <i class="el-icon-s-data"></i>
                   <span slot="title">运营管理</span>
                 </el-menu-item>
@@ -73,8 +74,7 @@
             </el-aside>
             <!-- 内容主体 -->
             <el-main>
-              <el-card class="box-card">
-              </el-card>
+              <router-view></router-view>
             </el-main>
         </el-container>
     </el-container>
@@ -166,10 +166,7 @@ export default {
  .el-menu-vertical-demo{
    height: 100%;
  }
- .box-card {
-    width: 100%;
-    height: 100%;
-}
+
 
 </style>
 
