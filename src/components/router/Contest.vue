@@ -14,7 +14,7 @@ export default {
   name: 'Contest',
   data () {
     return {
-
+      a:"aaaaaaaaa"
     }
   },
   components: {},
