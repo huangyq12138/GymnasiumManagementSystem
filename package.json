@@ -2,7 +2,7 @@
   "name": "sm-system",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "黄皮酱 <mihuang12138@gmail.com>",
+  "author": "黄皮酱 <mihuang12138@gmail.com> margot",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

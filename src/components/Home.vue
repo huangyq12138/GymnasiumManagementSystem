@@ -44,7 +44,7 @@
                 text-color="#fff"
                 active-text-color="#ffd04b"
                 :collapse="isCollapse"
-                router="true"
+                router
                 >
                 <el-menu-item index="User">
                   <i class="el-icon-s-custom"></i>
