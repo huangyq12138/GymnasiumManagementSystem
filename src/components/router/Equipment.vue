@@ -10,7 +10,7 @@
              <el-button type="primary" @click="formVisible = true">器材新增</el-button>
              <el-button type="primary" @click="rentVisible = true">器材租用</el-button>
              <el-button type="primary" @click="repairVisible = true">器材报修</el-button>
-             <el-button type="primary" @click="formVisible = true">器材查询</el-button>
+             <el-button type="primary" @click="inquiry">器材查询</el-button>
           </div>
            <div class="context">
             <el-table
@@ -208,8 +208,12 @@ export default {
       this.rentVisible = false;
     },
     // 报修器材
-    repair(){
+    repairEq(){
       this.repairVisible = false;
+    },
+    // 跳转查询
+    inquiry(){
+      this.$router.push('/equipment/inquiry')
     }
   }
 }
