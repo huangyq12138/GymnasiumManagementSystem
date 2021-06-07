@@ -75,7 +75,7 @@
           <el-dialog title="添加公告" :visible.sync="formVisible">
             <el-form :model="form">
               <el-form-item label="公告类型" :label-width="formLabelWidth">
-                <el-select v-model="form.type" placeholder="请选择公告类型">
+                <el-select v-model="form.type" placeholder="请选择公告类型" class="checkContext">
                   <el-option label="场馆公告" value="0"></el-option>
                   <el-option label="馆内设施罚款公告" value="1"></el-option>
                   <el-option label="裁判简介" value="2"></el-option>
@@ -84,7 +84,7 @@
               </el-form-item>
               <el-form-item label="公告内容" :label-width="formLabelWidth">
                 <el-input v-model="form.context" autocomplete="off" type="textarea"
-  :rows="2"></el-input>
+  :rows="4" class="checkContext"></el-input>
               </el-form-item>
               
             </el-form>
@@ -198,5 +198,8 @@ export default {
   display: inline-block;
   font-weight: bold;
   margin-right: 30px;
+}
+.checkContext{
+  width: 400px;
 }
 </style>
