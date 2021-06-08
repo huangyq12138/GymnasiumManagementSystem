@@ -2,7 +2,7 @@
   "name": "sm-system",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "黄皮酱 <mihuang12138@gmail.com> margot",
+  "author": "黄皮酱 <mihuang12138@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "echarts": "^5.1.1",
     "element-ui": "^2.15.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"

@@ -17,6 +17,9 @@ export default {
 }
 html,body{
   height: 100%;
+  min-width: 1400px;
+  min-height: 600px;
+  overflow-y: hidden;
 }
 #app{
   height: 100%;

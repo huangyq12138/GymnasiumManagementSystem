@@ -24,7 +24,7 @@
                   active-text-color="#ffd04b">
                   <el-submenu index="1">
                     <template slot="title">个人中心</template>
-                    <el-menu-item index="1-1">修改密码</el-menu-item>
+                    <el-menu-item index="1-1" @click="updatePsw">修改密码</el-menu-item>
                   </el-submenu>
                   <el-menu-item index="2">退出登录</el-menu-item>
                 </el-menu>
@@ -36,7 +36,6 @@
           <!-- 侧边菜单栏 -->
             <el-aside :width="el_aside_width">
               <el-menu
-                default-active="User"
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
                 @close="handleClose"
@@ -78,6 +77,24 @@
             </el-main>
         </el-container>
     </el-container>
+    <!-- 修改密码弹出层 -->
+    <el-dialog title="修改密码" :visible.sync="dialog" width="600px">
+      <el-form :model="PswForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm editDialog">
+        <el-form-item label="账号" prop="number" :label-width="formLabelWidth">
+          <el-input v-model.number="PswForm.number" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="pass" :label-width="formLabelWidth">
+          <el-input type="password" v-model="PswForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass" :label-width="formLabelWidth">
+          <el-input type="password" v-model="PswForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item class="Dfooter">
+          <el-button type="primary" @click="submitPsw(PswForm)">确定</el-button>
+          <el-button @click="dialog=false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>  
   </div>
 </template>
 
@@ -85,10 +102,44 @@
 export default {
   name: 'Login',
   data () {
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.PswForm.checkPass !== '') {
+            this.$refs.PswForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.PswForm.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+    };
     return {
       isCollapse: false,
       el_aside_width:"200px",
-       activeIndex: '1'
+      activeIndex: '1',
+      dialog:false,
+      formLabelWidth:'70px',
+      PswForm:{
+        number:'',
+        pass:'',
+        checkPass:''
+      },
+      rules: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ]
+      }
     }
   },
   components: {},
@@ -113,6 +164,24 @@ export default {
       //顶部菜单栏选择事件
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      //修改密码
+      updatePsw(){
+        this.dialog=true;
+      },
+      //提交修改密码
+      submitPsw(formName) {
+        if(formName.pass!=''){
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              alert('submit!');
+              this.dialog=false
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
+          });
+        }
       }
   }
 }
@@ -167,6 +236,24 @@ export default {
    height: 100%;
  }
 
-
+.editDialog{
+  margin:0 auto;
+  width:400px;
+}
+.editDialog .el-form-item{
+  margin:0;
+  padding:0;
+  padding-bottom: 16px;
+}
+.editDialog .el-select{
+  width:300px;
+}
+.editDialog .Dfooter{
+  margin:20px 0 10px -60px;
+  text-align: center;
+}
+.editDialog .Dfooter .el-button{
+  width: 100px;
+}
 </style>
 
