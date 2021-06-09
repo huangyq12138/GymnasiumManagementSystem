@@ -54,7 +54,7 @@
               </el-table-column>
             </el-table>
           </div>
-
+          
           <!-- 器材新增 -->
           <el-dialog title="新增器材" :visible.sync="formVisible">
             <el-form :model="form" class="checkContext">
