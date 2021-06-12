@@ -64,6 +64,9 @@
               <el-form-item label="购进数量" :label-width="formLabelWidth">
                 <el-input v-model="form.number" autocomplete="off"></el-input>
               </el-form-item>
+              <el-form-item label="购进金额" :label-width="formLabelWidth">
+                <el-input v-model="form.money" autocomplete="off"></el-input>
+              </el-form-item>
               <el-form-item label="租金/元/个" :label-width="formLabelWidth">
                 <el-input v-model="form.rent_money" autocomplete="off"></el-input>
               </el-form-item>
@@ -173,6 +176,7 @@ export default {
       form: {        
         name:'篮球',
         number:200,
+        money:null,
         rent_damage_num:20,
         rent_money:2,
       },

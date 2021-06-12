@@ -10,6 +10,8 @@ import Contest from '@/components/router/Contest'
 import Equipment from '@/components/router/Equipment'
 import Money from '@/components/router/Money'
 import equipment_inquiry from '@/components/view/equipment_inquiry'
+import place_appointment from '@/components/view/place_appointment'
+import place_check from '@/components/view/place_check'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +53,16 @@ export default new Router({
                     path: '/equipment/inquiry',
                     name: 'equipment_inquiry',
                     component: equipment_inquiry,
+                },
+                {
+                    path: '/place/appointment',
+                    name: 'place_appointment',
+                    component: place_appointment,
+                },
+                {
+                    path: 'place/check',
+                    name: 'place_check',
+                    component: place_check,
                 },
             ]
         },
