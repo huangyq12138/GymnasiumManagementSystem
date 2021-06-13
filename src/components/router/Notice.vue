@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import {getNotice} from '@/API/api'
 export default {
   name: 'Notice',
   data () {
@@ -155,6 +157,9 @@ export default {
     }
   },
   components: {},
+  mounted(){
+    this.get_notice()
+  },
   methods: {
     handleDelete(index, row,id) {//删除
         console.log(index, row,id);
@@ -164,6 +169,10 @@ export default {
       console.log(row);
       this.detail=row;
       this.dialogVisible=true;
+    },
+    async get_notice(){
+      let data=await getNotice()
+      console.log(data);
     }
   }
 }

@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import {getType} from '@/API/api'
 export default {
   name: 'Place',
   data () {
@@ -71,8 +73,15 @@ export default {
       }
     }
   },
-  components: {},
+  mounted(){
+    this.get_type();
+  },
   methods: {
+    // 获得所有场地类型
+    async get_type(){
+      let data=await getType();
+      console.log(data);
+    },
     // 添加场地
     add_place(){
 
