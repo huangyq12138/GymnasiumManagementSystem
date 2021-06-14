@@ -75,6 +75,19 @@ export default {
   },
   mounted(){
     this.get_type();
+    // axios({
+    //                 method:'post',
+    //                 url:'http://47.97.164.97:8888/place/queryTypes',
+    //                 headers:{
+    //                    Authorization:"Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
+    //                 }             
+    //                 })
+    //                 .then(function (response) {
+    //                   console.log(response) 
+    //                 })
+    //                 .catch(function (error) {
+    //                 console.log(error)            
+    //                 }) 
   },
   methods: {
     // 获得所有场地类型

@@ -3,8 +3,8 @@ axios.defaults.timeout=20000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 
-
-let token=" Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
+//临时放个超级管理员的token在这里 因为登陆不了
+let token="Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
 axios.interceptors.request.use(
     config=>{
         token && (config.headers.Authorization = token)
@@ -26,13 +26,13 @@ axios.interceptors.response.use(
     }
 )
 
-export default function get(url,parmas){
+export function get(url,parmas){
     return new Promise((resolve,reject)=>{
         axios.get(url,{
             params:parmas
         }).then(
             res=>{
-                resolve(res.data)
+                resolve(res)
             }
         ).catch(
             err=>{
@@ -42,9 +42,9 @@ export default function get(url,parmas){
     })
 }
 
-export function post(url, params) {
+export  default function post(url, params) {
     return new Promise((resolve, reject) => {
-         axios.post({url, method: 'post',data:params})
+         axios({url, method: 'post',data:params})
         .then(res => {       
             resolve(res.data);
         })
