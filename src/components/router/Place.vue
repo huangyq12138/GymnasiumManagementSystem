@@ -59,7 +59,6 @@
 
 <script>
 import axios from 'axios';
-// import {addPlace} from '@/API/api'
 export default {
   name: 'Place',
   data () {
@@ -104,37 +103,36 @@ export default {
       }
     },
     // 添加场地
-    add_place(form){    
-      axios({          
-              url:'http://47.97.164.97:8888/place/superAdmin/addPlace?placeName=羽毛球场1&placeType=1',
+    async add_place(form){ 
+      let that=this;           
+      this.$refs[form].validate((valid) => {
+          if (valid) {
+            let place_data=new FormData()
+            place_data.append("placeName",this.addplace_form.placeName)
+            place_data.append("placeType",this.addplace_form.placeType)
+            axios({          
+              url:'http://47.97.164.97:8888/place/superAdmin/addPlace',
               method:"post",
+              data:place_data,
               headers:{
-						      Authorization:"Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
-              }
+                  'Content-Type':'multipart/form-data',
+						      Authorization:localStorage.getItem('Authorization')     }
             })
             .then(function (response) {
-              console.log(response)
-              
+              that.add_placeform= false;
+              that.$message({
+              message: '新增场地成功！',
+              type: 'success'
+            });
             })
             .catch(function (error) {
-              console.log(error)            
-            })     
-      
-      // this.$refs[form].validate((valid) => {
-      //     if (valid) {
-      //       console.log(this.addplace_form);
-      //       let data=addPlace(this.addplace_form)
-      //       console.log(data);
-      //     } else {
-      //       return false;
-      //     }
-      //   });
-     
-      // this.$message({
-      //     message: '新增场地成功！',
-      //     type: 'success'
-      //   });
-      // this.$message.error('新增场地失败！');
+              that.$message.error('新增场地失败！');        
+            })  
+          } else {
+            return false;
+          }
+        });
+ 
     }
   }
 }
