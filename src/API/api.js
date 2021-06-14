@@ -15,3 +15,12 @@ export const placeDelete=(id)=>post("http://47.97.164.97:8888/place/delete",id)
 
 // 空闲场地查询
 export const placeFree=(form)=>post("http://47.97.164.97:8888/place/queryFreePlace",form)
+
+// 空闲时间查询
+export const freeTime=(form)=>post("http://47.97.164.97:8888/place/queryEnableTime",form)
+
+// 一周场地时间使用查询
+export const weekTime=(form)=>post("http://47.97.164.97:8888/place/queryAllTime",form)
+
+// 收费标准
+export const placeStandard=(form)=>post("http://47.97.164.97:8888/place/queryRate",form)
