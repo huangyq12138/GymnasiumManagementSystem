@@ -217,7 +217,7 @@ export default {
     },
     // 跳转查询
     inquiry(){
-      this.$router.push('/equipment/inquiry')
+      this.$router.push('/equipment_inquiry')
     }
   }
 }

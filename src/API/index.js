@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.timeout=20000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-
+import {Message} from 'element-ui'
 
 //临时放个超级管理员的token在这里 因为登陆不了
 let token="Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
@@ -47,6 +47,7 @@ export  default function post(url, params) {
          axios({url, method: 'post',data:params})
         .then(res => {       
             resolve(res.data);
+            this.$message.error('新增场地失败！');
         })
         .catch(err =>{
             reject(err.data)

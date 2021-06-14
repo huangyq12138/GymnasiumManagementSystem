@@ -4,7 +4,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/User' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/place' }">场地管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/place/check' }">场地查询</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/place_check' }">场地查询</el-breadcrumb-item>
         <el-breadcrumb-item>类型查询</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="return">

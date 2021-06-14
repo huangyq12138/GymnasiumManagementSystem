@@ -6,8 +6,8 @@
         <el-breadcrumb-item>场地管理</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="container">
-          <div class="pl-nav">
-             <el-button type="primary">场地类型</el-button>
+          <div class="pl-nav" @click="change_active">
+             <el-button type="primary" class="active_type" >场地类型</el-button>
              <el-button type="primary" @click="add_placeform = true">添加场地</el-button>
              <el-button type="primary" @click="tocheck">查询场地</el-button>
              <el-button type="primary" @click="toappointment">场地预约</el-button>
@@ -31,23 +31,23 @@
           
           <!-- 添加场地 -->
           <el-dialog title="添加场地" :visible.sync="add_placeform">
-            <el-form :model="addplace_form" class="checkContext">             
-              <el-form-item label="场地类型" :label-width="formLabelWidth">
-                <el-select v-model="addplace_form.type" placeholder="请选择类型">
-                  <el-option label="羽毛球场" value=0></el-option>
-                  <el-option label="兵乓球场" value=1></el-option>
-                  <el-option label="台球场" value=2></el-option>
-                  <el-option label="篮球场" value=3></el-option>
-                  <el-option label="保龄球场" value=4></el-option>
+            <el-form :model="addplace_form" class="checkContext" :rules="addplace_rules" ref="addplace_form">             
+              <el-form-item label="场地类型" :label-width="formLabelWidth" prop="type">
+                <el-select v-model="addplace_form.placeType" placeholder="请选择类型">
+                  <el-option label="羽毛球场" value=1></el-option>
+                  <el-option label="兵乓球场" value=2></el-option>
+                  <el-option label="台球场" value=3></el-option>
+                  <el-option label="篮球场" value=4></el-option>
+                  <el-option label="保龄球场" value=5></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="场地名称" :label-width="formLabelWidth">
-                <el-input v-model="addplace_form.name" autocomplete="off"></el-input>
+              <el-form-item label="场地名称" :label-width="formLabelWidth" prop="name">
+                <el-input v-model="addplace_form.placeName" autocomplete="off"></el-input>
               </el-form-item>              
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="add_placeform= false">取 消</el-button>
-              <el-button type="primary" @click="add_place">提 交</el-button>
+              <el-button type="primary" @click="add_place('addplace_form')">提 交</el-button>
             </div>
           </el-dialog>
         </div>
@@ -57,55 +57,89 @@
 
 <script>
 import axios from 'axios';
-import {getType} from '@/API/api'
+// import {addPlace} from '@/API/api'
 export default {
   name: 'Place',
   data () {
     return {
+      types:["羽毛球场","兵乓球场","台球场","篮球场","保龄球场"],
       add_placeform:false,
       formLabelWidth: '120px',
       type_data:[
-        {"type":"篮球场"}
+        {type:"羽毛球场"},
+        {type:"兵乓球场"},      
+        {type:"台球场"},
+        {type:"篮球场"},
+        {type:"保龄球场"},
       ],
       addplace_form:{
-        type:null,
-        name:null
+        placeType:null,
+        placeName:null
+      },
+      addplace_rules:{
+        placeName: [
+            { required: true, message: '请输入场地名称', trigger: 'blur' }
+          ],
+        placeType:[
+            { required: true, message: '请选择场地类型', trigger: 'change' }
+        ]
       }
     }
   },
   mounted(){
-    this.get_type();
-    // axios({
-    //                 method:'post',
-    //                 url:'http://47.97.164.97:8888/place/queryTypes',
-    //                 headers:{
-    //                    Authorization:"Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
-    //                 }             
-    //                 })
-    //                 .then(function (response) {
-    //                   console.log(response) 
-    //                 })
-    //                 .catch(function (error) {
-    //                 console.log(error)            
-    //                 }) 
+    // this.get_type();
+    
   },
   methods: {
-    // 获得所有场地类型
-    async get_type(){
-      let data=await getType();
-      console.log(data);
+    change_active(){
+
     },
     // 添加场地
-    add_place(){
-
+    add_place(form){
+     
+      axios({
+              method:'post',
+              url:'http://47.97.164.97:8888/place/superAdmin/addPlace',
+              data:{
+                'placeType':1,
+                'placeName':"水水"
+              },
+              headers:{
+                  // 'Content-Type':"application/x-www-form-urlencoded",
+						      Authorization:"Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
+              }
+            })
+            .then(function (response) {
+              console.log(response)
+              
+            })
+            .catch(function (error) {
+              console.log(error)            
+            })     
+      
+      // this.$refs[form].validate((valid) => {
+      //     if (valid) {
+      //       console.log(this.addplace_form);
+      //       let data=addPlace(this.addplace_form)
+      //       console.log(data);
+      //     } else {
+      //       return false;
+      //     }
+      //   });
+     
+      // this.$message({
+      //     message: '新增场地成功！',
+      //     type: 'success'
+      //   });
+      // this.$message.error('新增场地失败！');
     },
     // 查询场地
     tocheck(){
-      this.$router.push('/place/check')
+      this.$router.push('/place_check')
     },
     // 预约场地
     toappointment(){
-      this.$router.push('/place/appointment')
+      this.$router.push('/place_appointment')
     }
   }
 }
@@ -128,5 +162,9 @@ export default {
 }
 .checkContext .el-input,.checkContext .el-select{
   width: 600px;
+}
+.active_type{
+  background: #027DB4;
+  border-color:#027DB4;
 }
 </style>

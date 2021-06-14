@@ -50,17 +50,17 @@ export default new Router({
                     component: Money,
                 },
                 {
-                    path: '/equipment/inquiry',
+                    path: '/equipment_inquiry',
                     name: 'equipment_inquiry',
                     component: equipment_inquiry,
                 },
                 {
-                    path: '/place/appointment',
+                    path: '/place_appointment',
                     name: 'place_appointment',
                     component: place_appointment,
                 },
                 {
-                    path: 'place/check',
+                    path: 'place_check',
                     name: 'place_check',
                     component: place_check,
                 },
