@@ -4,17 +4,18 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/User' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/place' }">场地管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/place_appointment' }">场地预约</el-breadcrumb-item>
-        <el-breadcrumb-item>个人预约</el-breadcrumb-item>
+        <el-breadcrumb-item >场地预约</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="return">
             <el-button type="success" @click="return_ap" >返回</el-button>
           </div>
         <div class="container">      
           <div class="ap-nav">
-             <el-button type="primary" @click="show('personal')">个人预约</el-button>
-             <el-button type="primary" @click="show('special')">特殊预约</el-button>
-             <el-button type="primary" @click="show('my')">我的预约</el-button>
+          <el-radio-group v-model="now" @change="show">
+            <el-radio-button label='personal'>个人预约</el-radio-button>
+            <el-radio-button label='special'>特殊预约</el-radio-button>
+            <el-radio-button label='my'>我的预约</el-radio-button>
+          </el-radio-group>
           </div>
           <!-- 个人预约 -->
           <div  v-show="this.flag.personal">
@@ -216,7 +217,8 @@ export default {
                     time:"8：00-10：00",
 
                 }
-            ]
+            ],
+            key:"personal"
         }
     },
     methods:{
@@ -228,10 +230,10 @@ export default {
         special(){
 
         },
-        show(key){
-            this.flag[this.now]=false;
-            this.flag[key]=true;
-            this.now=key;
+        show(){
+            this.flag[this.key]=false;
+            this.flag[this.now]=true;
+            this.key=this.now;
         },
         return_ap(){
           this.$router.push('/place')

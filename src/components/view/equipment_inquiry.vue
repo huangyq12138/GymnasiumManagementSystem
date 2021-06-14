@@ -4,8 +4,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/User' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/equipment' }">器材管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/equipment_inquiry' }">器材查询</el-breadcrumb-item>
-        <el-breadcrumb-item>收费标准</el-breadcrumb-item>
+        <el-breadcrumb-item>器材查询</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="return">
             <el-button type="success" @click="return_eq" >返回</el-button>

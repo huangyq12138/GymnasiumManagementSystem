@@ -6,11 +6,13 @@
         <el-breadcrumb-item>场地管理</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="container">
-          <div class="pl-nav" @click="change_active">
-             <el-button type="primary" class="active_type" >场地类型</el-button>
-             <el-button type="primary" @click="add_placeform = true">添加场地</el-button>
-             <el-button type="primary" @click="tocheck">查询场地</el-button>
-             <el-button type="primary" @click="toappointment">场地预约</el-button>
+          <div class="pl-nav">
+          <el-radio-group v-model="radio" @change="choose">
+            <el-radio-button label=1>场地类型</el-radio-button>
+            <el-radio-button label=2>添加场地</el-radio-button>
+            <el-radio-button label=3>查询场地</el-radio-button>
+            <el-radio-button label=4>场地预约</el-radio-button>
+          </el-radio-group>
           </div>
            <div class="context">
             <el-table
@@ -83,7 +85,8 @@ export default {
         placeType:[
             { required: true, message: '请选择场地类型', trigger: 'change' }
         ]
-      }
+      },
+      radio: 1,
     }
   },
   mounted(){
@@ -91,21 +94,21 @@ export default {
     
   },
   methods: {
-    change_active(){
-
+    choose(){
+      if(this.radio==2){
+        this.add_placeform = true;
+      }else if(this.radio==3){
+         this.$router.push('/place_check')
+      }else if(this.radio==4){
+        this.$router.push('/place_appointment')
+      }
     },
     // 添加场地
-    add_place(form){
-     
-      axios({
-              method:'post',
-              url:'http://47.97.164.97:8888/place/superAdmin/addPlace',
-              data:{
-                'placeType':1,
-                'placeName':"水水"
-              },
+    add_place(form){    
+      axios({          
+              url:'http://47.97.164.97:8888/place/superAdmin/addPlace?placeName=羽毛球场1&placeType=1',
+              method:"post",
               headers:{
-                  // 'Content-Type':"application/x-www-form-urlencoded",
 						      Authorization:"Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
               }
             })
@@ -132,14 +135,6 @@ export default {
       //     type: 'success'
       //   });
       // this.$message.error('新增场地失败！');
-    },
-    // 查询场地
-    tocheck(){
-      this.$router.push('/place_check')
-    },
-    // 预约场地
-    toappointment(){
-      this.$router.push('/place_appointment')
     }
   }
 }
