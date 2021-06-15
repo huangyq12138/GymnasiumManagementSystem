@@ -30,6 +30,12 @@ export const placeStandard=(form)=>post("http://47.97.164.97:8888/place/queryRat
 
 // 个人预约
 export const appointPlace=(form)=>post("http://47.97.164.97:8888/appoint/appoint",form)
+// 查看我的预约
+export const appointInfo=(form)=>post("http://47.97.164.97:8888/appoint/showInfo",form)
+// 修改预约信息
+export const modifyAppoint=(form)=>post("http://47.97.164.97:8888/appoint/modifyAppoint",form)
+// 取消预约
+export const cancelAppoint=(form)=>post("http://47.97.164.97:8888/appoint/cancelAppoint",form)
 
 
 // 全部器材

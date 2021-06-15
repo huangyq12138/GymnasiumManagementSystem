@@ -264,7 +264,7 @@ export default {
           params.append("rates",this.form.rates)
           let data=await equipmentAdd(params) 
           console.log(data); 
-      this.formVisible = false;
+          this.formVisible = false;
     },
     // 租用器材
     rentEq(){
