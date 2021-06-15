@@ -205,7 +205,7 @@
                 </el-select>
               </el-form-item>                       
               <el-form-item>
-                <el-button type="primary" @click="charge">查询</el-button>
+                <el-button type="primary" @click="free_time">查询</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -392,9 +392,10 @@ export default {
           this.free_time_name=data.datas;
           this.freeTimeName=true
         },
+        // 
         async free_time(){
           let params=new FormData();
-          params.append("placeType",this.freeTime.type)
+          params.append("type",this.freeTime.type)
           params.append("placeName",this.freeTime.name)
           let data=await weekTime(params) 
           console.log(data);      

@@ -7,10 +7,13 @@
         </el-breadcrumb>
         <div class="container">
           <div class="eq-nav">
-             <el-button type="primary" @click="formVisible = true">器材新增</el-button>
-             <el-button type="primary" @click="rentVisible = true">器材租用</el-button>
-             <el-button type="primary" @click="repairVisible = true">器材报修</el-button>
-             <el-button type="primary" @click="inquiry">器材查询</el-button>
+            <el-radio-group v-model="radio" @change="choose">
+              <el-radio-button label=0>全部器材</el-radio-button>
+              <el-radio-button label=1>器材新增</el-radio-button>
+              <el-radio-button label=2>器材租用</el-radio-button>
+              <el-radio-button label=3>器材报修</el-radio-button>
+              <el-radio-button label=4>器材查询</el-radio-button>
+            </el-radio-group>
           </div>
            <div class="context">
             <el-table
@@ -33,13 +36,19 @@
                 width="200">
               </el-table-column>
               <el-table-column
-                prop="rent_num"
+                prop="rentNum"
                 label="现已租用数量"
                 width="180"
                 >
                 </el-table-column>
                 <el-table-column
-                prop="rent_money"
+                prop="serviceNum"
+                label="维修数量"
+                width="180"
+                >
+                </el-table-column>
+                <el-table-column
+                prop="rates"
                 label="租金/元/小时"
                 width="180"
                 >
@@ -49,34 +58,60 @@
                   <el-button
                     size="mini"
                     type="success"
-                    @click.stop="handle_write(scope.$index, scope.row,scope.row.id)">编辑</el-button>
+                    @click.stop="write(scope.row)">编辑数量</el-button>
                 </template>
               </el-table-column>
             </el-table>
           </div>
-          
+          <!-- 器材编辑 -->
+          <el-dialog title="器材更新" :visible.sync="updateVisible">
+            <el-form :model="detail_form" class="checkContext">
+              <el-form-item label="器材名称" :label-width="formLabelWidth">
+                {{this.detail_form.name}}
+              </el-form-item>
+              <el-form-item label="可用器材数" :label-width="formLabelWidth">
+                <el-input v-model="detail_form.number" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="现已租用数" :label-width="formLabelWidth">
+                {{this.detail_form.rentNum}}
+              </el-form-item>
+              <el-form-item label="租金/每个/元" :label-width="formLabelWidth">
+                {{this.detail_form.rates}}
+              </el-form-item>
+              <el-form-item label="维修数量" :label-width="formLabelWidth">
+                {{this.detail_form.serviceNum}}
+              </el-form-item>              
+            </el-form>                       
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="updateVisible = false">取 消</el-button>
+              <el-button type="primary" @click="equipment_update">提 交</el-button>
+            </div>
+          </el-dialog>
+
           <!-- 器材新增 -->
           <el-dialog title="新增器材" :visible.sync="formVisible">
             <el-form :model="form" class="checkContext">
-              <el-form-item label="器材名称" :label-width="formLabelWidth">
-                <el-input v-model="form.name" autocomplete="off" ></el-input>
+              <el-form-item label="器材类型" :label-width="formLabelWidth">
+                <el-select v-model="form.type" placeholder="请选择器材">
+                  <el-option label="羽毛球拍" value=0></el-option>
+                  <el-option label="毽子" value=1></el-option>
+                  <el-option label="排球" value=2></el-option>
+                  <el-option label="篮球" value=3></el-option>
+                  <el-option label="足球" value=4></el-option>
+                  <el-option label="乒乓球" value=5></el-option>
+                  <el-option label="保龄球" value=6></el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="购进数量" :label-width="formLabelWidth">
                 <el-input v-model="form.number" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="购进金额" :label-width="formLabelWidth">
-                <el-input v-model="form.money" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="租金/元/个" :label-width="formLabelWidth">
-                <el-input v-model="form.rent_money" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="损坏/元/个" :label-width="formLabelWidth">
-                <el-input v-model="form.damage_num" autocomplete="off" ></el-input>
-              </el-form-item>
+                <el-input v-model="form.rates" autocomplete="off"></el-input>
+              </el-form-item>             
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="formVisible = false">取 消</el-button>
-              <el-button type="primary" @click="newEq">提 交</el-button>
+              <el-button type="primary" @click="equipment_add">提 交</el-button>
             </div>
           </el-dialog>
 
@@ -142,43 +177,25 @@
 </template>
 
 <script>
+import axios from 'axios';
+import {equipmentAll,equipmentUpdate,equipmentAdd} from '@/API/api'
 export default {
   name: 'Equipment',
   data () {
     return {
       tableData: [{
-          id:1,
           name:'篮球',
+          type:0,
           number:200,
-          rent_num:20,
-          rent_money:2,          
-        },{
-          id:1,
-          name:'篮球',
-          number:200,
-          rent_num:20,
-          rent_money:2,          
-        },{
-          id:1,
-          name:'篮球',
-          number:200,
-          rent_num:20,
-          rent_money:2,          
-        }, 
-        {
-          id:1,
-          name:'篮球',
-          number:200,
-          rent_num:20,
-          rent_money:2,          
-      }],
+          rentNum:20,
+          serviceNum:2,
+          rates:2          
+        }],
       formVisible:false,
       form: {        
-        name:'篮球',
-        number:200,
-        money:null,
-        rent_damage_num:20,
-        rent_money:2,
+        type:null,
+        number:null,
+        rotes:null,
       },
       formLabelWidth: '120px',
       rentVisible:false,
@@ -195,16 +212,58 @@ export default {
       repair_form:{
         type:null,
         num:null
-      }
+      },
+      radio:0,
+      type:['羽毛球拍','毽子','排球','篮球','足球','乒乓球','保龄球'],
+      updateVisible:false,
+      detail_form:[]
     }
   },
-  components: {},
+  mounted () {
+    this.equipment_all();
+  },
   methods: {
-    write(index, row,id) {//编辑
-        console.log(index, row,id);
+    async equipment_all(){
+          let data=await equipmentAll() 
+          // console.log(data); 
+          this.tableData=data.datas;
+          for(let i=0;i<this.tableData.length;i++){
+            this.tableData[i]["name"]=this.type[this.tableData[i].type];
+          }
+    },
+    choose(){
+      if(this.radio==1){
+        this.formVisible = true;
+      }
+      else if(this.radio==2){
+        this.rentVisible = true;
+      }else if(this.radio==3){
+         this.repairVisible = true
+      }else if(this.radio==4){
+        this.$router.push('/equipment_inquiry')
+      }
+    },
+    write(row) {//编辑
+        this.detail_form=row;
+        this.updateVisible=true;
+    },
+    // 器材可用数量更新
+    async equipment_update(){
+          let params=new FormData();
+          params.append("type",this.detail_form.type)
+          params.append("number",this.detail_form.number)
+          let data=await equipmentUpdate(params) 
+          console.log(data); 
+          // this.tableData=data.datas;
     },
       // 提交新增器材
-    newEq(){
+    async equipment_add(){
+      let params=new FormData();
+          params.append("type",this.form.type)
+          params.append("number",this.form.number)
+          params.append("rates",this.form.rates)
+          let data=await equipmentAdd(params) 
+          console.log(data); 
       this.formVisible = false;
     },
     // 租用器材
@@ -215,10 +274,6 @@ export default {
     repairEq(){
       this.repairVisible = false;
     },
-    // 跳转查询
-    inquiry(){
-      this.$router.push('/equipment_inquiry')
-    }
   }
 }
 </script>

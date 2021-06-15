@@ -181,6 +181,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import {appointPlace} from '@/API/api'
 export default {
     data(){
         return{
@@ -224,7 +226,12 @@ export default {
     methods:{
         // 个人预约
         personal(){
-
+          let params=new FormData();
+          // params.append("placeType",this.standardm.type)
+          // params.append("timeZone",this.standardm.time)
+          // params.append("week",this.standardm.day)
+          // let data=await appointPlace(params) 
+          // console.log(data);
         },
         // 特殊预约
         special(){

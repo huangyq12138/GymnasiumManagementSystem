@@ -7,7 +7,7 @@
         </el-breadcrumb>
         <div class="container">
           <div class="top">
-            <el-select v-model="value" placeholder="请选择公告类型">
+            <el-select v-model="value" placeholder="请选择公告类型" @change="change_type">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -101,7 +101,7 @@
 
 <script>
 import axios from 'axios';
-import {getNotice,addNotice} from '@/API/api'
+import {getNotice,addNotice,getNoticeType} from '@/API/api'
 export default {
   name: 'Notice',
   data () {
@@ -120,7 +120,6 @@ export default {
           label: '其他公告'
         }],
         value: '',
-        notice_type:["场馆公告","馆内设施罚款公告","裁判简介","其他公告"],
         tableData: [],
         dialogVisible: false,
         detailContext:{
@@ -142,7 +141,7 @@ export default {
           type:[
               { required: true, message: '请选择公告类型', trigger: 'change' }
           ]
-      },
+        }
     }
   },
   components: {},
@@ -173,11 +172,33 @@ export default {
       this.detailContext=row;
       this.dialogVisible=true;
     },
-    // 获得公告
+    // 获得所有公告
     async get_notice(){
       let data=await getNotice()
       this.tableData=data.datas
-      console.log(this.tableData);
+      for(let i=0;i<this.tableData.length;i++){
+          this.tableData[i].type=this.options[this.tableData[i].type].label
+      }
+    },
+    change_type(){
+          let params=new FormData();
+          params.append("type",2)
+          // let data=await getNoticeType(params) 
+          // console.log(data);
+          axios({          
+              url:'http://47.97.164.97:8888/announ/queryAnnounceByType',
+              method:"post",
+              data:qs.stringify({'type':1}),
+              headers:{
+                'Content-Type':'application/json' ,
+						      Authorization:localStorage.getItem('Authorization')     }
+            })
+            .then(function (res) {
+              console.log(res);
+            })
+            .catch(function (error) {
+              that.$message.error('新增场地失败！');        
+            })  
     },
     // 添加公告
     async add_notice(formname){

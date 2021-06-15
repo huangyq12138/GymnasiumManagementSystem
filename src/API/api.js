@@ -3,8 +3,11 @@ import post from './index'
 
 // 获取公告
 export const getNotice=()=>post("http://47.97.164.97:8888/announ/queryAnnounce")
+// 获取特定类型的公告
+export const getNoticeType=(type)=>post("http://47.97.164.97:8888/announ/queryAnnounceByType",type)
 // 添加公告
-export const addNotice=(a)=>post("http://47.97.164.97:8888/announ/admin/addAnnounce",a)
+export const addNotice=(form)=>post("http://47.97.164.97:8888/announ/admin/addAnnounce",form)
+
 
 
 
@@ -24,3 +27,14 @@ export const weekTime=(form)=>post("http://47.97.164.97:8888/place/queryAllTime"
 
 // 收费标准
 export const placeStandard=(form)=>post("http://47.97.164.97:8888/place/queryRate",form)
+
+// 个人预约
+export const appointPlace=(form)=>post("http://47.97.164.97:8888/appoint/appoint",form)
+
+
+// 全部器材
+export const equipmentAll=()=>post("http://47.97.164.97:8888/equipment/findAll")
+// 数量减
+export const equipmentUpdate=(form)=>post("http://47.97.164.97:8888/equipment/admin/update",form)
+// 数量增加
+export const equipmentAdd=(form)=>post("http://47.97.164.97:8888/equipment/admin/add",form)
