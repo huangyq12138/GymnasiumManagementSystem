@@ -156,10 +156,13 @@
             <el-form :model="repair_form" class="checkContext">             
               <el-form-item label="器材名称" :label-width="formLabelWidth">
                 <el-select v-model="repair_form.type" placeholder="请选择器材">
-                  <el-option label="篮球" value=0></el-option>
-                  <el-option label="足球" value=1></el-option>
+                  <el-option label="羽毛球拍" value=0></el-option>
+                  <el-option label="毽子" value=1></el-option>
                   <el-option label="排球" value=2></el-option>
-                  <el-option label="羽毛球" value=3></el-option>
+                  <el-option label="篮球" value=3></el-option>
+                  <el-option label="足球" value=4></el-option>
+                  <el-option label="乒乓球" value=5></el-option>
+                  <el-option label="保龄球" value=6></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="报修数量" :label-width="formLabelWidth">
@@ -178,7 +181,7 @@
 
 <script>
 import axios from 'axios';
-import {equipmentAll,equipmentUpdate,equipmentAdd} from '@/API/api'
+import {equipmentAll,equipmentUpdate,equipmentAdd,equipmentRepair} from '@/API/api'
 export default {
   name: 'Equipment',
   data () {
@@ -252,13 +255,12 @@ export default {
           let params=new FormData();
           params.append("type",this.detail_form.type)
           params.append("number",this.detail_form.number)
-          let data=await equipmentUpdate(params) 
-          console.log(data); 
-          // this.tableData=data.datas;
+          await equipmentUpdate(params) 
+          this.updateVisible=false;
     },
       // 提交新增器材
     async equipment_add(){
-      let params=new FormData();
+          let params=new FormData();
           params.append("type",this.form.type)
           params.append("number",this.form.number)
           params.append("rates",this.form.rates)
@@ -271,7 +273,13 @@ export default {
       this.rentVisible = false;
     },
     // 报修器材
-    repairEq(){
+    async repairEq(){
+      let params=new FormData();
+      params.append("type",this.repair_form.type)
+      params.append("serviceNum",this.repair_form.num)
+      params.append("number",this.tableData[this.repair_form.type].number)
+      let data=await equipmentRepair(params)
+      console.log(data);
       this.repairVisible = false;
     },
   }

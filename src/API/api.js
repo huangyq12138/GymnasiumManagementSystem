@@ -44,3 +44,5 @@ export const equipmentAll=()=>post("http://47.97.164.97:8888/equipment/findAll")
 export const equipmentUpdate=(form)=>post("http://47.97.164.97:8888/equipment/admin/update",form)
 // 数量增加
 export const equipmentAdd=(form)=>post("http://47.97.164.97:8888/equipment/admin/add",form)
+// 器材报修
+export const equipmentRepair=(form)=>post("http://47.97.164.97:8888/equipment/admin/repair",form)
