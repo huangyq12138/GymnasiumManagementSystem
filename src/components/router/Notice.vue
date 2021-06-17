@@ -47,7 +47,7 @@
                   <el-button
                     size="mini"
                     type="danger"
-                    @click.stop="handleDelete(scope.$index, scope.row,scope.row.id)">删除</el-button>
+                    @click.stop="handleDelete(scope.$index,scope.row.id)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -101,7 +101,7 @@
 
 <script>
 import axios from 'axios';
-import {getNotice,addNotice,getNoticeType} from '@/API/api'
+import {getNotice,addNotice,getNoticeType,deleteNotice} from '@/API/api'
 export default {
   name: 'Notice',
   data () {
@@ -149,21 +149,30 @@ export default {
     this.get_notice()
   },
   methods: {
-    handleDelete(index, row,id) {//删除
-        console.log(index, row,id);
+     handleDelete(i,id) {//删除
+        let that=this;
+        // console.log(i,id);
         this.$confirm('确定删除该公告?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          }); 
+          let params=new FormData();
+          params.append("id",id)
+          deleteNotice(params).then(
+            res=>{
+              if(res.code==200){
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+                that.tableData.splice(i)
+              }else{
+                this.$message.error('删除失败，请重试');
+              }  
+            }
+          )
+                  
         })
       },
     //详情
@@ -180,40 +189,41 @@ export default {
           this.tableData[i].type=this.options[this.tableData[i].type].label
       }
     },
-    change_type(){
+    async change_type(){
           let params=new FormData();
-          params.append("type",2)
-          // let data=await getNoticeType(params) 
-          // console.log(data);
-          axios({          
-              url:'http://47.97.164.97:8888/announ/queryAnnounceByType',
-              method:"post",
-              data:qs.stringify({'type':1}),
-              headers:{
-                'Content-Type':'application/json' ,
-						      Authorization:localStorage.getItem('Authorization')     }
-            })
-            .then(function (res) {
-              console.log(res);
-            })
-            .catch(function (error) {
-              that.$message.error('新增场地失败！');        
-            })  
+          params.append("type",this.value)
+          let data=await getNoticeType(params) 
+          if(data.code==200){
+            this.tableData=data.datas
+            for(let i=0;i<this.tableData.length;i++){
+                this.tableData[i].type=this.options[this.tableData[i].type].label
+            }
+          }          
     },
     // 添加公告
     async add_notice(formname){
       
       this.$refs[formname].validate((valid) => {
           if (valid) {
+            let params=new FormData();           
             var myDate = new Date();
             let time=myDate.toLocaleDateString(); 
-            this.form['time']=time
-            let c=JSON.stringify(this.form)
-            console.log(this.form);
-            let data=addNotice(this.form)
-             
-            // this.formVisible = false;
-            console.log(data);
+            params.append("type",this.form.type)
+            params.append("content",this.form.content)
+            params.append("time",time)
+            let data=addNotice(params).then(
+              res=>{
+                if(res.code==200){
+                  this.formVisible=false;
+                  this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                  });
+                }else{
+                  this.$message.error('添加失败，请重试');
+                }
+              }
+            )
           } else {
             return false;
           }

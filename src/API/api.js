@@ -7,7 +7,8 @@ export const getNotice=()=>post("http://47.97.164.97:8888/announ/queryAnnounce")
 export const getNoticeType=(type)=>post("http://47.97.164.97:8888/announ/queryAnnounceByType",type)
 // 添加公告
 export const addNotice=(form)=>post("http://47.97.164.97:8888/announ/admin/addAnnounce",form)
-
+// 删除公告
+export const deleteNotice=(form)=>post("http://47.97.164.97:8888/announ/admin/deleteAnnounce",form)
 
 
 
@@ -36,7 +37,8 @@ export const appointInfo=(form)=>post("http://47.97.164.97:8888/appoint/showInfo
 export const modifyAppoint=(form)=>post("http://47.97.164.97:8888/appoint/modifyAppoint",form)
 // 取消预约
 export const cancelAppoint=(form)=>post("http://47.97.164.97:8888/appoint/cancelAppoint",form)
-
+// 特殊预约
+export const appointSpecial=(form)=>post("http://47.97.164.97:8888/appoint​/admin​/appoint",form)
 
 // 全部器材
 export const equipmentAll=()=>post("http://47.97.164.97:8888/equipment/findAll")

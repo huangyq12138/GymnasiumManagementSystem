@@ -194,7 +194,7 @@
 
 <script>
 import axios from 'axios';
-import {appointPlace,placeType,appointInfo,modifyAppoint,cancelAppoint} from '@/API/api'
+import {appointPlace,placeType,appointInfo,modifyAppoint,cancelAppoint,appointSpecial} from '@/API/api'
 export default {
     data(){
         return{
@@ -264,7 +264,25 @@ export default {
         },
         // 特殊预约
         special(){
-
+          let params=new FormData();
+          params.append("appointType",0)
+          params.append("placeType",this.personala.type)
+          params.append("username",this.personala.name)
+          params.append("phone",this.personala.phone)
+          params.append("userNumber",this.personala.std)
+          params.append("placeName",this.personala.pname)
+          params.append("week",this.personala.day)
+          params.append("timeZone",this.personala.time)
+          let data=await appointSpecial(params)
+          if(data.code==200){
+            this.$message({
+              message: '预约成功',
+              type: 'success'
+            });
+          }else{
+            this.$message.error('预约失败，请重试');
+          } 
+          console.log(data);
         },
         // 查询我的预约信息
         async my_info(){
