@@ -9,14 +9,19 @@ import Place from '@/components/router/Place'
 import Contest from '@/components/router/Contest'
 import Equipment from '@/components/router/Equipment'
 import Money from '@/components/router/Money'
+<<<<<<< HEAD
 import equipment_inquiry from '@/components/view/equipment_inquiry'
 import place_appointment from '@/components/view/place_appointment'
 import place_check from '@/components/view/place_check'
+=======
+
+>>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
 Vue.use(Router)
 
 export default new Router({
     routes: [{
             path: '/',
+<<<<<<< HEAD
             name: 'Login',
             component: Login
         },
@@ -27,6 +32,8 @@ export default new Router({
         },
         {
             path: '/Home',
+=======
+>>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
             name: 'Home',
             component: Home,
             children: [{
@@ -52,12 +59,17 @@ export default new Router({
                 {
                     path: '/equipment',
                     name: 'Equipment',
+<<<<<<< HEAD
                     component: Equipment
+=======
+                    component: Equipment,
+>>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
                 },
                 {
                     path: '/money',
                     name: 'Money',
                     component: Money,
+<<<<<<< HEAD
                 },
                 {
                     path: '/equipment_inquiry',
@@ -75,6 +87,20 @@ export default new Router({
                     component: place_check,
                 },
             ]
+=======
+                }
+            ]
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register
+>>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
         }
     ]
 })

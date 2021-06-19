@@ -3,6 +3,7 @@
     <div class="title" ref="rtitle">用户注册</div>
     <div class="r_content">
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
           <el-form-item label="姓名" prop="username">
             <el-input v-model="ruleForm.username" autocomplete="off" placeholder="请输入姓名"></el-input>
           </el-form-item>
