@@ -90,7 +90,7 @@ export default {
           tooltip: {},
           dataset: {
               source: [
-                  ['product', '租借场地收费', '购置器材花费', '租借器材收费','器材损坏赔偿费'],
+                  ['product', '场地被使用收费', '购置器材花费', '租借器材收费','用户损坏器材的赔偿金'],
                   ['1', 0,0,0],
                   ['2', 0,0,0],
                   ['3', 0,0,0],
@@ -156,12 +156,12 @@ export default {
       this.month=date;
       let data=this.initFormData();
       let res=await getMoney(data);
-      console.log(res);
+      // console.log(res);
       if(res.code==200){
         let list=res.datas;
         if(list.length==0){
           this.$message.info('该月份没有信息~~')
-          console.log(res.title)
+          // console.log(res.title)
         }else{
           for(let i=0;i<list.length;i++){
             if(list[i].type==1){
@@ -206,12 +206,18 @@ export default {
       if(res.code==200){
           if(res.datas.length==0){
             this.$message.info('该月份没有信息~~')
-            console.log(res.title)
+            // console.log(res.title)
           }else{
             let list=res.datas;
-            for(let i=0;i<list.length;i++){
-              this.option.series[0].data[i]={value:list[i].value, name: list[i].name}
-            }
+            // for(let i=0;i<list.length;i++){
+            //   this.option.series[0].data[i]={value:list[i].value, name: list[i].name}
+            // }
+            this.option.series[0].data=[
+              {value:list[1].value, name: list[1].name},
+              {value:list[3].value, name: list[3].name},
+              {value:list[0].value, name: list[0].name},
+              {value:list[2].value, name: list[2].name}
+            ]
             this.creatPie();
           }
         }else{
