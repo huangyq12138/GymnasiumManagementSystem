@@ -280,11 +280,13 @@ export default {
         // 特殊预约
         async special(){
           let params=new FormData();
-          params.append("appointType",this.personala.appointType)
-          params.append("placeType",this.personala.type)
-          params.append("placeName",this.personala.pname)
-          params.append("week",this.personala.day)
-          params.append("timeZone",this.personala.time)
+          params.append("appointType",this.speciala.appointType)
+          params.append("placeType",this.speciala.type)
+          params.append("placeName",this.speciala.pname)
+          params.append("week",this.speciala.day)
+          params.append("timeZone",this.speciala.time)
+          console.log(this.speciala.type,this.speciala.pname);
+          console.log(params);
           let data=await appointSpecial(params)
           if(data.code==200){
             this.$message({

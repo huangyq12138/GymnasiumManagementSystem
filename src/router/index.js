@@ -72,7 +72,7 @@ export default new Router({
                     component: place_appointment,
                 },
                 {
-                    path: 'place_check',
+                    path: '/place_check',
                     name: 'place_check',
                     component: place_check,
                 },

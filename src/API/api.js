@@ -95,7 +95,7 @@ export const modifyAppoint = (form) => post("http://47.97.164.97:8888/appoint/mo
     // 取消预约
 export const cancelAppoint = (form) => post("http://47.97.164.97:8888/appoint/cancelAppoint", form)
     // 特殊预约
-export const appointSpecial = (form) => post("http://47.97.164.97:8888/appoint​/admin​/appoint", form)
+export const appointSpecial = (form) => post("http://47.97.164.97:8888/appoint/admin/appoint", form)
     //根据所有场地类型
 export const getAllPlaceType = (type) => post("http://47.97.164.97:8888/place/queryTypes", type)
 
@@ -108,3 +108,16 @@ export const equipmentUpdate = (form) => post("http://47.97.164.97:8888/equipmen
 export const equipmentAdd = (form) => post("http://47.97.164.97:8888/equipment/admin/add", form)
     // 器材报修
 export const equipmentRepair = (form) => post("http://47.97.164.97:8888/equipment/admin/repair", form)
+// 查询收费标准
+export const equipmentCharge = (form) => post("http://47.97.164.97:8888/equipment/findRates", form)
+
+// 器材租用
+export const rentEquip = (form) => post("http://47.97.164.97:8888/rentEquip/rent",form)
+// 查询器材全部租用信息
+export const rentAll = () => post("http://47.97.164.97:8888/rentEquip/findAll")
+// 器材回收
+export const rentDelete = (form) => post("http://47.97.164.97:8888/rentEquip/delete",form)
+// 用户租用信息查询
+export const rentFind = (form) => post("http://47.97.164.97:8888/rentEquip/find",form)
+// 维修信息
+export const findRepaire = () => post("http://47.97.164.97:8888/equipment/findRepair")

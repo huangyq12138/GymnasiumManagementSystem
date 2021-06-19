@@ -129,17 +129,20 @@
               </el-form-item>
               <el-form-item label="租用器材" :label-width="formLabelWidth">
                 <el-select v-model="rent_form.type" placeholder="请选择器材">
-                  <el-option label="篮球" value=0></el-option>
-                  <el-option label="足球" value=1></el-option>
+                  <el-option label="羽毛球拍" value=0></el-option>
+                  <el-option label="毽子" value=1></el-option>
                   <el-option label="排球" value=2></el-option>
-                  <el-option label="羽毛球" value=3></el-option>
+                  <el-option label="篮球" value=3></el-option>
+                  <el-option label="足球" value=4></el-option>
+                  <el-option label="乒乓球" value=5></el-option>
+                  <el-option label="保龄球" value=6></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="租用数量" :label-width="formLabelWidth">
                 <el-input v-model="rent_form.num" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="租用时间" :label-width="formLabelWidth">
-                <el-input v-model="rent_form.time" autocomplete="off"></el-input>
+              <el-form-item label="租用时长" :label-width="formLabelWidth">
+                <el-input v-model="rent_form.time" autocomplete="off" placeholder="不足一小时按一小时收费"></el-input>
               </el-form-item>
               <el-form-item label="应付租金" :label-width="formLabelWidth">
                 <el-input v-model="rent_form.rent" autocomplete="off" disabled></el-input>
@@ -181,7 +184,7 @@
 
 <script>
 import axios from 'axios';
-import {equipmentAll,equipmentUpdate,equipmentAdd,equipmentRepair} from '@/API/api'
+import {equipmentAll,equipmentUpdate,equipmentAdd,equipmentRepair,rentEquip} from '@/API/api'
 export default {
   name: 'Equipment',
   data () {
@@ -203,13 +206,13 @@ export default {
       formLabelWidth: '120px',
       rentVisible:false,
       rent_form:{
-        name:'张三',
-        stu_num:123456789,
-        phone:123456,
-        type:1,
-        num:2,
-        time:'16:00-18:00',
-        rent:20
+        name:null,
+        stu_num:null,
+        phone:null,
+        type:null,
+        num:null,
+        time:null,
+        rent:null,
       },
       repairVisible:false,
       repair_form:{
@@ -269,8 +272,23 @@ export default {
           this.formVisible = false;
     },
     // 租用器材
-    rentEq(){
-      this.rentVisible = false;
+    async rentEq(){
+      let params=new FormData();
+      params.append("duration",this.rent_form.time)
+      params.append("equipType",this.rent_form.type)
+      params.append("phone",this.rent_form.phone)
+      params.append("rentNumber",this.rent_form.num)
+      params.append("username",this.rent_form.name)
+      params.append("userNumber",this.rent_form.stu_num)
+      let data=await rentEquip(params) 
+      console.log(data);
+      if(data.code==200){
+        this.$message({
+          type: 'success',
+          message: '租用成功!'
+        });
+      }
+      // this.rentVisible = false;
     },
     // 报修器材
     async repairEq(){
