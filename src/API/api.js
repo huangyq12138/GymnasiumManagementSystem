@@ -38,7 +38,7 @@ export const modifyAppoint=(form)=>post("http://47.97.164.97:8888/appoint/modify
 // 取消预约
 export const cancelAppoint=(form)=>post("http://47.97.164.97:8888/appoint/cancelAppoint",form)
 // 特殊预约
-export const appointSpecial=(form)=>post("http://47.97.164.97:8888/appoint​/admin​/appoint",form)
+export const appointSpecial=(form)=>post("http://47.97.164.97:8888/appoint/admim/appoint",form)
 
 // 全部器材
 export const equipmentAll=()=>post("http://47.97.164.97:8888/equipment/findAll")
