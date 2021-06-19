@@ -10,17 +10,24 @@ import Contest from '@/components/router/Contest'
 import Equipment from '@/components/router/Equipment'
 import Money from '@/components/router/Money'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import equipment_inquiry from '@/components/view/equipment_inquiry'
 import place_appointment from '@/components/view/place_appointment'
 import place_check from '@/components/view/place_check'
 =======
 
 >>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
+=======
+import equipment_inquiry from '@/components/view/equipment_inquiry'
+import place_appointment from '@/components/view/place_appointment'
+import place_check from '@/components/view/place_check'
+>>>>>>> xq
 Vue.use(Router)
 
 export default new Router({
     routes: [{
             path: '/',
+<<<<<<< HEAD
 <<<<<<< HEAD
             name: 'Login',
             component: Login
@@ -34,6 +41,8 @@ export default new Router({
             path: '/Home',
 =======
 >>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
+=======
+>>>>>>> xq
             name: 'Home',
             component: Home,
             children: [{
@@ -60,16 +69,23 @@ export default new Router({
                     path: '/equipment',
                     name: 'Equipment',
 <<<<<<< HEAD
+<<<<<<< HEAD
                     component: Equipment
 =======
                     component: Equipment,
 >>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
+=======
+                    component: Equipment                   
+>>>>>>> xq
                 },
                 {
                     path: '/money',
                     name: 'Money',
                     component: Money,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> xq
                 },
                 {
                     path: '/equipment_inquiry',
@@ -87,9 +103,12 @@ export default new Router({
                     component: place_check,
                 },
             ]
+<<<<<<< HEAD
 =======
                 }
             ]
+=======
+>>>>>>> xq
         },
         {
             path: '/login',
@@ -100,7 +119,11 @@ export default new Router({
             path: '/register',
             name: 'Register',
             component: Register
+<<<<<<< HEAD
 >>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
         }
+=======
+        }      
+>>>>>>> xq
     ]
 })

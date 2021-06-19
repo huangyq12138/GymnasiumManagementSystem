@@ -3,6 +3,7 @@
     <div class="title" ref="rtitle">用户注册</div>
     <div class="r_content">
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+<<<<<<< HEAD
 
           <el-form-item label="姓名" prop="username">
             <el-input v-model="ruleForm.username" autocomplete="off" placeholder="请输入姓名"></el-input>
@@ -18,21 +19,46 @@
           </el-form-item>
           <el-form-item label="身份" prop="identity">
             <el-radio-group v-model="identity" @change="showInfo($event)">
+=======
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="ruleForm.name" autocomplete="off" placeholder="请输入姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" prop="gender">
+            <el-radio-group v-model="ruleForm.gender">
+              <el-radio label="男" value="0"></el-radio>
+              <el-radio label="女" value="1"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="身份" prop="identity">
+            <el-radio-group v-model="ruleForm.identity" @change="showInfo($event)">
+>>>>>>> xq
               <el-radio label="老师" value="0"></el-radio>
               <el-radio label="学生" value="1"></el-radio>
             </el-radio-group>
           </el-form-item>
+<<<<<<< HEAD
           <el-form-item label="一卡通" prop="userNumber" v-show="is_student">
             <el-input v-model="ruleForm.userNumber" autocomplete="off" placeholder="请输入一卡通账号"></el-input>
           </el-form-item>
           <el-form-item label="教职工号" prop="userNumber" v-show="!is_student">
             <el-input v-model="ruleForm.userNumber" autocomplete="off" placeholder="请输入教职工号"></el-input>
+=======
+          <el-form-item label="一卡通" prop="number" v-show="is_student">
+            <el-input v-model="ruleForm.number" autocomplete="off" placeholder="请输入一卡通账号"></el-input>
+          </el-form-item>
+          <el-form-item label="教职工号" prop="number" v-show="!is_student">
+            <el-input v-model="ruleForm.number" autocomplete="off" placeholder="请输入教职工号"></el-input>
+>>>>>>> xq
           </el-form-item>
           <el-form-item label="联系方式" prop="phone">
             <el-input v-model="ruleForm.phone" autocomplete="off" placeholder="请输入联系方式"></el-input>
           </el-form-item>
           <el-form-item label="学院" prop="academy">
             <el-select v-model="ruleForm.academy" placeholder="请选择所属学院">
+<<<<<<< HEAD
               <el-option label="数学与计算机学院" value="数学与计算机学院"></el-option>
               <el-option label="电子信息学院" value="电子信息学院"></el-option>
             </el-select>
@@ -50,6 +76,25 @@
               <el-option label="软件1183" value="软件1183"></el-option>
               <el-option label="软件1184" value="软件1184"></el-option>
               <el-option label="软件卓越1181" value="软卓1181"></el-option>
+=======
+              <el-option label="数学与计算机学院" value="math"></el-option>
+              <el-option label="电子信息学院" value="dianzi"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="系别" prop="marjoy" v-show="is_student">
+            <el-select v-model="ruleForm.marjoy" placeholder="请选择所在专业">
+              <el-option label="软件工程" value="software"></el-option>
+              <el-option label="计算机科学与技术" value="computer"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="班级" prop="class" v-show="is_student">
+            <el-select v-model="ruleForm.class" placeholder="请选择所在班级">
+              <el-option label="软件1181" value="1181"></el-option>
+              <el-option label="软件1182" value="1182"></el-option>
+              <el-option label="软件1183" value="1183"></el-option>
+              <el-option label="软件1184" value="1184"></el-option>
+              <el-option label="软件卓越1181" value="11181"></el-option>
+>>>>>>> xq
             </el-select>
           </el-form-item>
           <div class="go_register">
@@ -65,12 +110,16 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import {register} from '@/API/api'
+=======
+>>>>>>> xq
 export default {
   name: 'Register',
   data () {
     return {
       is_student:false,
+<<<<<<< HEAD
       identity:'',
       time:3,
       ruleForm: {
@@ -89,6 +138,25 @@ export default {
             {required: true, message: '姓名不能为空', trigger: 'blur'}
           ],
           userNumber: [
+=======
+      ruleForm: {
+        name:'',
+        password: '',
+        gender:'',
+        identity:'',
+        number:'',
+        phone:'',
+        academy:'',
+        marjoy:'',
+        class:''
+
+      },
+      rules: {
+          name: [
+            {required: true, message: '姓名不能为空', trigger: 'blur'}
+          ],
+          number: [
+>>>>>>> xq
             {required: true, message: '账号不能为空', trigger: 'blur'}
           ],
           password: [
@@ -97,9 +165,15 @@ export default {
           gender: [
               {required: true, message: '请选择性别', trigger: 'blur'}
           ],
+<<<<<<< HEAD
           // identity: [
           //     {required: true, message: '请选择身份', trigger: 'blur'}
           // ],
+=======
+          identity: [
+              {required: true, message: '请选择身份', trigger: 'blur'}
+          ],
+>>>>>>> xq
           phone:[
             {required: true, message: '联系方式不能为空', trigger: 'blur'}
           ],
@@ -117,6 +191,7 @@ export default {
     submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+<<<<<<< HEAD
             console.log(this.ruleForm)
             // 转Formdata格式数据处理
             let data = new FormData();
@@ -143,6 +218,9 @@ export default {
                 this.$message.error(res.message);
               }
             })
+=======
+            alert('submit!');
+>>>>>>> xq
           } else {
             console.log('error submit!!');
             return false;

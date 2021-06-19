@@ -9,18 +9,28 @@
           <el-date-picker
             v-model="year"
             type="year"
+<<<<<<< HEAD
             format="yyyy年"
             class="picker"
             placeholder="选择年"
             @change="changeYear()">
+=======
+            class="picker"
+            placeholder="选择年">
+>>>>>>> xq
           </el-date-picker>
           <el-date-picker
             v-model="month"
             type="month"
+<<<<<<< HEAD
             format="MM月"
             class="picker"
             placeholder="选择月"
             @change="changeMonth()">
+=======
+            class="picker"
+            placeholder="选择月">
+>>>>>>> xq
           </el-date-picker>
           <el-button type="primary" @click="lookPieBtn()">查看饼状图</el-button>
           <el-button type="primary" @click="lookBarBtn()">查看柱状图</el-button>
@@ -31,14 +41,21 @@
           <div v-show="!isChart" ref="BarChart" :style="{width: '1200px', height: '500px'}"></div>
         </div>
         <div class="footer">
+<<<<<<< HEAD
           本月馆内共&nbsp;&nbsp;支出:<span>{{outMoney}}</span>元&nbsp;&nbsp;收入:<span>{{inMoney}}</span>元
+=======
+          本月馆内共&nbsp;&nbsp;支出:<span>1500</span>元&nbsp;&nbsp;收入:<span>1200</span>元
+>>>>>>> xq
         </div>
     </el-card>
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import {getMoney,getPieInfo,getBarChart} from '@/API/api'
+=======
+>>>>>>> xq
 var echarts = require('echarts')
 export default {
   name: 'Money',
@@ -46,10 +63,13 @@ export default {
     return {
         year: '',
         month: '',
+<<<<<<< HEAD
         myYear:'',
         myMonth:'',
         outMoney:0,
         inMoney:0,
+=======
+>>>>>>> xq
         isChart:true,
         option:{
                 title: {
@@ -70,8 +90,13 @@ export default {
                         type: 'pie',
                         radius: '50%',
                         data: [
+<<<<<<< HEAD
                             {value: 1048, name: '租借场地收费'},
                             {value: 735, name: '购置器材花费'},
+=======
+                            {value: 1048, name: '购置器材花费'},
+                            {value: 735, name: '租借场地收费'},
+>>>>>>> xq
                             {value: 580, name: '租借器材收费'},
                             {value: 484, name: '器材损坏赔偿费'}
                         ],
@@ -90,6 +115,7 @@ export default {
           tooltip: {},
           dataset: {
               source: [
+<<<<<<< HEAD
                   ['product', '租借场地收费', '购置器材花费', '租借器材收费','器材损坏赔偿费'],
                   ['1', 0,0,0],
                   ['2', 0,0,0],
@@ -122,6 +148,13 @@ export default {
                   ['29', 0,0,0],
                   ['30', 0,0,0],
                   ['31', 0,0,0]
+=======
+                  ['product', '购置器材花费', '租借场地收费', '租借器材收费','器材损坏赔偿费'],
+                  ['1', 43.3, 85.8, 93.7,49.9],
+                  ['2', 83.1, 73.4, 55.1,90.0],
+                  ['3', 86.4, 65.2, 82.5,19.8],
+                  ['4', 72.4, 53.9, 39.1,75.5]
+>>>>>>> xq
               ]
           },
           xAxis: {type: 'category',name:'日期'},
@@ -142,6 +175,7 @@ export default {
     this.creatPie();
     this.creatBar();
   },
+<<<<<<< HEAD
   created(){
     this.MonthInfo();
     this.lookPieBtn();
@@ -242,6 +276,16 @@ export default {
       }else{
         console.log(res)
       }
+=======
+  methods: {
+    //查看饼状图按钮
+    lookPieBtn(){
+      this.isChart=true;
+    },
+    //查看柱状图按钮
+    lookBarBtn(){
+      this.isChart=false;
+>>>>>>> xq
     },
     //创建饼状图
     creatPie(){

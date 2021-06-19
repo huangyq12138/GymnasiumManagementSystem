@@ -156,10 +156,20 @@
             <el-form :model="repair_form" class="checkContext">             
               <el-form-item label="器材名称" :label-width="formLabelWidth">
                 <el-select v-model="repair_form.type" placeholder="请选择器材">
+<<<<<<< HEAD
                   <el-option label="篮球" value=0></el-option>
                   <el-option label="足球" value=1></el-option>
                   <el-option label="排球" value=2></el-option>
                   <el-option label="羽毛球" value=3></el-option>
+=======
+                  <el-option label="羽毛球拍" value=0></el-option>
+                  <el-option label="毽子" value=1></el-option>
+                  <el-option label="排球" value=2></el-option>
+                  <el-option label="篮球" value=3></el-option>
+                  <el-option label="足球" value=4></el-option>
+                  <el-option label="乒乓球" value=5></el-option>
+                  <el-option label="保龄球" value=6></el-option>
+>>>>>>> xq
                 </el-select>
               </el-form-item>
               <el-form-item label="报修数量" :label-width="formLabelWidth">
@@ -178,7 +188,11 @@
 
 <script>
 import axios from 'axios';
+<<<<<<< HEAD
 import {equipmentAll,equipmentUpdate,equipmentAdd} from '@/API/api'
+=======
+import {equipmentAll,equipmentUpdate,equipmentAdd,equipmentRepair} from '@/API/api'
+>>>>>>> xq
 export default {
   name: 'Equipment',
   data () {
@@ -252,6 +266,7 @@ export default {
           let params=new FormData();
           params.append("type",this.detail_form.type)
           params.append("number",this.detail_form.number)
+<<<<<<< HEAD
           let data=await equipmentUpdate(params) 
           console.log(data); 
           // this.tableData=data.datas;
@@ -259,19 +274,41 @@ export default {
       // 提交新增器材
     async equipment_add(){
       let params=new FormData();
+=======
+          await equipmentUpdate(params) 
+          this.updateVisible=false;
+    },
+      // 提交新增器材
+    async equipment_add(){
+          let params=new FormData();
+>>>>>>> xq
           params.append("type",this.form.type)
           params.append("number",this.form.number)
           params.append("rates",this.form.rates)
           let data=await equipmentAdd(params) 
           console.log(data); 
+<<<<<<< HEAD
       this.formVisible = false;
+=======
+          this.formVisible = false;
+>>>>>>> xq
     },
     // 租用器材
     rentEq(){
       this.rentVisible = false;
     },
     // 报修器材
+<<<<<<< HEAD
     repairEq(){
+=======
+    async repairEq(){
+      let params=new FormData();
+      params.append("type",this.repair_form.type)
+      params.append("serviceNum",this.repair_form.num)
+      params.append("number",this.tableData[this.repair_form.type].number)
+      let data=await equipmentRepair(params)
+      console.log(data);
+>>>>>>> xq
       this.repairVisible = false;
     },
   }

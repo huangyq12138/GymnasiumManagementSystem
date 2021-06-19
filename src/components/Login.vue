@@ -3,11 +3,19 @@
       <el-card class="box-card">
         <div class="title">登录</div>
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+<<<<<<< HEAD
           <el-form-item label="账号" prop="userNumber">
             <el-input v-model="ruleForm.userNumber" autocomplete="off" placeholder="请输入一卡通账号/教职工号"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码" show-password
+=======
+          <el-form-item label="账号" prop="number">
+            <el-input v-model="ruleForm.number" autocomplete="off" placeholder="请输入一卡通账号/教职工号"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"
+>>>>>>> xq
             @keydown.native.enter="submitForm('ruleForm')"></el-input>
           </el-form-item>
           <div class="go_register">
@@ -22,17 +30,28 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import {login} from '@/API/api';
+=======
+>>>>>>> xq
 export default {
   name: 'Login',
   data () {
     return {
       ruleForm: {
+<<<<<<< HEAD
         userNumber:'',
         password: ''
       },
       rules: {
           userNumber: [
+=======
+        number:'',
+        password: ''
+      },
+      rules: {
+          number: [
+>>>>>>> xq
             {required: true, message: '账号不能为空', trigger: 'blur'}
           ],
           password: [
@@ -44,6 +63,7 @@ export default {
   components: {},
   methods: {
     // 提交
+<<<<<<< HEAD
     async submitForm(formName){
       this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -67,12 +87,22 @@ export default {
                 this.$message.error(res.msg);
               }
             })
+=======
+    submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+>>>>>>> xq
           } else {
             console.log('error submit!!');
             return false;
           }
         });
+<<<<<<< HEAD
     },
+=======
+      }
+>>>>>>> xq
   }
 }
 </script>

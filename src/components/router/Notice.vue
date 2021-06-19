@@ -47,7 +47,11 @@
                   <el-button
                     size="mini"
                     type="danger"
+<<<<<<< HEAD
                     @click.stop="handleDelete(scope.$index, scope.row,scope.row.id)">删除</el-button>
+=======
+                    @click.stop="handleDelete(scope.$index,scope.row.id)">删除</el-button>
+>>>>>>> xq
                 </template>
               </el-table-column>
             </el-table>
@@ -101,7 +105,11 @@
 
 <script>
 import axios from 'axios';
+<<<<<<< HEAD
 import {getNotice,addNotice,getNoticeType} from '@/API/api'
+=======
+import {getNotice,addNotice,getNoticeType,deleteNotice} from '@/API/api'
+>>>>>>> xq
 export default {
   name: 'Notice',
   data () {
@@ -149,13 +157,20 @@ export default {
     this.get_notice()
   },
   methods: {
+<<<<<<< HEAD
     handleDelete(index, row,id) {//删除
         console.log(index, row,id);
+=======
+     handleDelete(i,id) {//删除
+        let that=this;
+        // console.log(i,id);
+>>>>>>> xq
         this.$confirm('确定删除该公告?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+<<<<<<< HEAD
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -164,6 +179,24 @@ export default {
             type: 'info',
             message: '已取消删除'
           }); 
+=======
+          let params=new FormData();
+          params.append("id",id)
+          deleteNotice(params).then(
+            res=>{
+              if(res.code==200){
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+                that.tableData.splice(i)
+              }else{
+                this.$message.error('删除失败，请重试');
+              }  
+            }
+          )
+                  
+>>>>>>> xq
         })
       },
     //详情
@@ -176,11 +209,15 @@ export default {
     async get_notice(){
       let data=await getNotice()
       this.tableData=data.datas
+<<<<<<< HEAD
       console.log(data)
+=======
+>>>>>>> xq
       for(let i=0;i<this.tableData.length;i++){
           this.tableData[i].type=this.options[this.tableData[i].type].label
       }
     },
+<<<<<<< HEAD
     change_type(){
           let params=new FormData();
           params.append("type",2)
@@ -200,12 +237,25 @@ export default {
             .catch(function (error) {
               that.$message.error('新增场地失败！');        
             })  
+=======
+    async change_type(){
+          let params=new FormData();
+          params.append("type",this.value)
+          let data=await getNoticeType(params) 
+          if(data.code==200){
+            this.tableData=data.datas
+            for(let i=0;i<this.tableData.length;i++){
+                this.tableData[i].type=this.options[this.tableData[i].type].label
+            }
+          }          
+>>>>>>> xq
     },
     // 添加公告
     async add_notice(formname){
       
       this.$refs[formname].validate((valid) => {
           if (valid) {
+<<<<<<< HEAD
             var myDate = new Date();
             let time=myDate.toLocaleDateString(); 
             this.form['time']=time
@@ -215,6 +265,27 @@ export default {
              
             // this.formVisible = false;
             console.log(data);
+=======
+            let params=new FormData();           
+            var myDate = new Date();
+            let time=myDate.toLocaleDateString(); 
+            params.append("type",this.form.type)
+            params.append("content",this.form.content)
+            params.append("time",time)
+            let data=addNotice(params).then(
+              res=>{
+                if(res.code==200){
+                  this.formVisible=false;
+                  this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                  });
+                }else{
+                  this.$message.error('添加失败，请重试');
+                }
+              }
+            )
+>>>>>>> xq
           } else {
             return false;
           }
