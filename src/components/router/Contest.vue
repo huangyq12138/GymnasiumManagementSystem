@@ -291,24 +291,14 @@
                 @click.prevent="removeDomain2(domain)"
                 size="mini"
                 style="height:40px">
-<<<<<<< HEAD
               </el-button> -->
-=======
-              </el-button>
->>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
           </div>    
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-<<<<<<< HEAD
         <!-- <el-button @click="addDomain2">新增一类</el-button> -->
         <el-button @click="dialog_5 = false">取 消</el-button>
         <el-button type="primary" @click="sureAddConEquip">确 定</el-button>
-=======
-        <el-button @click="addDomain2">新增一类</el-button>
-        <el-button @click="dialog_5 = false">取 消</el-button>
-        <el-button type="primary" @click="dialog_5 = false">确 定</el-button>
->>>>>>> aee7b436a9c8c56f125acee8f90fd9900a36e10e
       </div>
     </el-dialog>
   </div>
