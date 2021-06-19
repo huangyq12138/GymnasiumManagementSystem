@@ -5,7 +5,7 @@ axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 //临时放个超级管理员的token在这里 因为登陆不了
 // let token = "Jared-eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfc3VwZXJBZG1pbiwiLCJqdGkiOiIyMDE4MTE3MDExMjciLCJzdWIiOiLogpblrrbosaoiLCJpYXQiOjE2MjM1NjU0MjYsImlzcyI6IkphcmVkIiwiZXhwIjoxNjI0MTcwMDk0fQ.HinBkcKt3yRs-S9saaWdwGP9aFRraYtsQeJLVV-0MhWL5bJ_mlf7NCdAdVNXggDsmP0I4lSMuNL3PfX2pFsHhg"
 let token = sessionStorage.getItem('token');
-// console.log(token)
+console.log(token)
 
 axios.interceptors.request.use(
     config => {

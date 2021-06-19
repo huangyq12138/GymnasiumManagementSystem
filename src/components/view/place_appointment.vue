@@ -263,7 +263,7 @@ export default {
           this.placeName=true
         },
         // 特殊预约
-        special(){
+        async special(){
           let params=new FormData();
           params.append("appointType",0)
           params.append("placeType",this.personala.type)

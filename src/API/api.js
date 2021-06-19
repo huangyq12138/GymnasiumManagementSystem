@@ -69,7 +69,7 @@ export const deleteNotice = (form) => post("http://47.97.164.97:8888/announ/admi
 
 
 
-// 场地类型查询
+// 根据场地类型查询
 export const placeType = (type) => post("http://47.97.164.97:8888/place/queryByType", type)
     // 场地删除
 export const placeDelete = (id) => post("http://47.97.164.97:8888/place/delete", id)
@@ -96,6 +96,9 @@ export const modifyAppoint = (form) => post("http://47.97.164.97:8888/appoint/mo
 export const cancelAppoint = (form) => post("http://47.97.164.97:8888/appoint/cancelAppoint", form)
     // 特殊预约
 export const appointSpecial = (form) => post("http://47.97.164.97:8888/appoint​/admin​/appoint", form)
+    //根据所有场地类型
+export const getAllPlaceType = (type) => post("http://47.97.164.97:8888/place/queryTypes", type)
+
 
 // 全部器材
 export const equipmentAll = () => post("http://47.97.164.97:8888/equipment/findAll")
