@@ -1,5 +1,5 @@
 import axios from 'axios'
-axios.defaults.timeout = 2000;
+axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
 //临时放个超级管理员的token在这里 因为登陆不了
