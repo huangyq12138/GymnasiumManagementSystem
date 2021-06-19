@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import post from './index'
 
 //用户登录
@@ -59,35 +58,44 @@ export const addConEquip = (data) => post("http://47.97.164.97:8888/contest​/a
 export const deleteConEquip = (id) => post("http://47.97.164.97:8888/contest/admin/deleteContestEquipById", id)
 
 
-
 // 获取公告
 export const getNotice = () => post("http://47.97.164.97:8888/announ/queryAnnounce")
     // 获取特定类型的公告
 export const getNoticeType = (type) => post("http://47.97.164.97:8888/announ/queryAnnounceByType", type)
     // 添加公告
 export const addNotice = (form) => post("http://47.97.164.97:8888/announ/admin/addAnnounce", form)
+    // 删除公告
+export const deleteNotice = (form) => post("http://47.97.164.97:8888/announ/admin/deleteAnnounce", form)
 
 
 
-
-// 根据类型查询场地
+// 场地类型查询
 export const placeType = (type) => post("http://47.97.164.97:8888/place/queryByType", type)
     // 场地删除
 export const placeDelete = (id) => post("http://47.97.164.97:8888/place/delete", id)
-    // 根据时间段查询空闲场地
+
+// 空闲场地查询
 export const placeFree = (form) => post("http://47.97.164.97:8888/place/queryFreePlace", form)
-    //根据场地查询空闲时间
+
+// 空闲时间查询
 export const freeTime = (form) => post("http://47.97.164.97:8888/place/queryEnableTime", form)
-    // 一周场地时间使用查询
+
+// 一周场地时间使用查询
 export const weekTime = (form) => post("http://47.97.164.97:8888/place/queryAllTime", form)
-    // 收费标准
+
+// 收费标准
 export const placeStandard = (form) => post("http://47.97.164.97:8888/place/queryRate", form)
-    // 个人预约
+
+// 个人预约
 export const appointPlace = (form) => post("http://47.97.164.97:8888/appoint/appoint", form)
-    //查询所有场地类型
-export const getAllPlaceType = () => post("http://47.97.164.97:8888/place/queryTypes")
-
-
+    // 查看我的预约
+export const appointInfo = (form) => post("http://47.97.164.97:8888/appoint/showInfo", form)
+    // 修改预约信息
+export const modifyAppoint = (form) => post("http://47.97.164.97:8888/appoint/modifyAppoint", form)
+    // 取消预约
+export const cancelAppoint = (form) => post("http://47.97.164.97:8888/appoint/cancelAppoint", form)
+    // 特殊预约
+export const appointSpecial = (form) => post("http://47.97.164.97:8888/appoint​/admin​/appoint", form)
 
 // 全部器材
 export const equipmentAll = () => post("http://47.97.164.97:8888/equipment/findAll")
@@ -95,55 +103,5 @@ export const equipmentAll = () => post("http://47.97.164.97:8888/equipment/findA
 export const equipmentUpdate = (form) => post("http://47.97.164.97:8888/equipment/admin/update", form)
     // 数量增加
 export const equipmentAdd = (form) => post("http://47.97.164.97:8888/equipment/admin/add", form)
-=======
-import get from './index'
-import post from './index'
-
-// 获取公告
-export const getNotice=()=>post("http://47.97.164.97:8888/announ/queryAnnounce")
-// 获取特定类型的公告
-export const getNoticeType=(type)=>post("http://47.97.164.97:8888/announ/queryAnnounceByType",type)
-// 添加公告
-export const addNotice=(form)=>post("http://47.97.164.97:8888/announ/admin/addAnnounce",form)
-// 删除公告
-export const deleteNotice=(form)=>post("http://47.97.164.97:8888/announ/admin/deleteAnnounce",form)
-
-
-
-// 场地类型查询
-export const placeType=(type)=>post("http://47.97.164.97:8888/place/queryByType",type)
-// 场地删除
-export const placeDelete=(id)=>post("http://47.97.164.97:8888/place/delete",id)
-
-// 空闲场地查询
-export const placeFree=(form)=>post("http://47.97.164.97:8888/place/queryFreePlace",form)
-
-// 空闲时间查询
-export const freeTime=(form)=>post("http://47.97.164.97:8888/place/queryEnableTime",form)
-
-// 一周场地时间使用查询
-export const weekTime=(form)=>post("http://47.97.164.97:8888/place/queryAllTime",form)
-
-// 收费标准
-export const placeStandard=(form)=>post("http://47.97.164.97:8888/place/queryRate",form)
-
-// 个人预约
-export const appointPlace=(form)=>post("http://47.97.164.97:8888/appoint/appoint",form)
-// 查看我的预约
-export const appointInfo=(form)=>post("http://47.97.164.97:8888/appoint/showInfo",form)
-// 修改预约信息
-export const modifyAppoint=(form)=>post("http://47.97.164.97:8888/appoint/modifyAppoint",form)
-// 取消预约
-export const cancelAppoint=(form)=>post("http://47.97.164.97:8888/appoint/cancelAppoint",form)
-// 特殊预约
-export const appointSpecial=(form)=>post("http://47.97.164.97:8888/appoint​/admin​/appoint",form)
-
-// 全部器材
-export const equipmentAll=()=>post("http://47.97.164.97:8888/equipment/findAll")
-// 数量减
-export const equipmentUpdate=(form)=>post("http://47.97.164.97:8888/equipment/admin/update",form)
-// 数量增加
-export const equipmentAdd=(form)=>post("http://47.97.164.97:8888/equipment/admin/add",form)
-// 器材报修
-export const equipmentRepair=(form)=>post("http://47.97.164.97:8888/equipment/admin/repair",form)
->>>>>>> xq
+    // 器材报修
+export const equipmentRepair = (form) => post("http://47.97.164.97:8888/equipment/admin/repair", form)

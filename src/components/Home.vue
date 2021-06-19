@@ -26,11 +26,7 @@
                     <template slot="title">个人中心</template>
                     <el-menu-item index="1-1" @click="updatePsw">修改密码</el-menu-item>
                   </el-submenu>
-<<<<<<< HEAD
                   <el-menu-item index="2" @click="outLogin">退出登录</el-menu-item>
-=======
-                  <el-menu-item index="2">退出登录</el-menu-item>
->>>>>>> xq
                 </el-menu>
               </div>
             </el-col>
@@ -83,7 +79,6 @@
     </el-container>
     <!-- 修改密码弹出层 -->
     <el-dialog title="修改密码" :visible.sync="dialog" width="600px">
-<<<<<<< HEAD
       <el-form :model="PswForm" status-icon :rules="rules" ref="PswForm" label-width="100px" class="demo-ruleForm editDialog">
         <el-form-item label="账号" prop="userNumber" :label-width="formLabelWidth">
           <el-input v-model="PswForm.userNumber" disabled></el-input>
@@ -96,20 +91,6 @@
         </el-form-item>
         <el-form-item class="Dfooter">
           <el-button type="primary" @click="submitPsw('PswForm')">确定</el-button>
-=======
-      <el-form :model="PswForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm editDialog">
-        <el-form-item label="账号" prop="number" :label-width="formLabelWidth">
-          <el-input v-model.number="PswForm.number" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="pass" :label-width="formLabelWidth">
-          <el-input type="password" v-model="PswForm.pass" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass" :label-width="formLabelWidth">
-          <el-input type="password" v-model="PswForm.checkPass" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item class="Dfooter">
-          <el-button type="primary" @click="submitPsw(PswForm)">确定</el-button>
->>>>>>> xq
           <el-button @click="dialog=false">取消</el-button>
         </el-form-item>
       </el-form>
@@ -118,10 +99,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import {updatedPsw} from '@/API/api';
-=======
->>>>>>> xq
 export default {
   name: 'Login',
   data () {
@@ -129,13 +107,8 @@ export default {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-<<<<<<< HEAD
           if (this.PswForm.rePwd !== '') {
             this.$refs.PswForm.validateField('rePwd');
-=======
-          if (this.PswForm.checkPass !== '') {
-            this.$refs.PswForm.validateField('checkPass');
->>>>>>> xq
           }
           callback();
         }
@@ -143,11 +116,7 @@ export default {
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
-<<<<<<< HEAD
         } else if (value !== this.PswForm.pwd) {
-=======
-        } else if (value !== this.PswForm.pass) {
->>>>>>> xq
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -160,7 +129,6 @@ export default {
       dialog:false,
       formLabelWidth:'70px',
       PswForm:{
-<<<<<<< HEAD
         userNumber:'',
         pwd:'',
         rePwd:''
@@ -170,24 +138,12 @@ export default {
           { validator: validatePass, trigger: 'blur' }
         ],
         rePwd: [
-=======
-        number:'',
-        pass:'',
-        checkPass:''
-      },
-      rules: {
-        pass: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
->>>>>>> xq
           { validator: validatePass2, trigger: 'blur' }
         ]
       }
     }
   },
   components: {},
-<<<<<<< HEAD
   created(){
     this.isLogin();
     this.initPswForm()
@@ -219,16 +175,6 @@ export default {
        //侧边栏子菜单关闭事件 
       handleClose(key, keyPath) {
         // console.log(key, keyPath);
-=======
-  methods: {
-      //侧边栏子菜单展开事件 
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-       //侧边栏子菜单关闭事件 
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
->>>>>>> xq
       },
       // 菜单折叠事件
       close_open(){
@@ -241,15 +187,11 @@ export default {
       },
       //顶部菜单栏选择事件
       handleSelect(key, keyPath) {
-<<<<<<< HEAD
         // console.log(key, keyPath);
       },
       //初始化密码框信息
       initPswForm(){
         this.PswForm.userNumber=sessionStorage.getItem('userNumber');
-=======
-        console.log(key, keyPath);
->>>>>>> xq
       },
       //修改密码
       updatePsw(){
@@ -257,7 +199,6 @@ export default {
       },
       //提交修改密码
       submitPsw(formName) {
-<<<<<<< HEAD
         if(formName.pwd!=''){
           this.$refs[formName].validate((valid) => {
             if (valid) {
@@ -276,13 +217,6 @@ export default {
                   this.$message.error(res.title);
                 }
               })
-=======
-        if(formName.pass!=''){
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              alert('submit!');
-              this.dialog=false
->>>>>>> xq
             } else {
               console.log('error submit!!');
               return false;

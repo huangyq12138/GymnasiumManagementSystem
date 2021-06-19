@@ -7,18 +7,11 @@
         </el-breadcrumb>
         <!-- 搜索框 -->
         <div class="input_box">
-<<<<<<< HEAD
            <el-input v-model="input" placeholder="请输入用户账号" clearable></el-input>
            <el-button type="primary" @click="search()" style="margin-left:-10px">查询</el-button>
            <el-button type="primary" @click="lookAdmin()">查看管理员</el-button>
            <el-button type="primary" @click="addAdminBtn()">添加管理员</el-button>
            <el-button type="primary" @click="lookUser()" v-show="istable_2||istable_3||istable_0">返回</el-button>
-=======
-           <el-input v-model="input" placeholder="请输入用户账号" clearable @blur="search($event)"></el-input>
-           <el-button type="primary" @click="lookAdmin()">查看管理员</el-button>
-           <el-button type="primary" @click="addAdminBtn()">添加管理员</el-button>
-           <el-button type="primary" @click="lookUser()" v-show="istable_2||istable_3">返回</el-button>
->>>>>>> xq
         </div>
         <!-- 用户信息表格 -->
         <el-table
@@ -30,30 +23,17 @@
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="账号">
-<<<<<<< HEAD
                   <span>{{ props.row.userNumber }}</span>
                 </el-form-item>
                 <el-form-item label="名字">
                   <span>{{ props.row.username }}</span>
-=======
-                  <span>{{ props.row.number }}</span>
-                </el-form-item>
-                <el-form-item label="名字">
-                  <span>{{ props.row.name }}</span>
->>>>>>> xq
                 </el-form-item>
                 <el-form-item label="性别">
                   <span>{{ props.row.gender }}</span>
                 </el-form-item>
-<<<<<<< HEAD
                 <!-- <el-form-item label="身份">
                   <span>{{ props.row.identity}}</span>
                 </el-form-item> -->
-=======
-                <el-form-item label="身份">
-                  <span>{{ props.row.identity }}</span>
-                </el-form-item>
->>>>>>> xq
                 <el-form-item label="联系方式">
                   <span>{{ props.row.phone }}</span>
                 </el-form-item>
@@ -61,37 +41,22 @@
                   <span>{{ props.row.academy }}</span>
                 </el-form-item>
                 <el-form-item label="专业">
-<<<<<<< HEAD
                   <span>{{ props.row.major }}</span>
                 </el-form-item>
                 <el-form-item label="班级">
                   <span>{{ props.row.classes }}</span>
-=======
-                  <span>{{ props.row.marjoy }}</span>
-                </el-form-item>
-                <el-form-item label="班级">
-                  <span>{{ props.row.class }}</span>
->>>>>>> xq
                 </el-form-item>
               </el-form>
             </template>
           </el-table-column>
           <el-table-column
             label="账号"
-<<<<<<< HEAD
             prop="userNumber"
-=======
-            prop="number"
->>>>>>> xq
             width="200">
           </el-table-column>
           <el-table-column
             label="姓名"
-<<<<<<< HEAD
             prop="username"
-=======
-            prop="name"
->>>>>>> xq
             width="150">
           </el-table-column>
           <el-table-column
@@ -100,14 +65,6 @@
             width="120">
           </el-table-column>
           <el-table-column
-<<<<<<< HEAD
-=======
-            label="身份"
-            prop="identity"
-            width="120">
-          </el-table-column>
-          <el-table-column
->>>>>>> xq
             label="联系方式"
             prop="phone"
             width="200">
@@ -127,22 +84,14 @@
                 v-show="istable_1"
                 >
                 </el-button>
-<<<<<<< HEAD
                 <!-- <el-button 
-=======
-                <el-button 
->>>>>>> xq
                 v-show="istable_1"
                 type="danger" 
                 icon="el-icon-delete" 
                 circle
                 @click="handleDelete(scope.$index, scope.row)"
                 size="mini">
-<<<<<<< HEAD
                 </el-button> -->
-=======
-                </el-button>
->>>>>>> xq
                 <el-button
                 v-show="istable_2"
                 size="mini"
@@ -163,22 +112,14 @@
     <el-dialog title="修改用户信息" :visible.sync="dialog_1" width="600px">
       <el-form :model="Edit_form"  class="editDialog">
         <el-form-item label="账号" :label-width="formLabelWidth">
-<<<<<<< HEAD
           <el-input v-model="Edit_form.userNumber" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="姓名" :label-width="formLabelWidth">
           <el-input v-model="Edit_form.username" autocomplete="off"></el-input>
-=======
-          <el-input v-model="Edit_form.number" autocomplete="off" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth">
-          <el-input v-model="Edit_form.name" autocomplete="off"></el-input>
->>>>>>> xq
         </el-form-item>
         <el-form-item label="联系方式" :label-width="formLabelWidth">
           <el-input v-model="Edit_form.phone" autocomplete="off"></el-input>
         </el-form-item>
-<<<<<<< HEAD
         <!-- <el-form-item label="性别" :label-width="formLabelWidth">
           <el-radio-group v-model="Edit_form.gender">
             <el-radio label="0" value="0">女</el-radio>
@@ -210,44 +151,19 @@
               <el-option label="软件卓越1181" value="软卓1181"></el-option>
               <el-option label="英卓1181" value="英卓1181"></el-option>
               <el-option label="舞蹈1181" value="舞蹈1181"></el-option>
-=======
-        <el-form-item label="学院" :label-width="formLabelWidth">
-          <el-select v-model="Edit_form.academy" placeholder="请选择学院">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="系别" :label-width="formLabelWidth">
-          <el-select v-model="Edit_form.marjoy" placeholder="请选择系别">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="班级" :label-width="formLabelWidth">
-          <el-select v-model="Edit_form.class" placeholder="请选择班级">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
->>>>>>> xq
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialog_1 = false">取 消</el-button>
-<<<<<<< HEAD
         <el-button type="primary" @click="sureEdit()">确 定</el-button>
-=======
-        <el-button type="primary" @click="dialog_1 = false">确 定</el-button>
->>>>>>> xq
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
 import {getAll,getAllAdmins,getAllUsers,getUser,updatedUserInfo,addAdmin,deleteAdmin} from '@/API/api';
-=======
->>>>>>> xq
 export default {
   name: 'User',
   data () {
@@ -255,7 +171,6 @@ export default {
        input:'',
        dialog_1: false,
        formLabelWidth: '70px',
-<<<<<<< HEAD
        istable_0:false,
        istable_1:true,
        istable_2:false,
@@ -280,33 +195,10 @@ export default {
           academy:'数学与计算机学院',
           major:'软件工程',
           classes:'软件1181',
-=======
-       istable_1:true,
-       istable_2:false,
-       istable_3:false,
-       Edit_form:{
-         number:'',
-         name:'',
-         phone:'',
-         class:'',
-         academy:'',
-         marjoy:''
-       },
-       tableData: [{
-          name:'小米',
-          number:'201811701413',
-          gender:'女',
-          identity:'学生',
-          phone:'13735545336',
-          academy:'数学与计算机学院',
-          marjoy:'软件工程',
-          class:'软件1181',
->>>>>>> xq
         }]
       }
   },
   components: {},
-<<<<<<< HEAD
   created(){
     // 获取用户信息
     this.getAllInfo();
@@ -425,33 +317,6 @@ export default {
       this.istable_2=false;
       this.istable_3=false;
       this.tableData=this.all;
-=======
-  methods: {
-    //失焦即触发搜索
-    search(e){},
-    //编辑用户信息
-    handleEdit(index,row){
-      this.dialog_1=true;
-       console.log(index, row);
-    },
-    //查看管理员按钮
-    lookAdmin(){
-      this.istable_1=false;
-      this.istable_2=true;
-      this.istable_3=false;
-    },
-    //新增管理员按钮
-    addAdminBtn(){
-      this.istable_1=false;
-      this.istable_2=false;
-      this.istable_3=true;
-    },
-    // 查看所有所有人
-    lookUser(){
-      this.istable_1=true;
-      this.istable_2=false;
-      this.istable_3=false;
->>>>>>> xq
     },
     //删除用户
     handleDelete(index,row){
@@ -470,7 +335,6 @@ export default {
        console.log(index, row);
     },
     //添加管理员
-<<<<<<< HEAD
     async addAdmin(index,row){
       let number=new FormData();
       number.append('userNumber',row.userNumber);
@@ -482,14 +346,6 @@ export default {
       }else{
         this.$message.error(res.title);
       }
-=======
-    addAdmin(index,row){
-      this.$message({
-            type: 'success',
-            message: '添加成功!'
-          });
-       console.log(index, row);
->>>>>>> xq
     },
     //删除管理员
     deleteAdmin(index,row){
@@ -498,7 +354,6 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-<<<<<<< HEAD
           let number=new FormData();
           number.append('userNumber',row.userNumber);
           // console.log(number.get('userNumber'))
@@ -514,16 +369,6 @@ export default {
         }).catch(() => {
           console.log('删除失败！');        
         });
-=======
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          console.log('删除失败！');        
-        });
-       console.log(index, row);
->>>>>>> xq
     }
   }
 }
@@ -577,10 +422,7 @@ export default {
 .editBtn{
   margin-left:0;
 }
-<<<<<<< HEAD
 .el-radio-group{
   margin-left: -190px;
 }
-=======
->>>>>>> xq
 </style>

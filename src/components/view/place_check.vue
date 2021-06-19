@@ -169,11 +169,7 @@
           <div v-show="this.flag.fielf_detail">
             <el-form  label-width="80px" class="checkContext"  ref="freeDetail" :model="freeDetail">
               <el-form-item label="场地类型" :label-width="formLabelWidth">
-<<<<<<< HEAD
-                <el-select v-model="freeDetail.placeType" placeholder="羽毛球场" @change="choose_type">
-=======
                 <el-select v-model="freeDetail.placeType" placeholder="请选择" @change="choose_type1">
->>>>>>> xq
                   <el-option label="羽毛球场" value=0></el-option>
                   <el-option label="兵乓球场" value=1></el-option>
                   <el-option label="台球场" value=2></el-option>
@@ -181,16 +177,9 @@
                   <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>  
-<<<<<<< HEAD
-              <el-form-item label="场地名称" :label-width="formLabelWidth">
-                <el-select v-model="freeDetail.placeName" placeholder="羽毛球场A">
-                  <el-option label="羽毛球场A" value=1></el-option>
-                  <el-option label="兵乓球场" value=2></el-option>
-=======
               <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.weekTimeName">
                 <el-select v-model="freeDetail.placeName" placeholder="请选择">
                   <el-option :value="item.placeName" :label="item.placeName" v-for="(item,i) in week_time_name" :key="i"></el-option>
->>>>>>> xq
                 </el-select>
               </el-form-item>
               <el-form-item label="日期" :label-width="formLabelWidth">
@@ -203,25 +192,9 @@
                   <el-option label="星期六" value=6></el-option>
                   <el-option label="星期日" value=7></el-option>
                 </el-select>
-<<<<<<< HEAD
-              </el-form-item>
-              <el-form-item label="时间" :label-width="formLabelWidth">
-                <el-select v-model="freeDetail.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8：00~10：00"></el-option>
-                  <el-option label="10：00~12：00" value="10：00~12：00"></el-option>
-                  <el-option label="14：00~16：00" value="14：00~16：00"></el-option>
-                  <el-option label="16：00~18：00" value="16：00~18：00"></el-option>
-                  <el-option label="18：00~20：00" value="18：00~20：00"></el-option>
-                  <el-option label="20：00~22：00" value="20：00~22：00"></el-option>
-                </el-select>
-              </el-form-item>                       
-              <el-form-item>
-                <el-button type="primary" @click="free_time">查询</el-button>
-=======
               </el-form-item>                     
               <el-form-item>
                 <el-button type="primary" @click="week_time">查询</el-button>
->>>>>>> xq
               </el-form-item>
             </el-form>
           </div>
@@ -234,19 +207,6 @@
                   type="index"
                   label="序号"
                   width="200">
-<<<<<<< HEAD
-                </el-table-column>
-                <el-table-column
-                  prop="week"                  
-                  label="日期">
-                  <!-- <template slot-scope="scope">
-                    <span>{{this.week[scope.row.week+1]}}</span>
-                  </template> -->
-                </el-table-column>    
-                <el-table-column
-                  prop="timeZone"
-                  label="时间">
-=======
                 </el-table-column>                   
                 <el-table-column
                   prop="timeZone"
@@ -255,7 +215,6 @@
                 <el-table-column
                   prop="timeLong"
                   label="状态">
->>>>>>> xq
                 </el-table-column>                         
               </el-table>
           </el-dialog>
@@ -330,10 +289,6 @@ export default {
                 type:null,
                 name:null,
                 day:null,
-<<<<<<< HEAD
-                time:null
-=======
->>>>>>> xq
             },
             standardm:{
                 type:null,
@@ -349,19 +304,13 @@ export default {
             free_field_data:[],
             free_time_name:[],
             freeTimeName:false,
-<<<<<<< HEAD
-=======
             weekTimeName:false,
->>>>>>> xq
             free_time_check:false,
             free_time_data:[],
             week:["星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
             week_time_check:false,
             week_time_data:[],
-<<<<<<< HEAD
-=======
             week_time_name:[],
->>>>>>> xq
         }
     },
     methods:{
@@ -430,20 +379,6 @@ export default {
           this.free_time_name=data.datas;
           this.freeTimeName=true
         },
-<<<<<<< HEAD
-        // 
-        async free_time(){
-          let params=new FormData();
-          params.append("type",this.freeTime.type)
-          params.append("placeName",this.freeTime.name)
-          let data=await weekTime(params) 
-          console.log(data);      
-          // this.free_time_data=data.enabledTime;
-          // for(let i=0;i<this.free_time_data.length;i++){
-          //   this.free_time_data[i].week=this.week[this.free_time_data[i].week-1]
-          // }
-          // this.free_time_check=true;  
-=======
         async choose_type1(){
           let params=new FormData();
           params.append("placeType",this.freeDetail.placeType)
@@ -474,7 +409,6 @@ export default {
           console.log(data);      
           this.week_time_data=data.enabledTime;
           this.week_time_check=true;  
->>>>>>> xq
         },
         // 收费标准查询
         async place_standard(){
@@ -483,13 +417,8 @@ export default {
           params.append("timeZone",this.standardm.time)
           params.append("week",this.standardm.day)
           let data=await placeStandard(params) 
-<<<<<<< HEAD
-          console.log(data);
-          this.$alert("20元", '价钱', {
-=======
           // console.log(data);
           this.$alert(data.data+"元", '价钱', {
->>>>>>> xq
           confirmButtonText: '确定',          
         });
         }

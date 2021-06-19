@@ -188,11 +188,7 @@
 
 <script>
 import axios from 'axios';
-<<<<<<< HEAD
-import {equipmentAll,equipmentUpdate,equipmentAdd} from '@/API/api'
-=======
 import {equipmentAll,equipmentUpdate,equipmentAdd,equipmentRepair} from '@/API/api'
->>>>>>> xq
 export default {
   name: 'Equipment',
   data () {
@@ -266,41 +262,24 @@ export default {
           let params=new FormData();
           params.append("type",this.detail_form.type)
           params.append("number",this.detail_form.number)
-<<<<<<< HEAD
-          let data=await equipmentUpdate(params) 
-          console.log(data); 
-          // this.tableData=data.datas;
-    },
-      // 提交新增器材
-    async equipment_add(){
-      let params=new FormData();
-=======
           await equipmentUpdate(params) 
           this.updateVisible=false;
     },
       // 提交新增器材
     async equipment_add(){
           let params=new FormData();
->>>>>>> xq
           params.append("type",this.form.type)
           params.append("number",this.form.number)
           params.append("rates",this.form.rates)
           let data=await equipmentAdd(params) 
           console.log(data); 
-<<<<<<< HEAD
-      this.formVisible = false;
-=======
           this.formVisible = false;
->>>>>>> xq
     },
     // 租用器材
     rentEq(){
       this.rentVisible = false;
     },
     // 报修器材
-<<<<<<< HEAD
-    repairEq(){
-=======
     async repairEq(){
       let params=new FormData();
       params.append("type",this.repair_form.type)
@@ -308,7 +287,6 @@ export default {
       params.append("number",this.tableData[this.repair_form.type].number)
       let data=await equipmentRepair(params)
       console.log(data);
->>>>>>> xq
       this.repairVisible = false;
     },
   }
