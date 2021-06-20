@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import {register} from '@/API/api'
+import {registerUser,registerTeacher} from '@/API/api'
 export default {
   name: 'Register',
   data () {
@@ -116,33 +116,53 @@ export default {
     // 提交
     submitForm(formName) {
         this.$refs[formName].validate((valid) => {
+          console.log(this.ruleForm)
           if (valid) {
-            console.log(this.ruleForm)
-            // 转Formdata格式数据处理
-            let data = new FormData();
-            data.append('username', this.ruleForm.username)
-            data.append('password', this.ruleForm.password)
-            data.append('gender', this.ruleForm.gender)
-            data.append('userNumber', this.ruleForm.userNumber)
-            data.append('phone', this.ruleForm.phone)
-            data.append('academy', this.ruleForm.academy)
-            data.append('major', this.ruleForm.major)
-            data.append('classes', this.ruleForm.classes)
-            
-            
-            console.log(data.get('gender'))
-            register(data).then((res)=>{
-              console.log(res)
-              if(res.code==200){
-                var _this=this;
-                this.$message.success("注册成功！即将跳转至登录页面");
-                setTimeout(function(){
-                  _this.$router.push('/')
-                },3000)
-              }else{
-                this.$message.error(res.message);
-              }
-            })
+            if(!this.ruleForm.classes==""){
+              let data = new FormData();
+              data.append('username', this.ruleForm.username)
+              data.append('password', this.ruleForm.password)
+              data.append('gender', this.ruleForm.gender)
+              data.append('userNumber', this.ruleForm.userNumber)
+              data.append('phone', this.ruleForm.phone)
+              data.append('academy', this.ruleForm.academy)
+              data.append('major', this.ruleForm.major)
+              data.append('classes', this.ruleForm.classes)
+              registerUser(data).then((res)=>{
+                console.log(res)
+                if(res.code==200){
+                  var _this=this;
+                  this.$message.success("注册成功！即将跳转至登录页面");
+                  setTimeout(function(){
+                    _this.$router.push('/')
+                  },3000)
+                }else{
+                  this.$message.error(res.message);
+                }
+              })
+            }else{
+              // 转Formdata格式数据处理
+              let data = new FormData();
+              data.append('username', this.ruleForm.username)
+              data.append('password', this.ruleForm.password)
+              data.append('gender', this.ruleForm.gender)
+              data.append('teacherNumber', this.ruleForm.userNumber)
+              data.append('phone', this.ruleForm.phone)
+              data.append('academy', this.ruleForm.academy)
+              console.log(data.get('gender'))
+              registerTeacher(data).then((res)=>{
+                console.log(res)
+                if(res.code==200){
+                  var _this=this;
+                  this.$message.success("注册成功！即将跳转至登录页面");
+                  setTimeout(function(){
+                    _this.$router.push('/')
+                  },3000)
+                }else{
+                  this.$message.error(res.message);
+                }
+              })
+            }
           } else {
             console.log('error submit!!');
             return false;

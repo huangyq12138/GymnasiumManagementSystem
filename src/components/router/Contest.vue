@@ -7,16 +7,17 @@
         </el-breadcrumb>
         <!-- 搜索框 -->
         <div class="input_box">
-           <el-select v-model="value" placeholder="请选择体育类型">
+           <el-select v-model="pid" placeholder="请选择体育类型"
+              @change="searchContest(pid)">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              @change="searchContest(item.value)">
+              v-for="item in C_TypeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
             </el-option>
           </el-select>
            <el-button type="primary" @click="AddContestBtn()">添加赛事</el-button>
+           <el-button type="primary" @click="AllContestInfo()">查询所有赛事</el-button>
            <el-button type="primary" @click="back()" v-show="isShow_2">返回</el-button>
         </div>
         <!-- 赛事表格 -->
@@ -39,12 +40,20 @@
             prop="type">
           </el-table-column>
           <el-table-column
-            label="场地"
-            prop="place">
+            label="场地类型"
+            prop="placeType">
+          </el-table-column>
+          <el-table-column
+            label="场地名称"
+            prop="placeName">
+          </el-table-column>
+          <el-table-column
+            label="日期"
+            prop="week">
           </el-table-column>
           <el-table-column
             label="时间"
-            prop="time">
+            prop="timeZone">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -82,10 +91,30 @@
           </tr>
           <tr>
               <td class="column">
-                场地
+                场地类型
               </td>
               <td class="column">
-                {{detailCon.place}}
+                {{detailCon.placeType}}
+              </td>
+              <td class="column" v-show="isShow_3">
+              </td>
+          </tr>
+          <tr>
+              <td class="column">
+                场地名称
+              </td>
+              <td class="column">
+                {{detailCon.placeName}}
+              </td>
+              <td class="column" v-show="isShow_3">
+              </td>
+          </tr>
+          <tr>
+              <td class="column">
+                日期
+              </td>
+              <td class="column">
+                {{detailCon.week}}
               </td>
               <td class="column" v-show="isShow_3">
               </td>
@@ -95,7 +124,7 @@
                 时间
               </td>
               <td class="column">
-                {{detailCon.time}}
+                {{detailCon.timeZone}}
               </td>
               <td class="column" v-show="isShow_3">
               </td>
@@ -218,7 +247,11 @@
           type="index"
           width="50">
         </el-table-column>
-        <el-table-column property="name" label="姓名" width="360px"></el-table-column>
+        <el-table-column label="姓名" width="360px">
+           <template slot-scope="scope">
+             {{JugmentList[scope.$index]}}
+           </template>
+           </el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
                 <el-button
@@ -266,39 +299,27 @@
     </el-dialog>
     <!-- 添加赛事器材 -->
     <el-dialog title="新增器材" :visible.sync="dialog_5" width="600px">
-      <el-form v-model="AddEquipData"  class="editDialog" style="width:450px" :inline="true">
+      <el-form :model="AddEquipData"  class="editDialog" style="width:450px" :inline="true" :rules="rules" ref='AddEquipData'>
         <el-form-item label="赛事名称" :label-width="formLabelWidth">
           <el-input :value="contestName" disabled style="width:350px"></el-input>
         </el-form-item>
         <div class="addDialog">
-          <div 
-            v-for="(domain, index) in AddEquipData.domains" 
-            :key="domain.key" 
-            >
             <el-form-item label="器材类型" :label-width="formLabelWidth" class="floatBox">
-            <el-select v-model="domain.type" placeholder="请选择器材类型" @change="setMaxNum($event)">
+            <el-select v-model="AddEquipData.type" placeholder="请选择器材类型" @change="setMaxNum($event)">
                 <el-option v-for="(item ,i) in equipmentsList" :key="i" :label="item.name" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="数量" label-width="40px" class="floatBox">
-              <el-input type="number" :max="maxNum" min="0" v-model="domain.number" autocomplete="off"
-               :rules="[{ required: true, message: '数量不能为空', trigger: 'blur'},{type: 'number', message: '数量必须为数字值'}]">
+            <el-form-item label="数量" label-width="40px" class="floatBox" prop="number">
+              <el-input type="text" :max="maxNum" min="0" v-model="AddEquipData.number" autocomplete="off">
               </el-input>
             </el-form-item>
-            <!-- <el-button
-                type="danger" 
-                icon="el-icon-delete" 
-                @click.prevent="removeDomain2(domain)"
-                size="mini"
-                style="height:40px">
-              </el-button> -->
-          </div>    
+            <div class="tipNumber">该器材的最大存储量为{{maxNum}}</div>
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- <el-button @click="addDomain2">新增一类</el-button> -->
         <el-button @click="dialog_5 = false">取 消</el-button>
-        <el-button type="primary" @click="sureAddConEquip">确 定</el-button>
+        <el-button type="primary" @click="sureAddConEquip('AddEquipData')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -309,6 +330,22 @@ import {getAllContests,getContest,getConByType,getAllConType,addContest,deleteCo
 export default {
   name: 'Contest',
   data () {
+    var validatenumber = (rule, value, callback) => {
+      if (!value) {
+          return callback(new Error('数量不能为空'));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(parseInt(value))) {
+          callback(new Error('请输入数字值'));
+        } else {
+          if (value>this.maxNum) {
+            callback(new Error('数量超过最大存储量'));
+          } else {
+            callback();
+          }
+        }
+      }, 100);
+    };
     return {
       isShow_1:true,
       isShow_2:false,
@@ -319,6 +356,7 @@ export default {
       dialog_4:false,
       dialog_5:false,
       cid:0,
+      pid:0,
       contestName:'海大杯羽毛球赛',
       formLabelWidth:'70px',
       maxNum:0,
@@ -329,6 +367,14 @@ export default {
         {name:'乒乓球',id:2},
         {name:'台球',id:3},
         {name:'毽子',id:4},
+        {name:'其他',id:5},
+      ],
+      C_TypeList:[
+        {name:'篮球赛',id:0},
+        {name:'羽毛球赛',id:1},
+        {name:'乒乓球赛',id:2},
+        {name:'台球赛',id:3},
+        {name:'毽子赛',id:4},
         {name:'其他',id:5},
       ],
       placeTypeList:[],
@@ -362,40 +408,17 @@ export default {
         {value: 5,name: '乒乓球',number:0},
         {value: 6,name: '保龄球',number:0},
       ],
-      options: [
-        {
-          value: '0',
-          label: '篮球'
-        },{
-          value: '1',
-          label: '羽毛球'
-        }, {
-          value: '2',
-          label: '乒乓球'
-        }, {
-          value: '3',
-          label: '台球'
-        }, {
-          value: '4',
-          label: '毽子'
-        }, {
-          value: '5',
-          label: '其他'
-        }],
-      value: '',
+      options: [],
       tableData:[{
-        id:1,
-        name:'海大杯',
-        type:'羽毛球',
-        place:'羽毛球场B3',
-        time:'周一16：00-18：00',
       }
       ],
       detailCon:{
         name:'',
         type:'',
-        time:'',
-        place:'',
+        week:'',
+        timeZone:'',
+        placeType:'',
+        placeName:'',
         judge:[],
         equipment:[]
       },
@@ -417,33 +440,53 @@ export default {
           }],
         },
       AddEquipData:{
-          domains: [{
             type:'',
             number:'',
-          }],
         },
+      rules: {
+        number: [
+          { validator: validatenumber, trigger: 'blur' }
+        ]
+      },
     }
   },
   components: {},
   created(){
     this.AllContestInfo();
-    this.AllContestType();
     this.getAllEquip();
     this.queryPlaceType();
   },
   methods: {
     //获取所有赛事信息
     async AllContestInfo(){
+      let list=[];
+      this.pid='';
       let res=await getAllContests();
-      // console.log(res);
-      // this.tableData=res.datas;
+      console.log(res);
+      if(res.code==200){
+        list=res.datas;
+        for(let i=0;i<list.length;i++){
+          let Tname=this.turnC_Type(list[i].type);
+          list[i].type=Tname;
+        }
+        this.tableData=list;
+        console.log(list)
+      }
+    },
+    //转化赛事类型为中文信息
+    turnC_Type(t){
+      let type="";
+      for(let i=0;i<this.C_TypeList.length;i++){
+        if(t==this.C_TypeList[i].id){
+          type=this.C_TypeList[i].name;
+        }
+      }
+      return type;
     },
     //获取所有的赛事类型
     async AllContestType(){
       let res=await getAllConType();
-      // console.log(res);
-      // this.options=res.datas;
-      // this.peTypeList=res.datas;
+      console.log(res);
     },
     //获取所有器材信息
     async getAllEquip(){
@@ -464,25 +507,29 @@ export default {
     //根据类型查询赛事
     async searchContest(i){
       this.back();
+      console.log(111);
       let type=new FormData();
       type.append('type',i)
       let res=await getConByType(type);
-      console.log(res);
-      // this.tableData=res.datas;
+      // console.log(res);
+      if(res.code==200){
+        this.tableData=res.datas;
+      }else{
+        console.log(res.title);
+      }
     },
     // 获取所有场地类型
     async queryPlaceType(){
       this.placeTypeList=[];
       let res=await getAllPlaceType();
-      console.log(res);
+      // console.log(res);
       if(res.code==200){
         let list=this.unique(res.datas.sort(this.sortNumber));
-        console.log(list.length+"-"+list);
         for(let i=0;i<list.length;i++){
           this.TypeName=this.getTypeName(list[i]);
           this.placeTypeList.push({name:this.TypeName,id:list[i]});
         }
-        console.log(this.placeTypeList);
+        // console.log(this.placeTypeList);
       }
     },
     //给场地类型赋值
@@ -625,17 +672,15 @@ export default {
     //确定添加赛事
     async sureAddContest(){
       let form=new FormData();
-      // form.append('name',this.Addform.name);
-      form.append('name',1);
+      form.append('name',this.Addform.name);
       console.log(this.Addform);
       form.append('type',this.Addform.type);
-      form.append('tiemId',this.Addform.timeId);
+      form.append('timeId',this.Addform.timeId);
       form.append('placeId',this.Addform.placeName);
-      console.log(form.get('name'))
       let res=await addContest(form);
       console.log(res);
       if(res.code==200){
-        this.$message.success(res.title);
+        this.$message.success('添加成功！');
         dialog_1 = false;
         this.Addform={};
       }else{
@@ -643,21 +688,33 @@ export default {
       }
     },
     //查看赛事详情
-    async lookDetail(index,row){
+    lookDetail(index,row){
       this.cid=row.id;
+      this.ContestJugment();
+      this.ContestEquipment();
+      this.detailCon.name=row.name;
+      this.detailCon.type=row.type;
+      this.detailCon.week=row.week;
+      this.detailCon.timeZone=row.timeZone;
+      setTimeout(() => {
+        this.isShow_1=false;
+        this.isShow_2=true;
+      }, 1000);
+    },
+    // 通过id查询赛事
+    async QueryContestById(){
       let id=new FormData();
-      id.append('id',row.id);
+      id.append('id',this.cid);
+      let jList=this.ContestJugment();
+      let eList= this.ContestEquipment();
       let res=await getContest(id);
       console.log(res);
       if(res.code==200){
-        this.ContestJugment(id);
-        this.ContestEquipment(id);
-        this.isShow_1=false;
-        this.isShow_2=true;
-      }else{
-        this.$message.error(res.title);
+        let obj=res.datas[0];
+        let Tname=this.turnC_Type(obj.type);
+        obj.type=Tname;
+        console.log(this.detailCon);
       }
-      // this.detailCon=res.datas;
     },
     //返回主表格
     back(){
@@ -672,7 +729,7 @@ export default {
           type: 'warning'
         }).then(() => {
           let id=new FormData();
-          id.append('id',this.id);
+          id.append('id',this.cid);
           deleteContest(id).then((res)=>{
             if(res.code==200){
               this.$message.success(res.title);
@@ -685,21 +742,28 @@ export default {
       })
     },
     //查询该赛事的裁判
-    async ContestJugment(id){
+    async ContestJugment(){
+      // console.log(this.cid);
+      let id=new FormData();
+      id.append('id',this.cid);
       let res=await getJudge(id);
       console.log(res);
       if(res.code==200){
         this.detailCon.judge=res.datas;
         this.JugmentList=res.datas;
+        this.detailCon.judge=res.datas;
       }
     },
     // 查询该赛事的器材
-    async ContestEquipment(id){
+    async ContestEquipment(){
+      let id=new FormData();
+      id.append('id',this.cid);
       let res=await getConEquip(id);
       console.log(res);
       if(res.code==200){
         this.detailCon.equipment=res.datas;
         this.EquipList=res.datas;
+        this.detailCon.equipment=res.datas;
       }
     },
     //修改裁判按钮
@@ -719,19 +783,27 @@ export default {
       this.dialog_5=true
     },
     //确定添加器材
-    async sureAddConEquip(){
-      let data=new FormData();
-      data.append('contestId',this.cid);
-      data.append('equipId',this.AddEquipData.domains[0].type);
-      data.append('equipNumber',this.AddEquipData.domains[0].number);
-      let res=await addConEquip(data);
-      if(res.code==200){
-        this.$message.success(res.title);
-        this.dialog_5 = false;
-      }else{
-        console.log(res);
-        this.$message.error(res.title);
-      }
+    sureAddConEquip(formName){
+      this.$refs[formName].validate((valid)=>{
+        if(valid){
+          let data=new FormData();
+          data.append('contestId',this.cid);
+          data.append('equipId',this.AddEquipData.type);
+          data.append('equipNumber',this.AddEquipData.number);
+          addConEquip(data).then((res)=>{
+            if(res.code==200){
+              this.$message.success(res.title);
+              this.ContestEquipment();
+              this.dialog_5 = false;
+            }else{
+              console.log(res);
+              this.$message.error(res.title);
+            }
+          });
+        }else{
+          this.$message.error('请检查给赛事配置的器材数量是否正确')
+        }
+      })
     },
     //确定添加裁判
     async sureAddConJudge(){
@@ -741,6 +813,7 @@ export default {
       let res=await addJudge(data);
       if(res.code==200){
         this.$message.success(res.title);
+        this.ContestJugment();
         this.dialog_4 = false;
       }else{
         console.log(res);
@@ -759,6 +832,7 @@ export default {
           deleteConEquip(id).then((res)=>{
             if(res.code==200){
               this.$message.success(res.title);
+              this.detailCon.equipment=this.ContestEquipment();
             }else{
               this.$message.error(res.title);
             }
@@ -780,6 +854,7 @@ export default {
           deleteJudge(id).then((res)=>{
             if(res.code==200){
               this.$message.success(res.title);
+              this.detailCon.judge=this.ContestJugment();
             }else{
               this.$message.error(res.title);
             }
@@ -898,5 +973,11 @@ export default {
   text-align: right;
   margin-top: 10px;
   margin-right: 17px;
+}
+.tipNumber{
+  color:#888;
+  font-size: 12px;
+  text-align: right;
+  margin-right: 16px;
 }
 </style>

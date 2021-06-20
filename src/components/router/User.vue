@@ -18,7 +18,8 @@
           :data="tableData"
           style="width: 100%"
           height="470"
-          stripe>
+          stripe
+          v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -168,6 +169,7 @@ export default {
   name: 'User',
   data () {
     return {
+       loading: true,
        input:'',
        dialog_1: false,
        formLabelWidth: '70px',
@@ -188,13 +190,13 @@ export default {
          major:''
        },
        tableData: [{
-          username:'小米',
-          userNumber:'201811701413',
-          gender:1,
-          phone:'13735545336',
-          academy:'数学与计算机学院',
-          major:'软件工程',
-          classes:'软件1181',
+          // username:'',
+          // userNumber:'',
+          // gender:1,
+          // phone:'',
+          // academy:'',
+          // major:'',
+          // classes:'',
         }]
       }
   },
@@ -209,6 +211,7 @@ export default {
       let data=await getAll();
       this.all=this.switchGender(data.datas);
       this.tableData=this.all;
+      this.loading=false;
     },
     // 获取所有管理员信息
     async getAllAdminInfo(){
