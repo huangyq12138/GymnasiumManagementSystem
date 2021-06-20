@@ -2,8 +2,10 @@ import post from './index'
 
 //用户登录
 export const login = (form) => post("http://47.97.164.97:8888/user/userLogin", form)
-    //注册
-export const register = (form) => post("http://47.97.164.97:8888/user/regTeacher", form)
+    //注册教师
+export const registerUser = (form) => post("http://47.97.164.97:8888/user/register", form)
+    //注册学生
+export const registerTeacher = (form) => post("http://47.97.164.97:8888/user/regTeacher", form)
     // 查询所有用户
 export const getAll = () => post("http://47.97.164.97:8888/admin/showAll")
     // 查询所有管理员
@@ -41,11 +43,11 @@ export const getContest = (id) => post("http://47.97.164.97:8888/contest/queryCo
     // 通过赛事类型查询赛事
 export const getConByType = (type) => post("http://47.97.164.97:8888/contest/queryContestByType", type)
     // 添加赛事
-export const addContest = (data) => post("http://47.97.164.97:8888​/contest​/admin​/addContest", data)
+export const addContest = (data) => post("http://47.97.164.97:8888/contest/admin/addContest", data)
     // 取消赛事
 export const deleteContest = (id) => post("http://47.97.164.97:8888/contest/admin/deleteContest", id)
     // 通过赛事id查询赛事裁判
-export const getJudge = (id) => post("http://47.97.164.97:8888/contest​/queryJudgeById", id)
+export const getJudge = (id) => post("http://47.97.164.97:8888/contest/queryJudgeById", id)
     // 添加赛事裁判
 export const addJudge = (data) => post("http://47.97.164.97:8888/contest/admin/addJudge", data)
     // 删除赛事裁判
@@ -53,7 +55,7 @@ export const deleteJudge = (id) => post("http://47.97.164.97:8888/contest/admin/
     // 通过赛事id查询赛事器材
 export const getConEquip = (id) => post("http://47.97.164.97:8888/contest/queryEquipById", id)
     // 添加赛事器材
-export const addConEquip = (data) => post("http://47.97.164.97:8888/contest​/admin​/addContestEquip", data)
+export const addConEquip = (data) => post("http://47.97.164.97:8888/contest/admin/addContestEquip", data)
     // 删除赛事器材
 export const deleteConEquip = (id) => post("http://47.97.164.97:8888/contest/admin/deleteContestEquipById", id)
 
