@@ -45,11 +45,11 @@
                 :collapse="isCollapse"
                 router
                 >
-                <el-menu-item index="User">
+                <el-menu-item index="User" v-show="isShow_2">
                   <i class="el-icon-s-custom"></i>
                   <span slot="title">用户管理</span>
                 </el-menu-item>
-                <el-menu-item index="Notice">
+                <el-menu-item index="Notice" v-show="isShow_1">
                   <i class="el-icon-bell"></i>
                   <span slot="title">公告管理</span>
                 </el-menu-item>
@@ -57,7 +57,7 @@
                   <i class="el-icon-map-location"></i>
                   <span slot="title">场地管理</span>
                 </el-menu-item>
-                <el-menu-item index="Contest">
+                <el-menu-item index="Contest" v-show="isShow_1">
                   <i class="el-icon-timer"></i>
                   <span slot="title">赛事管理</span>
                 </el-menu-item>
@@ -65,7 +65,7 @@
                   <i class="el-icon-basketball"></i>
                   <span slot="title">器材管理</span>
                 </el-menu-item>
-                <el-menu-item index="Money">
+                <el-menu-item index="Money" v-show="isShow_1">
                   <i class="el-icon-s-data"></i>
                   <span slot="title">运营管理</span>
                 </el-menu-item>
@@ -124,6 +124,9 @@ export default {
     };
     return {
       isCollapse: false,
+      role:"",
+      isShow_1:true,
+      isShow_2:true,
       el_aside_width:"200px",
       activeIndex: '1',
       dialog:false,
@@ -153,6 +156,14 @@ export default {
       isLogin(){
         if(!sessionStorage.getItem('token')){
           this.$router.push('/')
+        }else{
+          this.role=sessionStorage.getItem("role");
+          if(this.role=='ROLE_user'){
+            this.isShow_1=false;
+            this.isShow_2=false;
+          }else if(this.role=='ROLE_admin'){
+            this.isShow_2=false;
+          }
         }
       },
       //退出登录

@@ -209,21 +209,30 @@ export default {
     //获取所有用户信息
     async getAllInfo(){
       let data=await getAll();
-      this.all=this.switchGender(data.datas);
-      this.tableData=this.all;
-      this.loading=false;
+      if(data.code==200){
+        this.all=this.switchGender(data.datas);
+        this.tableData=this.all;
+        this.loading=false;
+        this.getAllAdminInfo();
+        setTimeout(() => {
+          this.getAllPtyhInfo();
+        }, 1000);
+      }
     },
     // 获取所有管理员信息
     async getAllAdminInfo(){
       let data=await getAllAdmins();
-      this.allAdmin=this.switchGender(data.datas);
-      this.tableData=this.allAdmin;
+      if(data.code==200){
+        this.allAdmin=this.switchGender(data.datas);
+      }
+      
     },
     // 获取所有普通用户信息
     async getAllPtyhInfo(){
       let data=await getAllUsers();
-      this.allUser=this.switchGender(data.datas);
-      this.tableData=this.allUser;
+      if(data.code==200){
+        this.allUser=this.switchGender(data.datas);
+      }
     },
     //根据账号获取单个用户信息
     async getUserInfo(num){
@@ -232,7 +241,9 @@ export default {
       let arr=[];
       number.append('userNumber',num);
       let data=await getUser(number);
-      arr.push(this.switchGender(data.data));
+      if(data.code==200){
+        arr.push(this.switchGender(data.data));
+      }
       this.tableData=arr;
     },
     //将性别信息转化为中文含义,返回数组
@@ -300,7 +311,7 @@ export default {
       this.istable_1=false;
       this.istable_2=true;
       this.istable_3=false;
-      this.getAllAdminInfo();
+      this.tableData=this.allAdmin;
       // console.log(this.allAdmin)
     },
     //新增管理员按钮——展示所有普通用户页面
@@ -309,7 +320,7 @@ export default {
       this.istable_1=false;
       this.istable_2=false;
       this.istable_3=true;
-      this.getAllPtyhInfo();
+      this.tableData=this.allUser;
       // console.log(this.allUser)
     },
     // 查看所有所有人

@@ -26,6 +26,7 @@
           :data="tableData"
           style="width: 100%"
           height="470"
+          v-loading="loading"
           stripe>
           <el-table-column
             type="index"
@@ -347,6 +348,7 @@ export default {
       }, 100);
     };
     return {
+      loading:true,
       isShow_1:true,
       isShow_2:false,
       isShow_3:true,
@@ -471,6 +473,7 @@ export default {
         }
         this.tableData=list;
         console.log(list)
+        this.loading=false;
       }
     },
     //转化赛事类型为中文信息

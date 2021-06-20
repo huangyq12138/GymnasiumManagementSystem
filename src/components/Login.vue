@@ -4,11 +4,11 @@
         <div class="title">登录</div>
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="账号" prop="userNumber">
-            <el-input v-model="ruleForm.userNumber" autocomplete="off" placeholder="请输入一卡通账号/教职工号"></el-input>
+            <el-input v-model="ruleForm.userNumber" autocomplete="off" placeholder="请输入一卡通账号/教职工号" clearable></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码" show-password
-            @keydown.native.enter="submitForm('ruleForm')"></el-input>
+            @keydown.native.enter="submitForm('ruleForm')" clearable></el-input>
           </el-form-item>
           <div class="go_register">
             <router-link to="Register">没有账号？注册账号</router-link>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import {login} from '@/API/api';
 export default {
   name: 'Login',
@@ -51,15 +52,26 @@ export default {
             data.append('userNumber', this.ruleForm.userNumber)
             data.append('password', this.ruleForm.password)
             login(data).then((res)=>{
+              console.log(res)
               if(res.code==200){
                 //登录成功后缓存token
                 sessionStorage.setItem("token",res.token);
                 sessionStorage.setItem("userNumber",this.ruleForm.userNumber);
+                sessionStorage.setItem("role",res.role[0].authority)
                 // 成功提示
                 this.$message({
                   message: res.msg,
                   type: 'success'
                 });
+                axios.interceptors.request.use(
+                  config => {
+                      //将token放到请求头发送给服务器,将token放在请求头中
+                      config.headers.Authorization = res.token;
+                      return config;
+                  }, err => {
+                      return Promise.error(err);
+                  }
+                )
                 // 跳转页面
                 this.$router.push('/Home');
               }else{
