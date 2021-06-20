@@ -79,6 +79,15 @@
                   <el-option label="比赛" value=4></el-option>
                 </el-select>
               </el-form-item>
+              <el-form-item label="学工号" :label-width="formLabelWidth">
+                    <el-input v-model="speciala.std" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="姓名" :label-width="formLabelWidth">
+                    <el-input v-model="speciala.name" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="联系方式" :label-width="formLabelWidth">
+                    <el-input v-model="speciala.phone" autocomplete="off"></el-input>
+              </el-form-item>
               <el-form-item label="场地类型" :label-width="formLabelWidth">
                 <el-select v-model="speciala.type" placeholder="请选择" @change="choose_type(1)">
                   <el-option label="羽毛球场" value=0></el-option>
@@ -88,8 +97,8 @@
                   <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>  
-              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.placeName">
-                <el-select v-model="speciala.name" placeholder="请选择">
+              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.specialName">
+                <el-select v-model="speciala.pname" placeholder="请选择">
                   <el-option :value="item.placeName" :label="item.placeName" v-for="(item,i) in speciala_name" :key="i"></el-option>
                 </el-select>
               </el-form-item>
@@ -221,6 +230,9 @@ export default {
                 time:null
             },
             speciala:{
+                std:null,
+                name:null,
+                phone:null,
                 type:null,
                 name:null,
                 day:null,
@@ -231,6 +243,7 @@ export default {
             key:"personal",
             week:["星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
             placeName:false,
+            specialName:false,
             place_name:[],
             updateVisible:false,
             speciala_name:[],
@@ -269,19 +282,25 @@ export default {
             params.append("placeType",this.personala.type)
              let data=await placeType(params)          
              this.place_name=data.datas;
+             this.placeName=true
           }else{
+            console.log(1);
             params.append("placeType",this.speciala.type)
             let data=await placeType(params) 
             this.speciala_name=data.datas;
-            // console.log(data);
+            console.log(data); 
+            this.specialName=true
           } 
-          this.placeName=true
+          
         },
         // 特殊预约
         async special(){
           let params=new FormData();
           params.append("appointType",this.speciala.appointType)
           params.append("placeType",this.speciala.type)
+          params.append("adminName",this.speciala.name)
+           params.append("adminNumber",this.speciala.std)
+          params.append("phone",this.speciala.phone)
           params.append("placeName",this.speciala.pname)
           params.append("week",this.speciala.day)
           params.append("timeZone",this.speciala.time)
@@ -384,11 +403,11 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 0px 30px;
 }
 .ap-nav{
   text-align: right;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .ap-nav .el-button{
   margin-right: 20px;
@@ -405,6 +424,6 @@ export default {
 }
 .return{
   text-align: right;
-  margin: 0px 20px 40px 20px;
+  margin: 0px 20px 20px 20px;
 }
 </style>>
