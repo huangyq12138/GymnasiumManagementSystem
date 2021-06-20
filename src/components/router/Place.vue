@@ -34,7 +34,7 @@
           <!-- 添加场地 -->
           <el-dialog title="添加场地" :visible.sync="add_placeform">
             <el-form :model="addplace_form" class="checkContext" :rules="addplace_rules" ref="addplace_form">             
-              <el-form-item label="场地类型" :label-width="formLabelWidth" prop="type">
+              <el-form-item label="场地类型" :label-width="formLabelWidth" prop="placeType">
                 <el-select v-model="addplace_form.placeType" placeholder="请选择类型">
                   <el-option label="羽毛球场" value=1></el-option>
                   <el-option label="兵乓球场" value=2></el-option>
@@ -43,7 +43,7 @@
                   <el-option label="保龄球场" value=5></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="场地名称" :label-width="formLabelWidth" prop="name">
+              <el-form-item label="场地名称" :label-width="formLabelWidth" prop="placeName">
                 <el-input v-model="addplace_form.placeName" autocomplete="off"></el-input>
               </el-form-item>              
             </el-form>

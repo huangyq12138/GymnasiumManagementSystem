@@ -19,17 +19,17 @@
           </div>
           <!-- 个人预约 -->
           <div  v-show="this.flag.personal">
-            <el-form  label-width="80px" class="checkContext" ref="personala" :model="personala">
-              <el-form-item label="学号" :label-width="formLabelWidth">
+            <el-form  label-width="80px" class="checkContext" ref="personala" :model="personala" :rules="rule">
+              <el-form-item label="学号" :label-width="formLabelWidth" prop="std">
                     <el-input v-model="personala.std" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="姓名" :label-width="formLabelWidth">
+              <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="personala.name" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="联系方式" :label-width="formLabelWidth">
+              <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
                     <el-input v-model="personala.phone" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="场地类型" :label-width="formLabelWidth">
+              <el-form-item label="场地类型" :label-width="formLabelWidth" prop="type">
                 <el-select v-model="personala.type" placeholder="请选择场地" @change="choose_type(0)">
                   <el-option label="羽毛球场" value=0></el-option>
                   <el-option label="兵乓球场" value=1></el-option>
@@ -38,12 +38,12 @@
                   <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.placeName">
+              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.placeName" prop="pname">
                 <el-select v-model="personala.pname" placeholder="请选择">
                   <el-option :value="item.placeName" :label="item.placeName" v-for="(item,i) in place_name" :key="i"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="日期" :label-width="formLabelWidth">
+              <el-form-item label="日期" :label-width="formLabelWidth" prop="day">
                 <el-select v-model="personala.day" placeholder="请选择">
                   <el-option label="星期一" value=1></el-option>
                   <el-option label="星期二" value=2></el-option>
@@ -54,7 +54,7 @@
                   <el-option label="星期日" value=7></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="时间" :label-width="formLabelWidth">
+              <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="personala.time" placeholder="请选择">
                   <el-option label="8：00~10：00" value="8:00~10:00"></el-option>
                   <el-option label="10：00~12：00" value="10:00~12:00"></el-option>
@@ -65,30 +65,30 @@
                 </el-select>
               </el-form-item>            
               <el-form-item>
-                <el-button type="primary" @click="personal">提交</el-button>
+                <el-button type="primary" @click="personal('personala')">提交</el-button>
               </el-form-item>
             </el-form>
           </div>          
           <!-- 特殊预约 -->
           <div v-show="this.flag.special">
-            <el-form  label-width="80px" class="checkContext"  ref="speciala" :model="speciala">
-               <el-form-item label="预约类型" :label-width="formLabelWidth">
+            <el-form  label-width="80px" class="checkContext" :rules="rule" ref="speciala" :model="speciala">
+               <el-form-item label="预约类型" :label-width="formLabelWidth" prop="appointType">
                 <el-select v-model="speciala.appointType" placeholder="请选择">
                   <el-option label="上课" value=2></el-option>
                   <el-option label="校队" value=3></el-option>
                   <el-option label="比赛" value=4></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="学工号" :label-width="formLabelWidth">
+              <el-form-item label="学工号" :label-width="formLabelWidth" prop="std">
                     <el-input v-model="speciala.std" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="姓名" :label-width="formLabelWidth">
+              <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="speciala.name" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="联系方式" :label-width="formLabelWidth">
+              <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
                     <el-input v-model="speciala.phone" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="场地类型" :label-width="formLabelWidth">
+              <el-form-item label="场地类型" :label-width="formLabelWidth" prop="type">
                 <el-select v-model="speciala.type" placeholder="请选择" @change="choose_type(1)">
                   <el-option label="羽毛球场" value=0></el-option>
                   <el-option label="兵乓球场" value=1></el-option>
@@ -97,12 +97,12 @@
                   <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>  
-              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.specialName">
+              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.specialName" prop="pname">
                 <el-select v-model="speciala.pname" placeholder="请选择">
                   <el-option :value="item.placeName" :label="item.placeName" v-for="(item,i) in speciala_name" :key="i"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="日期" :label-width="formLabelWidth">
+              <el-form-item label="日期" :label-width="formLabelWidth" prop="day">
                 <el-select v-model="speciala.day" placeholder="请选择">
                   <el-option label="星期一" value=1></el-option>
                   <el-option label="星期二" value=2></el-option>
@@ -113,7 +113,7 @@
                   <el-option label="星期日" value=7></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="时间" :label-width="formLabelWidth">
+              <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="speciala.time" placeholder="请选择">
                   <el-option label="8：00~10：00" value="8:00~10:00"></el-option>
                   <el-option label="10：00~12：00" value="10:00~12:00"></el-option>
@@ -124,7 +124,7 @@
                 </el-select>
               </el-form-item>           
               <el-form-item>
-                <el-button type="primary" @click="special">提交</el-button>
+                <el-button type="primary" @click="special('speciala')">提交</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -150,7 +150,7 @@
                 width="200">
               </el-table-column>
               <el-table-column
-                prop="placeType"
+                prop="type"
                 label="场地类型"
                 width="150"
                 >
@@ -178,7 +178,7 @@
                   <el-button
                     size="mini"
                     type="success"
-                    @click.stop="change(scope.row)">修改</el-button>
+                    @click.stop="change(scope.row.id)">修改</el-button>
                     <el-button
                     size="mini"
                     type="danger"
@@ -189,17 +189,17 @@
           </div>
 
           <el-dialog title="修改预约" :visible.sync="updateVisible">
-            <el-form :model="update_form" class="checkContext">
-              <el-form-item label="用户名" :label-width="formLabelWidth">
+            <el-form :model="update_form" class="checkContext" :rules="rule" ref="update_form">
+              <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
                 <el-input v-model="update_form.username" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="联系方式" :label-width="formLabelWidth">
+              <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
                 <el-input v-model="update_form.phone" autocomplete="off"></el-input>
               </el-form-item>             
             </el-form>                       
             <div slot="footer" class="dialog-footer">
               <el-button @click="updateVisible = false">取 消</el-button>
-              <el-button type="primary" @click="update_appoint">提 交</el-button>
+              <el-button type="primary" @click="update_appoint('update_form')">提 交</el-button>
             </div>
           </el-dialog>
         </div>
@@ -249,32 +249,75 @@ export default {
             speciala_name:[],
             update_form:{
               phone:null,
-              username:null
-            }
+              username:null,
+              id:null
+            },
+            rule:{
+              username:[
+                  { required: true, message: '请输入名字', trigger: 'blur' },
+              ],
+              appointType:[
+                  { required: true, message: '请选择预约类型', trigger: 'change' }
+              ],
+              type:[
+                  { required: true, message: '请选择场地类型', trigger: 'change' }
+              ],
+              std:[
+                  { required: true, message: '请输入学号', trigger: 'blur' },
+              ],
+              name:[
+                  { required: true, message: '请输入名字', trigger: 'blur' },
+              ],
+              phone:[
+                  { required: true, message: '请输入手机号', trigger: 'blur' },
+              ],
+              pname:[
+                  { required: true, message: '请选择场地名称', trigger: 'change' }
+              ],
+              day:[
+                  { required: true, message: '请选择日期', trigger: 'change' }
+              ],
+              time:[
+                  { required: true, message: '请选择时间', trigger: 'change' }
+              ]
+            },
+            types:["羽毛球场","兵乓球场","台球场","篮球场","保龄球场"],
         }
     },
     methods:{
         // 个人预约
-        async personal(){
-          let params=new FormData();
-          params.append("appointType",1)
-          params.append("placeType",this.personala.type)
-          params.append("username",this.personala.name)
-          params.append("phone",this.personala.phone)
-          params.append("userNumber",this.personala.std)
-          params.append("placeName",this.personala.pname)
-          params.append("week",this.personala.day)
-          params.append("timeZone",this.personala.time)
-          let data=await appointPlace(params)
-          if(data.code==200){
-            this.$message({
-              message: '预约成功',
-              type: 'success'
-            });
-          }else{
-            this.$message.error('预约失败，请重试');
-          } 
-          console.log(data);
+        async personal(formName){
+          this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params=new FormData();
+            params.append("appointType",1)
+            params.append("placeType",this.personala.type)
+            params.append("username",this.personala.name)
+            params.append("phone",this.personala.phone)
+            params.append("userNumber",this.personala.std)
+            params.append("placeName",this.personala.pname)
+            params.append("week",this.personala.day)
+            params.append("timeZone",this.personala.time)
+            appointPlace(params).then(
+              data=>{
+                console.log(data);
+                if(data.code==200){
+                  this.$message({
+                    message: '预约成功',
+                    type: 'success'
+                  });
+                }else if(data.code==500){
+                  this.$message.error('该场地'+data.title+'请预约其他');
+                }
+                else{
+                  this.$message.error('预约失败，请重试');
+                } 
+              }
+            )
+          } else {
+            return false;
+          }
+        });
         },
         async choose_type(i){
           let params=new FormData();
@@ -294,28 +337,37 @@ export default {
           
         },
         // 特殊预约
-        async special(){
-          let params=new FormData();
-          params.append("appointType",this.speciala.appointType)
-          params.append("placeType",this.speciala.type)
-          params.append("adminName",this.speciala.name)
-           params.append("adminNumber",this.speciala.std)
-          params.append("phone",this.speciala.phone)
-          params.append("placeName",this.speciala.pname)
-          params.append("week",this.speciala.day)
-          params.append("timeZone",this.speciala.time)
-          console.log(this.speciala.type,this.speciala.pname);
-          console.log(params);
-          let data=await appointSpecial(params)
-          if(data.code==200){
-            this.$message({
-              message: '预约成功',
-              type: 'success'
-            });
-          }else{
-            this.$message.error('预约失败，请重试');
-          } 
-          console.log(data);
+        async special(formName){
+          this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params=new FormData();
+            params.append("appointType",this.speciala.appointType)
+            params.append("placeType",this.speciala.type)
+            params.append("adminName",this.speciala.name)
+            params.append("adminNumber",this.speciala.std)
+            params.append("phone",this.speciala.phone)
+            params.append("placeName",this.speciala.pname)
+            params.append("week",this.speciala.day)
+            params.append("timeZone",this.speciala.time)
+            appointSpecial(params).then(
+              data=>{
+                if(data.code==200){
+                  this.$message({
+                    message: '预约成功',
+                    type: 'success'
+                  });
+                }else if(data.code==500){
+                  this.$message.error('该场地'+data.title+'请预约其他');
+                }
+                else{
+                  this.$message.error('预约失败，请重试');
+                } 
+              }
+            )
+          } else {
+            return false;
+          }
+        });
         },
         // 查询我的预约信息
         async my_info(){
@@ -325,8 +377,8 @@ export default {
           this.my=data.datas;
           for(let i=0;i<this.my.length;i++){
             this.my[i].week=this.week[this.my[i].week-1]
+            Object.assign(this.my[i],{"type":this.types[this.my[i].placeType]})
           }
-          console.log(data);
         },
         show(){
             if(this.now=='my'){
@@ -340,26 +392,37 @@ export default {
           this.$router.push('/place')
         },
         // 修改预约
-        async update_appoint(){
-          let params=new FormData();
-          // params.append("appointId",13)
-          params.append("appointId",this.update_form.appointId)
-          params.append("username",this.update_form.username)
-          params.append("phone",this.update_form.phone)
-          let data=await modifyAppoint(params)
-          if(data.code==200){
-            this.$message({
-              message: '预约成功',
-              type: 'success'
-            });
-            this.updateVisible=false;
-          }else{
-            this.$message.error('预约失败，请重试');
-          } 
+        async update_appoint(formName){
+           this.$refs[formName].validate((valid) => {
+            if (valid) {
+              let params=new FormData();
+              params.append("appointId",this.update_form.id)
+              params.append("username",this.update_form.username)
+              params.append("phone",this.update_form.phone)
+             modifyAppoint(params).then(
+               data=>{
+                 if(data.code==200){
+                  this.$message({
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                  this.my_info();
+                  this.updateVisible=false;                 
+                }else{
+                  this.$message.error('修改失败，请重试');
+                } 
+               }
+             )
+            } else {
+              return false;
+            }
+          });
+         
+          
           // console.log(data);
         },
-        change(row){
-          this.update_form=row;
+        change(id){
+          this.update_form.id=id;
           this.updateVisible=true;
         },
         // 取消预约
@@ -370,14 +433,13 @@ export default {
           type: 'warning'
         }).then(() => {
           let params=new FormData();
-          // params.append("appointId",13)
-          params.append("appointId",row.appointId)
-          console.log(row);
+          params.append("appointId",row.id)
           params.append("placeName",row.placeName)
           params.append("placeType",row.placeType)
-          // params.append("placeType",0)
+          console.log(row);
           cancelAppoint(params).then(
             res=>{
+              console.log(res);
               if(res.code==200){
                 this.$message({
                   type: 'success',
