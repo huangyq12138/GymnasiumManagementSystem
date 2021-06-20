@@ -213,7 +213,7 @@
                   label="时间">
                 </el-table-column>
                 <el-table-column
-                  prop="timeLong"
+                  prop="placeStatus"
                   label="状态">
                 </el-table-column>                         
               </el-table>
@@ -311,6 +311,7 @@ export default {
             week_time_check:false,
             week_time_data:[],
             week_time_name:[],
+            appoint_type:["空闲","被预约","上课","校队","比赛"]
         }
     },
     methods:{
@@ -405,9 +406,17 @@ export default {
           params.append("placeType",this.freeDetail.placeType)
           params.append("placeName",this.freeDetail.placeName)
            params.append("week",this.freeDetail.day)
-          let data=await weekTime(params) 
-          console.log(data);      
-          this.week_time_data=data.enabledTime;
+          let data=await weekTime(params)      
+          this.week_time_data=data.enabledTime;   
+          for(let i=0;i<data.occupyTimeAndStatus.length;i++){
+           data.occupyTimeAndStatus[i].placeStatus=this.appoint_type[data.occupyTimeAndStatus[i].placeStatus]
+          }
+          for(let i=0;i<this.week_time_data.length;i++){
+            Object.assign(this.week_time_data[i],{"placeStatus":this.appoint_type[0]});
+          }
+          if(data.occupyTimeAndStatus.length){
+            this.week_time_data.unshift(data.occupyTimeAndStatus)
+          }
           this.week_time_check=true;  
         },
         // 收费标准查询
@@ -420,7 +429,7 @@ export default {
           // console.log(data);
           this.$alert(data.data+"元", '价钱', {
           confirmButtonText: '确定',          
-        });
+          });
         }
     }
 }

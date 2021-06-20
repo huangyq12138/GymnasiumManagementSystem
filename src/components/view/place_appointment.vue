@@ -30,7 +30,7 @@
                     <el-input v-model="personala.phone" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="场地类型" :label-width="formLabelWidth">
-                <el-select v-model="personala.type" placeholder="请选择场地" @change="choose_type">
+                <el-select v-model="personala.type" placeholder="请选择场地" @change="choose_type(0)">
                   <el-option label="羽毛球场" value=0></el-option>
                   <el-option label="兵乓球场" value=1></el-option>
                   <el-option label="台球场" value=2></el-option>
@@ -72,8 +72,24 @@
           <!-- 特殊预约 -->
           <div v-show="this.flag.special">
             <el-form  label-width="80px" class="checkContext"  ref="speciala" :model="speciala">
+               <el-form-item label="预约类型" :label-width="formLabelWidth">
+                <el-select v-model="speciala.appointType" placeholder="请选择">
+                  <el-option label="上课" value=2></el-option>
+                  <el-option label="校队" value=3></el-option>
+                  <el-option label="比赛" value=4></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="学工号" :label-width="formLabelWidth">
+                    <el-input v-model="speciala.std" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="姓名" :label-width="formLabelWidth">
+                    <el-input v-model="speciala.name" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="联系方式" :label-width="formLabelWidth">
+                    <el-input v-model="speciala.phone" autocomplete="off"></el-input>
+              </el-form-item>
               <el-form-item label="场地类型" :label-width="formLabelWidth">
-                <el-select v-model="speciala.type" placeholder="羽毛球场">
+                <el-select v-model="speciala.type" placeholder="请选择" @change="choose_type(1)">
                   <el-option label="羽毛球场" value=0></el-option>
                   <el-option label="兵乓球场" value=1></el-option>
                   <el-option label="台球场" value=2></el-option>
@@ -81,10 +97,9 @@
                   <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>  
-              <el-form-item label="场地名称" :label-width="formLabelWidth">
-                <el-select v-model="speciala.name" placeholder="羽毛球场A">
-                  <el-option label="羽毛球场A" value=1></el-option>
-                  <el-option label="兵乓球场" value=2></el-option>
+              <el-form-item label="场地名称" :label-width="formLabelWidth" v-show="this.specialName">
+                <el-select v-model="speciala.pname" placeholder="请选择">
+                  <el-option :value="item.placeName" :label="item.placeName" v-for="(item,i) in speciala_name" :key="i"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="日期" :label-width="formLabelWidth">
@@ -215,17 +230,23 @@ export default {
                 time:null
             },
             speciala:{
+                std:null,
+                name:null,
+                phone:null,
                 type:null,
                 name:null,
                 day:null,
-                time:null
+                time:null,
+                appointType:null
             },
             my:[],
             key:"personal",
             week:["星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
             placeName:false,
+            specialName:false,
             place_name:[],
             updateVisible:false,
+            speciala_name:[],
             update_form:{
               phone:null,
               username:null
@@ -236,7 +257,7 @@ export default {
         // 个人预约
         async personal(){
           let params=new FormData();
-          params.append("appointType",0)
+          params.append("appointType",1)
           params.append("placeType",this.personala.type)
           params.append("username",this.personala.name)
           params.append("phone",this.personala.phone)
@@ -255,24 +276,36 @@ export default {
           } 
           console.log(data);
         },
-        async choose_type(){
+        async choose_type(i){
           let params=new FormData();
-          params.append("placeType",this.personala.type)
-          let data=await placeType(params)          
-          this.place_name=data.datas;
-          this.placeName=true
+          if(i==0){
+            params.append("placeType",this.personala.type)
+             let data=await placeType(params)          
+             this.place_name=data.datas;
+             this.placeName=true
+          }else{
+            console.log(1);
+            params.append("placeType",this.speciala.type)
+            let data=await placeType(params) 
+            this.speciala_name=data.datas;
+            console.log(data); 
+            this.specialName=true
+          } 
+          
         },
         // 特殊预约
         async special(){
           let params=new FormData();
-          params.append("appointType",0)
-          params.append("placeType",this.personala.type)
-          params.append("username",this.personala.name)
-          params.append("phone",this.personala.phone)
-          params.append("userNumber",this.personala.std)
-          params.append("placeName",this.personala.pname)
-          params.append("week",this.personala.day)
-          params.append("timeZone",this.personala.time)
+          params.append("appointType",this.speciala.appointType)
+          params.append("placeType",this.speciala.type)
+          params.append("adminName",this.speciala.name)
+           params.append("adminNumber",this.speciala.std)
+          params.append("phone",this.speciala.phone)
+          params.append("placeName",this.speciala.pname)
+          params.append("week",this.speciala.day)
+          params.append("timeZone",this.speciala.time)
+          console.log(this.speciala.type,this.speciala.pname);
+          console.log(params);
           let data=await appointSpecial(params)
           if(data.code==200){
             this.$message({
@@ -370,11 +403,11 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 0px 30px;
 }
 .ap-nav{
   text-align: right;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .ap-nav .el-button{
   margin-right: 20px;
@@ -391,6 +424,6 @@ export default {
 }
 .return{
   text-align: right;
-  margin: 0px 20px 40px 20px;
+  margin: 0px 20px 20px 20px;
 }
 </style>>
