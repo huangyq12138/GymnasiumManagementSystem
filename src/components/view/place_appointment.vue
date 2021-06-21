@@ -13,7 +13,7 @@
           <div class="ap-nav">
           <el-radio-group v-model="now" @change="show">
             <el-radio-button label='personal'>个人预约</el-radio-button>
-            <el-radio-button label='special'>特殊预约</el-radio-button>
+            <el-radio-button label='special' v-show="isShow">特殊预约</el-radio-button>
             <el-radio-button label='my'>我的预约</el-radio-button>
           </el-radio-group>
           </div>
@@ -213,6 +213,7 @@ import {appointPlace,placeType,appointInfo,modifyAppoint,cancelAppoint,appointSp
 export default {
     data(){
         return{
+            isShow:true,
             flag:{
                 personal:true,
                 special:false,
@@ -284,7 +285,16 @@ export default {
             types:["羽毛球场","兵乓球场","台球场","篮球场","保龄球场"],
         }
     },
+    created(){
+      this.getRole();
+    },
     methods:{
+        //获取角色
+        getRole(){
+          if(sessionStorage.getItem("role")=='ROLE_user'){
+            this.isShow=false;
+          };
+        },
         // 个人预约
         async personal(formName){
           this.$refs[formName].validate((valid) => {

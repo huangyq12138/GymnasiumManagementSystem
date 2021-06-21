@@ -15,7 +15,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-button type="primary" @click="formVisible = true">添加公告</el-button>
+            <el-button type="primary" @click="formVisible = true" v-show="isShow">添加公告</el-button>
           </div>
           <div class="context">
             <el-table
@@ -42,7 +42,7 @@
                 width="180"
                 >
               </el-table-column>
-              <el-table-column label="操作" width="100">
+              <el-table-column label="操作" width="100" v-show="isShow">
                 <template slot-scope="scope">                 
                   <el-button
                     size="mini"
@@ -106,6 +106,7 @@ export default {
   name: 'Notice',
   data () {
     return {
+        isShow:true,
         options: [{
           value: 0,
           label: '场馆公告'
@@ -151,7 +152,16 @@ export default {
   mounted(){
     this.get_notice()
   },
+  created(){
+    this.getRole();
+  },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     handleDelete(i,id) {//删除
         let that=this;
         this.$confirm('确定删除该公告?', '提示', {
@@ -246,15 +256,14 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 20px 10px;
 }
 .top{
   text-align: left;
-  margin-left: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .top .el-button{
-  margin-left: 150px;
+  margin-left: 10px;
 }
 
 .detail{

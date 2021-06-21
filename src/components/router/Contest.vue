@@ -16,7 +16,7 @@
               :value="item.id">
             </el-option>
           </el-select>
-           <el-button type="primary" @click="AddContestBtn()">添加赛事</el-button>
+           <el-button type="primary" @click="AddContestBtn()" v-show="isShow_3">添加赛事</el-button>
            <el-button type="primary" @click="AllContestInfo()">查询所有赛事</el-button>
            <el-button type="primary" @click="back()" v-show="isShow_2">返回</el-button>
         </div>
@@ -411,9 +411,7 @@ export default {
         {value: 6,name: '保龄球',number:0},
       ],
       options: [],
-      tableData:[{
-      }
-      ],
+      tableData:[{}],
       detailCon:{
         name:'',
         type:'',
@@ -457,8 +455,15 @@ export default {
     this.AllContestInfo();
     this.getAllEquip();
     this.queryPlaceType();
+    this.getRole();
   },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow_3=false;
+      };
+    },
     //获取所有赛事信息
     async AllContestInfo(){
       let list=[];
@@ -954,11 +959,10 @@ export default {
   width:500px;
 }
 .addDialog{
-  height: 230px;
+  height: 80px;
   overflow-y: auto;
 }
 .Add_Dialog{
-  height: 300px;
   margin:0 auto;
   width:400px;
   overflow: hidden;

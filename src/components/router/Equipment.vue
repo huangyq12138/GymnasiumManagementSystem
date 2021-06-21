@@ -9,9 +9,9 @@
           <div class="eq-nav">
             <el-radio-group v-model="radio" @change="choose">
               <el-radio-button label=0>全部器材</el-radio-button>
-              <el-radio-button label=1>器材新增</el-radio-button>
+              <el-radio-button label=1 v-show="isShow">器材新增</el-radio-button>
               <el-radio-button label=2>器材租用</el-radio-button>
-              <el-radio-button label=3>器材报修</el-radio-button>
+              <el-radio-button label=3 v-show="isShow">器材报修</el-radio-button>
               <el-radio-button label=4>器材查询</el-radio-button>
             </el-radio-group>
           </div>
@@ -186,6 +186,7 @@ export default {
   name: 'Equipment',
   data () {
     return {
+      isShow:true,
       tableData: [{
           name:'篮球',
           type:0,
@@ -256,8 +257,15 @@ export default {
   },
   mounted () {
     this.equipment_all();
+    this.getRole();
   },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     async equipment_all(){
           let data=await equipmentAll();
           this.tableData=data.datas;
@@ -411,11 +419,11 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 20px 20px;
 }
 .eq-nav{
   text-align: right;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .eq-nav .el-button{
   margin-right: 20px;

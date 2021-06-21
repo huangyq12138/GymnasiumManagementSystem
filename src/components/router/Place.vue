@@ -9,7 +9,7 @@
           <div class="pl-nav">
           <el-radio-group v-model="radio" @change="choose">
             <el-radio-button label=1>场地类型</el-radio-button>
-            <el-radio-button label=2>添加场地</el-radio-button>
+            <el-radio-button label=2 v-show="isShow">添加场地</el-radio-button>
             <el-radio-button label=3>查询场地</el-radio-button>
             <el-radio-button label=4>场地预约</el-radio-button>
           </el-radio-group>
@@ -63,6 +63,7 @@ export default {
   name: 'Place',
   data () {
     return {
+      isShow:true,
       types:["羽毛球场","兵乓球场","台球场","篮球场","保龄球场"],
       add_placeform:false,
       formLabelWidth: '120px',
@@ -92,7 +93,16 @@ export default {
     // this.get_type();
     
   },
+  created(){
+    this.getRole();
+  },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     choose(){
       if(this.radio==2){
         this.add_placeform = true;
@@ -144,11 +154,11 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 20px 20px;
 }
 .pl-nav{
   text-align: right;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .pl-nav .el-button{
   margin-right: 20px;
