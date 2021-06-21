@@ -63,15 +63,7 @@ export default {
                   message: res.msg,
                   type: 'success'
                 });
-                axios.interceptors.request.use(
-                  config => {
-                      //将token放到请求头发送给服务器,将token放在请求头中
-                      config.headers.Authorization = res.token;
-                      return config;
-                  }, err => {
-                      return Promise.error(err);
-                  }
-                )
+                axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token');
                 // 跳转页面
                 this.$router.push('/Home');
               }else{
