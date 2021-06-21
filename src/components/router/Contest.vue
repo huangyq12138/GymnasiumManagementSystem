@@ -195,7 +195,7 @@
         <el-form-item label="场地类型" :label-width="formLabelWidth">
          <el-select v-model="Addform.placeType" placeholder="请选择场地类型"
          @change="queryPlaceByType(Addform.placeType)">
-            <el-option v-for="(item,i) in placeTypeList" :key="i":label="item.name" :value="item.id"></el-option>
+            <el-option v-for="(item,i) in placeTypeList" :key="i" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="场地编号" :label-width="formLabelWidth">
@@ -577,6 +577,7 @@ export default {
     //change星期下拉框
     checkDay(val){
       let timeSlot=[];
+      console.log(this.Addform.placeName);
       if(this.Addform.placeName){
         for(let i=0;i<this.timeList.length;i++){
           if(this.timeList[i].week==val){

@@ -20,7 +20,7 @@
             </el-radio-group>
           </div>
           <!-- 收费标准 -->
-          <div  v-show="this.flag.charge">
+          <div  v-show="this.flag.charge" class="charge">
             <el-form ref="charge_form" :model="charge_form" label-width="80px" class="checkContext">
               <el-form-item label="器材名称:">
                 <el-select v-model="charge_form.type" placeholder="请选择器材">
@@ -37,6 +37,7 @@
                 <el-button type="primary" @click="charge">查询</el-button>
               </el-form-item>
             </el-form>
+            <p>注意：租用器材的最终价格=该器材标准租用收费 * 租用个数 * 租用时长</p>
           </div>
           <!-- 租借器材 -->
           <div v-show="this.flag.rent">
@@ -266,14 +267,22 @@ export default {
     this.key=this.radio;    
     },
     async charge() {//收费标准
-      let params=new FormData();
-      params.append("type",this.charge_form.type)
-      let data=await equipmentCharge(params) 
-      if(data.code==200){
-        this.$alert(data.data+"元", '价钱', {
+      if(this.charge_form.type==null){
+        this.$alert("请先选择器材类型", '提示', {
           confirmButtonText: '确定',          
         });
-      } 
+      }else{
+        let params=new FormData();
+        params.append("type",this.charge_form.type)
+        let data=await equipmentCharge(params) 
+        if(data.code==200){
+          this.$alert(data.data+"元", '价钱', {
+            confirmButtonText: '确定',          
+          });
+        }else{
+          this.$message.error('查询失败！请重试'); 
+        } 
+      }    
     },
       // 租借器材
     async rent(){
@@ -285,17 +294,24 @@ export default {
     },
     // 租用详细查询
     async rentDetail(){
-      let params=new FormData();
-      params.append("userNumber",this.rent_detail_num)
-      let data=await rentFind(params)
-      if(data.code==200){
-        this.detailData=data.datas;
-        for(let i=0;i<this.detailData.length;i++){
-        Object.assign(this.detailData[i],{"eqname":this.type[this.detailData[i].equipType]})
+      if(this.rent_detail_num==null){
+        this.$alert("请先输入租用人学工号", '提示', {
+          confirmButtonText: '确定',          
+        });
+      }else{
+        let params=new FormData();
+        params.append("userNumber",this.rent_detail_num)
+        let data=await rentFind(params)
+        if(data.code==200){
+          this.detailData=data.datas;
+          for(let i=0;i<this.detailData.length;i++){
+          Object.assign(this.detailData[i],{"eqname":this.type[this.detailData[i].equipType]})
+        }
+          this.detailVisible=true;
+        }else{
+          this.$message.error('查询失败！请重试');  
+        }
       }
-        this.detailVisible=true;
-      } 
-      console.log(this.detailData);
     },
     // 查看维修器材
     async repair(){
@@ -307,15 +323,23 @@ export default {
     },
     // 赔偿
     async compensate(){
-      let params=new FormData();
-      params.append("type",this.compensate_form_name)
-      let data=await equipmentCharge(params) 
-      if(data.code==200){
-        let money=data.data*20;
-        this.$alert(money+"元", '价钱', {
+      if(this.compensate_form_name==null){
+        this.$alert("请先选择查询器材类型", '提示', {
           confirmButtonText: '确定',          
         });
-      } 
+      }else{
+        let params=new FormData();
+        params.append("type",this.compensate_form_name)
+        let data=await equipmentCharge(params) 
+        if(data.code==200){
+          let money=data.data*20;
+          this.$alert(money+"元", '价钱', {
+            confirmButtonText: '确定',          
+          });
+        }else{
+          this.$message.error('查询失败！请重试'); 
+        }
+      }      
     },
     return_eq(){
       this.$router.push('/equipment')
@@ -338,6 +362,11 @@ export default {
                 type: 'success',
                 message: '归还成功!'
               });
+              if(this.radio!="rent"){
+                this.detailVisible=false;
+              }
+            }else{
+              this.$message.error('归还失败！请重试！');
             }
           })
           
@@ -375,5 +404,12 @@ export default {
 .return{
   text-align: right;
   margin: 0px 20px 40px 20px;
+}
+.charge{
+  text-align: left;
+}
+.charge>p{
+  color: red;
+  margin-top: 70px;
 }
 </style>>

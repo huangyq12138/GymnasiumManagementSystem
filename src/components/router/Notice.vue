@@ -118,6 +118,9 @@ export default {
         }, {
           value: 3,
           label: '其他公告'
+        },{
+          value: 9,
+          label: '全部'
         }],
         value: '',
         tableData: [],
@@ -149,9 +152,8 @@ export default {
     this.get_notice()
   },
   methods: {
-     handleDelete(i,id) {//删除
+    handleDelete(i,id) {//删除
         let that=this;
-        // console.log(i,id);
         this.$confirm('确定删除该公告?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -190,6 +192,7 @@ export default {
       }
     },
     async change_type(){
+        if(this.value!=9){
           let params=new FormData();
           params.append("type",this.value)
           let data=await getNoticeType(params) 
@@ -198,7 +201,10 @@ export default {
             for(let i=0;i<this.tableData.length;i++){
                 this.tableData[i].type=this.options[this.tableData[i].type].label
             }
-          }          
+          }   
+        }else{
+          this.get_notice();
+        }       
     },
     // 添加公告
     async add_notice(formname){
@@ -211,7 +217,7 @@ export default {
             params.append("type",this.form.type)
             params.append("content",this.form.content)
             params.append("time",time)
-            let data=addNotice(params).then(
+            addNotice(params).then(
               res=>{
                 if(res.code==200){
                   this.formVisible=false;
@@ -219,6 +225,7 @@ export default {
                     message: '添加成功',
                     type: 'success'
                   });
+                  location.reload();
                 }else{
                   this.$message.error('添加失败，请重试');
                 }
