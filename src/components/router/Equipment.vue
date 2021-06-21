@@ -198,7 +198,7 @@ export default {
       form: {        
         type:null,
         number:null,
-        rotes:null,
+        rates:null,
       },
       formLabelWidth: '120px',
       rentVisible:false,
@@ -259,8 +259,7 @@ export default {
   },
   methods: {
     async equipment_all(){
-          let data=await equipmentAll() 
-          // console.log(data); 
+          let data=await equipmentAll();
           this.tableData=data.datas;
           for(let i=0;i<this.tableData.length;i++){
             this.tableData[i]["name"]=this.type[this.tableData[i].type];
@@ -313,9 +312,10 @@ export default {
       this.$refs[formName].validate((valid) => {
           if (valid) {
             let params=new FormData();
+            console.log(this.form);
             params.append("type",this.form.type)
             params.append("number",this.form.number)
-            params.append("rates",this.form.rates)
+            params.append("buyRates",this.form.rates)
             equipmentAdd(params).then(
               data=>{
                 console.log(data); 

@@ -225,7 +225,7 @@ export default {
                     message: '添加成功',
                     type: 'success'
                   });
-                  location.reload();
+                   this.get_notice()
                 }else{
                   this.$message.error('添加失败，请重试');
                 }

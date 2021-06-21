@@ -436,11 +436,11 @@ export default {
           params.append("appointId",row.id)
           params.append("placeName",row.placeName)
           params.append("placeType",row.placeType)
-          console.log(row);
           cancelAppoint(params).then(
             res=>{
               console.log(res);
               if(res.code==200){
+                this.my_info();
                 this.$message({
                   type: 'success',
                   message: '已成功取消!'
