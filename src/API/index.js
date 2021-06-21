@@ -2,7 +2,7 @@ import axios from 'axios'
 axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-let token = sessionStorage.getItem("token")?sessionStorage.getItem("token"):'';
+let token = sessionStorage.getItem("token") ? sessionStorage.getItem("token") : '';
 console.log(token);
 axios.interceptors.request.use(
     config => {
