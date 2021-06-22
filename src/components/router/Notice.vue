@@ -15,12 +15,11 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-button type="primary" @click="formVisible = true">添加公告</el-button>
+            <el-button type="primary" @click="formVisible = true" v-show="isShow">添加公告</el-button>
           </div>
           <div class="context">
             <el-table
               :data="tableData"
-              border
               style="width: 100%" @row-click="detail">
               <el-table-column
                 type="index"
@@ -33,16 +32,16 @@
                 width="200">
               </el-table-column>
               <el-table-column
-                prop="content"
+                prop="str"
                 label="内容">
               </el-table-column>
               <el-table-column
                 prop="time"
                 label="发布时间"
-                width="180"
+                width="200"
                 >
               </el-table-column>
-              <el-table-column label="操作" width="100">
+              <el-table-column label="操作" width="100" v-show="isShow">
                 <template slot-scope="scope">                 
                   <el-button
                     size="mini"
@@ -106,6 +105,7 @@ export default {
   name: 'Notice',
   data () {
     return {
+        isShow:true,
         options: [{
           value: 0,
           label: '场馆公告'
@@ -151,7 +151,16 @@ export default {
   mounted(){
     this.get_notice()
   },
+  created(){
+    this.getRole();
+  },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     handleDelete(i,id) {//删除
         let that=this;
         this.$confirm('确定删除该公告?', '提示', {
@@ -187,8 +196,12 @@ export default {
     async get_notice(){
       let data=await getNotice()
       this.tableData=data.datas
+      console.log(data.datas);
       for(let i=0;i<this.tableData.length;i++){
           this.tableData[i].type=this.options[this.tableData[i].type].label
+          let str=this.tableData[i].content;
+          if(this.tableData[i].content.length>=30)str=this.tableData[i].content.slice(0,40)+"..."
+          Object.assign(this.tableData[i],{"str":str});
       }
     },
     async change_type(){
@@ -246,15 +259,14 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 20px 10px;
 }
 .top{
   text-align: left;
-  margin-left: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .top .el-button{
-  margin-left: 150px;
+  margin-left: 10px;
 }
 
 .detail{

@@ -9,7 +9,7 @@
           <div class="pl-nav">
           <el-radio-group v-model="radio" @change="choose">
             <el-radio-button label=1>场地类型</el-radio-button>
-            <el-radio-button label=2>添加场地</el-radio-button>
+            <el-radio-button label=2 v-show="isShow">添加场地</el-radio-button>
             <el-radio-button label=3>查询场地</el-radio-button>
             <el-radio-button label=4>场地预约</el-radio-button>
           </el-radio-group>
@@ -17,7 +17,6 @@
            <div class="context">
             <el-table
               :data="type_data"
-              border
               style="width: 100%">
               <el-table-column
                 type="index"
@@ -36,11 +35,11 @@
             <el-form :model="addplace_form" class="checkContext" :rules="addplace_rules" ref="addplace_form">             
               <el-form-item label="场地类型" :label-width="formLabelWidth" prop="placeType">
                 <el-select v-model="addplace_form.placeType" placeholder="请选择类型">
-                  <el-option label="羽毛球场" value=1></el-option>
-                  <el-option label="兵乓球场" value=2></el-option>
-                  <el-option label="台球场" value=3></el-option>
-                  <el-option label="篮球场" value=4></el-option>
-                  <el-option label="保龄球场" value=5></el-option>
+                  <el-option label="羽毛球场" value=0></el-option>
+                  <el-option label="兵乓球场" value=1></el-option>
+                  <el-option label="台球场" value=2></el-option>
+                  <el-option label="篮球场" value=3></el-option>
+                  <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="场地名称" :label-width="formLabelWidth" prop="placeName">
@@ -59,10 +58,12 @@
 
 <script>
 import axios from 'axios';
+import {AddPlace} from '@/API/api';
 export default {
   name: 'Place',
   data () {
     return {
+      isShow:true,
       types:["羽毛球场","兵乓球场","台球场","篮球场","保龄球场"],
       add_placeform:false,
       formLabelWidth: '120px',
@@ -92,7 +93,16 @@ export default {
     // this.get_type();
     
   },
+  created(){
+    this.getRole();
+  },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     choose(){
       if(this.radio==2){
         this.add_placeform = true;
@@ -110,20 +120,18 @@ export default {
             let place_data=new FormData()
             place_data.append("placeName",this.addplace_form.placeName)
             place_data.append("placeType",this.addplace_form.placeType)
-            axios({          
-              url:'http://47.97.164.97:8888/place/superAdmin/addPlace',
-              method:"post",
-              data:place_data,
-              headers:{
-                  'Content-Type':'multipart/form-data',
-						      Authorization:localStorage.getItem('Authorization')     }
-            })
-            .then(function (response) {
+            AddPlace(place_data).then((res)=>{
               that.add_placeform= false;
-              that.$message({
-              message: '新增场地成功！',
-              type: 'success'
-            });
+              console.log(res);
+              if(res.code==200){
+                that.$message({
+                  message: '新增场地成功！',
+                  type: 'success'
+                });
+              }else{
+                that.$message.error(res.message)
+              }
+              
             })
             .catch(function (error) {
               that.$message.error('新增场地失败！');        
@@ -144,17 +152,17 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 20px 20px;
 }
 .pl-nav{
   text-align: right;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .pl-nav .el-button{
   margin-right: 20px;
 }
 .checkContext .el-input,.checkContext .el-select{
-  width: 600px;
+  width: 400px;
 }
 .active_type{
   background: #027DB4;

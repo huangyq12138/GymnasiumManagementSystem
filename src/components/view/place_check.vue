@@ -40,7 +40,6 @@
           <el-dialog title="查询结果" :visible.sync="type_check">
               <el-table
                 :data="type_data"
-                border
                 style="width: 100%">
                 <el-table-column
                   type="index"
@@ -87,12 +86,12 @@
               </el-form-item>
               <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="freeField.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8：00~10：00"></el-option>
-                  <el-option label="10：00~12：00" value="10：00~12：00"></el-option>
-                  <el-option label="14：00~16：00" value="14：00~16：00"></el-option>
-                  <el-option label="16：00~18：00" value="16：00~18：00"></el-option>
-                  <el-option label="18：00~20：00" value="18：00~20：00"></el-option>
-                  <el-option label="20：00~22：00" value="20：00~22：00"></el-option>
+                  <el-option label="8:00~10:00" value="8:00~10:00"></el-option>
+                  <el-option label="10:00~12:00" value="10:00~12:00"></el-option>
+                  <el-option label="14:00~16:00" value="14:00~16:00"></el-option>
+                  <el-option label="16:00~18:00" value="16:00~18:00"></el-option>
+                  <el-option label="18:00~20:00" value="18:00~20:00"></el-option>
+                  <el-option label="20:00~22:00" value="20:00~22:00"></el-option>
                 </el-select>
               </el-form-item>           
               <el-form-item>
@@ -104,7 +103,6 @@
           <el-dialog title="查询结果" :visible.sync="free_field_check">
               <el-table
                 :data="free_field_data"
-                border
                 style="width: 100%">
                 <el-table-column
                   type="index"
@@ -144,7 +142,6 @@
           <el-dialog title="查询结果" :visible.sync="free_time_check">
               <el-table
                 :data="free_time_data"
-                border
                 style="width: 100%">
                 <el-table-column
                   type="index"
@@ -201,7 +198,6 @@
           <el-dialog title="查询结果" :visible.sync="week_time_check">
               <el-table
                 :data="week_time_data"
-                border
                 style="width: 100%">
                 <el-table-column
                   type="index"
@@ -244,12 +240,12 @@
               </el-form-item>
               <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="standardm.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8：00~10：00"></el-option>
-                  <el-option label="10：00~12：00" value="10：00~12：00"></el-option>
-                  <el-option label="14：00~16：00" value="14：00~16：00"></el-option>
-                  <el-option label="16：00~18：00" value="16：00~18：00"></el-option>
-                  <el-option label="18：00~20：00" value="18：00~20：00"></el-option>
-                  <el-option label="20：00~22：00" value="20：00~22：00"></el-option>
+                  <el-option label="8:00~10:00" value="8:00~10:00"></el-option>
+                  <el-option label="10:00~12:00" value="10:00~12:00"></el-option>
+                  <el-option label="14:00~16:00" value="14:00~16:00"></el-option>
+                  <el-option label="16:00~18:00" value="16:00~18:00"></el-option>
+                  <el-option label="18:00~20:00" value="18:00~20:00"></el-option>
+                  <el-option label="20:00~22:00" value="20:00~22:00"></el-option>
                 </el-select>
               </el-form-item>           
               <el-form-item>
@@ -457,6 +453,7 @@ export default {
           });
           
         },
+        // 场地详细查询
         async week_time(formName){
           this.$refs[formName].validate((valid) => {
             if (valid) {
@@ -466,20 +463,18 @@ export default {
               params.append("week",this.freeDetail.day)
               weekTime(params).then(
                 data=>{
+                  console.log(data);
                   this.week_time_data=data.enabledTime;   
-                  for(let i=0;i<data.occupyTimeAndStatus.length;i++){
-                  data.occupyTimeAndStatus[i].placeStatus=this.appoint_type[data.occupyTimeAndStatus[i].placeStatus]
-                  }
                   for(let i=0;i<this.week_time_data.length;i++){
                     Object.assign(this.week_time_data[i],{"placeStatus":this.appoint_type[0]});
                   }
-                  if(data.occupyTimeAndStatus.length){
-                    this.week_time_data.unshift(data.occupyTimeAndStatus)
+                  for(let i=0;i<data.occupyTimeAndStatus.length;i++){
+                  data.occupyTimeAndStatus[i].placeStatus=this.appoint_type[data.occupyTimeAndStatus[i].placeStatus]
+                    this.week_time_data.push(data.occupyTimeAndStatus[i])
                   }
                   this.week_time_check=true;
                 }
-              )     
-                
+              )                     
             } else {
               return false;
             }

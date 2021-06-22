@@ -59,16 +59,14 @@ export default {
                 sessionStorage.setItem("userNumber",this.ruleForm.userNumber);
                 sessionStorage.setItem("role",res.role[0].authority)
                 // 成功提示
-                this.$message({
-                  message: res.msg,
-                  type: 'success'
-                });
+                this.$message.success(res.msg);
                 axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token');
                 // 跳转页面
                 this.$router.push('/Home');
               }else{
+                // console.log(res.message);
                 // 错误提示
-                this.$message.error(res.msg);
+                this.$message.error(res.message);
               }
             })
           } else {

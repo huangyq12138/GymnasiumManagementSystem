@@ -13,9 +13,9 @@
           <div class="eq-nav">
              <el-radio-group v-model="radio" @change="show">
               <el-radio-button label='charge'>收费标准</el-radio-button>
-              <el-radio-button label='rent'>租借器材</el-radio-button>
-              <el-radio-button label='rent_detail'>租借详细查询</el-radio-button>
-              <el-radio-button label='repair'>维修信息</el-radio-button>
+              <el-radio-button label='rent' v-show="isShow">租借器材</el-radio-button>
+              <el-radio-button label='rent_detail' v-show="isShow">租借详细查询</el-radio-button>
+              <el-radio-button label='repair' v-show="isShow">维修信息</el-radio-button>
               <el-radio-button label='compensate'>赔偿标准</el-radio-button>
             </el-radio-group>
           </div>
@@ -43,7 +43,6 @@
           <div v-show="this.flag.rent">
             <el-table
               :data="tableData"
-              border
               style="width: 100%">
               <el-table-column
                 type="index"
@@ -113,7 +112,6 @@
            <el-dialog title="查询结果" :visible.sync="detailVisible" width="65%">
             <el-table
               :data="detailData"
-              border
               style="width: 100%">
               <el-table-column
                 type="index"
@@ -173,7 +171,6 @@
           <div v-show="this.flag.repair">
             <el-table
               :data="repair_form"
-              border
               style="width: 100%">
               <el-table-column
                 type="index"
@@ -222,6 +219,7 @@ export default {
   name: 'Equipment',
   data () {
     return {
+      isShow:true,
       tableData: [],
       now:'charge',
       rent_detail_num:null,
@@ -255,7 +253,16 @@ export default {
     }
   },
   components: {},
+  created(){
+    this.getRole();
+  },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     show(){
       if(this.radio=='rent'){
           this.rent();

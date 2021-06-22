@@ -9,16 +9,15 @@
           <div class="eq-nav">
             <el-radio-group v-model="radio" @change="choose">
               <el-radio-button label=0>全部器材</el-radio-button>
-              <el-radio-button label=1>器材新增</el-radio-button>
+              <el-radio-button label=1 v-show="isShow">器材新增</el-radio-button>
               <el-radio-button label=2>器材租用</el-radio-button>
-              <el-radio-button label=3>器材报修</el-radio-button>
+              <el-radio-button label=3 v-show="isShow">器材报修</el-radio-button>
               <el-radio-button label=4>器材查询</el-radio-button>
             </el-radio-group>
           </div>
            <div class="context">
             <el-table
               :data="tableData"
-              border
               style="width: 100%">
               <el-table-column
                 type="index"
@@ -70,7 +69,7 @@
                 {{this.detail_form.name}}
               </el-form-item>
               <el-form-item label="可用器材数" :label-width="formLabelWidth" prop="cnumber">
-                <el-input v-model="detail_form.cnumber" autocomplete="off" placeholder="请输入更新后的数量"></el-input>
+                <el-input v-model.number="detail_form.cnumber" autocomplete="off" placeholder="请输入更新后的数量"></el-input>
               </el-form-item>
               <el-form-item label="现已租用数" :label-width="formLabelWidth">
                 {{this.detail_form.rentNum}}
@@ -103,10 +102,10 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="购进数量" :label-width="formLabelWidth" prop="number">
-                <el-input v-model="form.number" autocomplete="off"></el-input>
+                <el-input v-model.number="form.number" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="购进金额" :label-width="formLabelWidth" prop="rates">
-                <el-input v-model="form.rates" autocomplete="off"></el-input>
+                <el-input v-model.number="form.rates" autocomplete="off"></el-input>
               </el-form-item>             
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -122,10 +121,10 @@
                 <el-input v-model="rent_form.name" autocomplete="off" ></el-input>
               </el-form-item>
               <el-form-item label="租用人学号" :label-width="formLabelWidth" prop="stu_num">
-                <el-input v-model="rent_form.stu_num" autocomplete="off"></el-input>
+                <el-input v-model.number="rent_form.stu_num" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
-                <el-input v-model="rent_form.phone" autocomplete="off"></el-input>
+                <el-input v-model.number="rent_form.phone" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="租用器材" :label-width="formLabelWidth" prop="type">
                 <el-select v-model="rent_form.type" placeholder="请选择器材">
@@ -139,10 +138,10 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="租用数量" :label-width="formLabelWidth" prop="num">
-                <el-input v-model="rent_form.num" autocomplete="off"></el-input>
+                <el-input v-model.number="rent_form.num" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="租用时长" :label-width="formLabelWidth" prop="time">
-                <el-input v-model="rent_form.time" autocomplete="off" placeholder="不足一小时按一小时收费"></el-input>
+                <el-input v-model.number="rent_form.time" autocomplete="off" placeholder="不足一小时按一小时收费"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -186,6 +185,7 @@ export default {
   name: 'Equipment',
   data () {
     return {
+      isShow:true,
       tableData: [{
           name:'篮球',
           type:0,
@@ -222,7 +222,8 @@ export default {
       detail_form:[],
       rule:{
               num:[
-                  { required: true, message: '请输入数量', trigger: 'blur' }
+                  { required: true, message: '请输入数量', trigger: 'blur' },
+                  { type: 'number', message: '该项必须为数字值'}
               ],
               name:[
                   { required: true, message: '请输入姓名', trigger: 'blur' }
@@ -232,32 +233,47 @@ export default {
               ],
               cnumber:[
                   { required: true, message: '请输入更新后的数量', trigger: 'blur' },
+                  { type: 'number', message: '该项必须为数字值'}
               ],
               number:[
-                  { required: true, message: '请输入构进数量', trigger: 'blur' },
+                  { required: true, message: '请输入购进数量', trigger: 'blur' },
+                  { type: 'number', message: '该项必须为数字值'}
               ],
               rates:[
                   { required: true, message: '请输入购进金额', trigger: 'blur' },
+                  { type: 'number', message: '该项必须为数字值'}
               ],
               phone:[
-                  { required: true, message: '请输入手机号', trigger: 'blur' },
+                  { required: true, message: '请输入手机号'},
+                  { type: 'number', message: '该项必须为数字值'},
+                  { pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, message: '手机号格式不正确',trigger: 'blur'} 
               ],
               pname:[
                   { required: true, message: '请选择场地名称', trigger: 'change' }
               ],
               stu_num:[
                   { required: true, message: '请输入学号', trigger: 'blur' },
+                  { pattern: /(\d){12}/, message: '学工号格式不正确',trigger: 'blur'},
+                  { type: 'number', message: '该项必须为数字值'}
               ],
               time:[
-                  { required: true, message: '请选择时间', trigger: 'blur' }
+                  { required: true, message: '请输入时间', trigger: 'blur' },
+                  { type: 'number', message: '该项必须为数字值'}
               ]
             },
     }
   },
   mounted () {
     this.equipment_all();
+    this.getRole();
   },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_user'){
+        this.isShow=false;
+      };
+    },
     async equipment_all(){
           let data=await equipmentAll();
           this.tableData=data.datas;
@@ -318,7 +334,6 @@ export default {
             params.append("buyRates",this.form.rates)
             equipmentAdd(params).then(
               data=>{
-                console.log(data); 
                 if(data.code==200){
                   this.equipment_all();
                   this.formVisible = false;
@@ -411,16 +426,16 @@ export default {
     height: 100%;
 }
 .container{
-  margin: 50px 30px;
+  margin: 20px 20px;
 }
 .eq-nav{
   text-align: right;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .eq-nav .el-button{
   margin-right: 20px;
 }
 .checkContext .el-input,.checkContext .el-select{
-  width: 600px;
+  width: 400px;
 }
 </style>

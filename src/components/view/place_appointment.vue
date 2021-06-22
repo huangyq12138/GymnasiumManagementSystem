@@ -13,7 +13,7 @@
           <div class="ap-nav">
           <el-radio-group v-model="now" @change="show">
             <el-radio-button label='personal'>个人预约</el-radio-button>
-            <el-radio-button label='special'>特殊预约</el-radio-button>
+            <el-radio-button label='special' v-show="isShow">特殊预约</el-radio-button>
             <el-radio-button label='my'>我的预约</el-radio-button>
           </el-radio-group>
           </div>
@@ -21,13 +21,13 @@
           <div  v-show="this.flag.personal">
             <el-form  label-width="80px" class="checkContext" ref="personala" :model="personala" :rules="rule">
               <el-form-item label="学号" :label-width="formLabelWidth" prop="std">
-                    <el-input v-model="personala.std" autocomplete="off"></el-input>
+                    <el-input v-model.number="personala.std" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="personala.name" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="personala.phone" autocomplete="off"></el-input>
+                    <el-input v-model.number="personala.phone" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="场地类型" :label-width="formLabelWidth" prop="type">
                 <el-select v-model="personala.type" placeholder="请选择场地" @change="choose_type(0)">
@@ -56,12 +56,12 @@
               </el-form-item>
               <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="personala.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8:00~10:00"></el-option>
-                  <el-option label="10：00~12：00" value="10:00~12:00"></el-option>
-                  <el-option label="14：00~16：00" value="14:00~16:00"></el-option>
-                  <el-option label="16：00~18：00" value="16:00~18:00"></el-option>
-                  <el-option label="18：00~20：00" value="18:00~20:00"></el-option>
-                  <el-option label="20：00~22：00" value="20:00~22:00"></el-option>
+                  <el-option label="8:00~10:00" value="8:00~10:00"></el-option>
+                  <el-option label="10:00~12:00" value="10:00~12:00"></el-option>
+                  <el-option label="14:00~16:00" value="14:00~16:00"></el-option>
+                  <el-option label="16:00~18:00" value="16:00~18:00"></el-option>
+                  <el-option label="18:00~20:00" value="18:00~20:00"></el-option>
+                  <el-option label="20:00~22:00" value="20:00~22:00"></el-option>
                 </el-select>
               </el-form-item>            
               <el-form-item>
@@ -80,13 +80,13 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="学工号" :label-width="formLabelWidth" prop="std">
-                    <el-input v-model="speciala.std" autocomplete="off"></el-input>
+                    <el-input v-model.number="speciala.std" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="speciala.name" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
-                    <el-input v-model="speciala.phone" autocomplete="off"></el-input>
+                    <el-input v-model.number="speciala.phone" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="场地类型" :label-width="formLabelWidth" prop="type">
                 <el-select v-model="speciala.type" placeholder="请选择" @change="choose_type(1)">
@@ -115,12 +115,12 @@
               </el-form-item>
               <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="speciala.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8:00~10:00"></el-option>
-                  <el-option label="10：00~12：00" value="10:00~12:00"></el-option>
-                  <el-option label="14：00~16：00" value="14:00~16:00"></el-option>
-                  <el-option label="16：00~18：00" value="16:00~18:00"></el-option>
-                  <el-option label="18：00~20：00" value="18:00~20:00"></el-option>
-                  <el-option label="20：00~22：00" value="20:00~22:00"></el-option>
+                  <el-option label="8:00~10:00" value="8:00~10:00"></el-option>
+                  <el-option label="10:00~12:00" value="10:00~12:00"></el-option>
+                  <el-option label="14:00~16:00" value="14:00~16:00"></el-option>
+                  <el-option label="16:00~18:00" value="16:00~18:00"></el-option>
+                  <el-option label="18:00~20:00" value="18:00~20:00"></el-option>
+                  <el-option label="20:00~22:00" value="20:00~22:00"></el-option>
                 </el-select>
               </el-form-item>           
               <el-form-item>
@@ -132,7 +132,6 @@
           <div  v-show="this.flag.my">
             <el-table
               :data="my"
-              border
               style="width: 100%">             
               <el-table-column
                 prop="username"
@@ -213,6 +212,7 @@ import {appointPlace,placeType,appointInfo,modifyAppoint,cancelAppoint,appointSp
 export default {
     data(){
         return{
+            isShow:true,
             flag:{
                 personal:true,
                 special:false,
@@ -264,12 +264,16 @@ export default {
               ],
               std:[
                   { required: true, message: '请输入学号', trigger: 'blur' },
+                  { pattern: /(\d){12}/, message: '学工号格式不正确',trigger: 'blur'},
+                  { type: 'number', message: '该项必须为数字值'},
               ],
               name:[
                   { required: true, message: '请输入名字', trigger: 'blur' },
               ],
               phone:[
                   { required: true, message: '请输入手机号', trigger: 'blur' },
+                  { type: 'number', message: '该项必须为数字值'},
+                  { pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, message: '手机号格式不正确',trigger: 'blur'} 
               ],
               pname:[
                   { required: true, message: '请选择场地名称', trigger: 'change' }
@@ -284,7 +288,16 @@ export default {
             types:["羽毛球场","兵乓球场","台球场","篮球场","保龄球场"],
         }
     },
+    created(){
+      this.getRole();
+    },
     methods:{
+        //获取角色
+        getRole(){
+          if(sessionStorage.getItem("role")=='ROLE_user'){
+            this.isShow=false;
+          };
+        },
         // 个人预约
         async personal(formName){
           this.$refs[formName].validate((valid) => {

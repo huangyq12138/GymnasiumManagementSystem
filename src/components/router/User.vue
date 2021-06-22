@@ -243,6 +243,8 @@ export default {
       let data=await getUser(number);
       if(data.code==200){
         arr.push(this.switchGender(data.data));
+      }else{
+        this.$message.error('该账号不存在！')
       }
       this.tableData=arr;
     },
