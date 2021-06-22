@@ -36,11 +36,11 @@
             <el-form :model="addplace_form" class="checkContext" :rules="addplace_rules" ref="addplace_form">             
               <el-form-item label="场地类型" :label-width="formLabelWidth" prop="placeType">
                 <el-select v-model="addplace_form.placeType" placeholder="请选择类型">
-                  <el-option label="羽毛球场" value=1></el-option>
-                  <el-option label="兵乓球场" value=2></el-option>
-                  <el-option label="台球场" value=3></el-option>
-                  <el-option label="篮球场" value=4></el-option>
-                  <el-option label="保龄球场" value=5></el-option>
+                  <el-option label="羽毛球场" value=0></el-option>
+                  <el-option label="兵乓球场" value=1></el-option>
+                  <el-option label="台球场" value=2></el-option>
+                  <el-option label="篮球场" value=3></el-option>
+                  <el-option label="保龄球场" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="场地名称" :label-width="formLabelWidth" prop="placeName">
@@ -59,6 +59,7 @@
 
 <script>
 import axios from 'axios';
+import {AddPlace} from '@/API/api';
 export default {
   name: 'Place',
   data () {
@@ -120,20 +121,18 @@ export default {
             let place_data=new FormData()
             place_data.append("placeName",this.addplace_form.placeName)
             place_data.append("placeType",this.addplace_form.placeType)
-            axios({          
-              url:'http://47.97.164.97:8888/place/superAdmin/addPlace',
-              method:"post",
-              data:place_data,
-              headers:{
-                  'Content-Type':'multipart/form-data',
-						      Authorization:localStorage.getItem('Authorization')     }
-            })
-            .then(function (response) {
+            AddPlace(place_data).then((res)=>{
               that.add_placeform= false;
-              that.$message({
-              message: '新增场地成功！',
-              type: 'success'
-            });
+              console.log(res);
+              if(res.code==200){
+                that.$message({
+                  message: '新增场地成功！',
+                  type: 'success'
+                });
+              }else{
+                that.$message.error(res.message)
+              }
+              
             })
             .catch(function (error) {
               that.$message.error('新增场地失败！');        

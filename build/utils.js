@@ -46,7 +46,9 @@ exports.cssLoaders = function(options) {
         if (options.extract) {
             return ExtractTextPlugin.extract({
                 use: loaders,
-                fallback: 'vue-style-loader'
+                fallback: 'vue-style-loader',
+                //element-ui打包后图标不能显示的问题
+                publicPath: '../../'
             })
         } else {
             return ['vue-style-loader'].concat(loaders)
