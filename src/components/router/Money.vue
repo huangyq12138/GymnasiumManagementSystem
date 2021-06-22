@@ -203,21 +203,22 @@ export default {
       this.option.title.subtext=this.myYear+"年"+mm+"月";
       let data=this.initFormData();
       let res=await getPieInfo(data);
+      console.log(res)
       if(res.code==200){
           if(res.datas.length==0){
             this.$message.info('该月份没有信息~~')
             // console.log(res.title)
           }else{
             let list=res.datas;
-            // for(let i=0;i<list.length;i++){
-            //   this.option.series[0].data[i]={value:list[i].value, name: list[i].name}
-            // }
-            this.option.series[0].data=[
-              {value:list[1].value, name: list[1].name},
-              {value:list[3].value, name: list[3].name},
-              {value:list[0].value, name: list[0].name},
-              {value:list[2].value, name: list[2].name}
-            ]
+            for(let i=0;i<list.length;i++){
+              this.option.series[0].data[i]={value:list[i].value, name: list[i].name}
+            }
+            // this.option.series[0].data=[
+            //   {value:list[1].value, name: list[1].name},
+            //   {value:list[3].value, name: list[3].name},
+            //   {value:list[0].value, name: list[0].name},
+            //   {value:list[2].value, name: list[2].name}
+            // ]
             this.creatPie();
           }
         }else{

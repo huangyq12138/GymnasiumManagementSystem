@@ -155,7 +155,7 @@
                 器材
               </td>
               <td class="column">
-                <span v-for="(item,i) in detailCon.equipment" :key="i">&nbsp;{{item}}&nbsp;</span>
+                <span v-for="(item,i) in detailCon.equipment" :key="i">&nbsp;{{item.name}}*{{item.number}}&nbsp;</span>
               </td>
               <td class="column" v-show="isShow_3">
                 <el-button
@@ -226,7 +226,7 @@
           type="index"
           width="50">
         </el-table-column>
-        <el-table-column property="type" label="类型" width="220"></el-table-column>
+        <el-table-column property="name" label="类型" width="220"></el-table-column>
         <el-table-column property="number" label="数量" width="150"></el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
@@ -425,7 +425,8 @@ export default {
       Addform:{},
       EquipList:[
         {
-          type:'羽毛球拍',
+          id:0,
+          name:'羽毛球拍',
           number:'10'
         }
       ],
@@ -690,7 +691,8 @@ export default {
       console.log(res);
       if(res.code==200){
         this.$message.success('添加成功！');
-        dialog_1 = false;
+        this.dialog_1 = false;
+        this.AllContestInfo();
         this.Addform={};
       }else{
         this.$message.error(res.title);
@@ -758,7 +760,6 @@ export default {
       let res=await getJudge(id);
       console.log(res);
       if(res.code==200){
-        this.detailCon.judge=res.datas;
         this.JugmentList=res.datas;
         this.detailCon.judge=res.datas;
       }
@@ -766,14 +767,50 @@ export default {
     // 查询该赛事的器材
     async ContestEquipment(){
       let id=new FormData();
+      let list=[];
+      this.detailCon.equipment=[];
       id.append('id',this.cid);
       let res=await getConEquip(id);
       console.log(res);
       if(res.code==200){
-        this.detailCon.equipment=res.datas;
-        this.EquipList=res.datas;
-        this.detailCon.equipment=res.datas;
+        list=res.datas;
+        for(let i=0;i<res.datas.length;i++){
+          let name=this.getEquipName(list[i].equipId);
+          this.detailCon.equipment.push({id:list[i].id,eid: list[i].equipId,name: name,number:list[i].equipNumber})
+        }
+        this.EquipList=this.detailCon.equipment;
+        console.log(this.detailCon.equipment);
       }
+    },
+    //获取器材名称
+    getEquipName(data){
+      let name='';
+      switch(data){
+        case 0:
+          name='羽毛球拍';
+          break;
+        case 1:
+          name='毽子';
+          break;
+        case 2:
+          name='排球';
+          break;
+        case 3:
+          name='篮球';
+          break;
+        case 4:
+          name='足球';
+          break;
+        case 5:
+          name='乒乓球';
+          break;
+        case 6:
+          name='保龄球';
+          break;
+        default:
+          name='其他';
+      }
+      return name;
     },
     //修改裁判按钮
     updateJugment(){
@@ -839,6 +876,7 @@ export default {
           let id=new FormData();
           id.append('id',row.id);
           deleteConEquip(id).then((res)=>{
+            console.log(res);
             if(res.code==200){
               this.$message.success(res.title);
               this.detailCon.equipment=this.ContestEquipment();

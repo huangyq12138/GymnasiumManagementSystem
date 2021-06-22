@@ -87,12 +87,12 @@
               </el-form-item>
               <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="freeField.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8：00~10：00"></el-option>
-                  <el-option label="10：00~12：00" value="10：00~12：00"></el-option>
-                  <el-option label="14：00~16：00" value="14：00~16：00"></el-option>
-                  <el-option label="16：00~18：00" value="16：00~18：00"></el-option>
-                  <el-option label="18：00~20：00" value="18：00~20：00"></el-option>
-                  <el-option label="20：00~22：00" value="20：00~22：00"></el-option>
+                  <el-option label="8:00~10:00" value="8:00~10:00"></el-option>
+                  <el-option label="10:00~12:00" value="10:00~12:00"></el-option>
+                  <el-option label="14:00~16:00" value="14:00~16:00"></el-option>
+                  <el-option label="16:00~18:00" value="16:00~18:00"></el-option>
+                  <el-option label="18:00~20:00" value="18:00~20:00"></el-option>
+                  <el-option label="20:00~22:00" value="20:00~22:00"></el-option>
                 </el-select>
               </el-form-item>           
               <el-form-item>
@@ -244,12 +244,12 @@
               </el-form-item>
               <el-form-item label="时间" :label-width="formLabelWidth" prop="time">
                 <el-select v-model="standardm.time" placeholder="请选择">
-                  <el-option label="8：00~10：00" value="8：00~10：00"></el-option>
-                  <el-option label="10：00~12：00" value="10：00~12：00"></el-option>
-                  <el-option label="14：00~16：00" value="14：00~16：00"></el-option>
-                  <el-option label="16：00~18：00" value="16：00~18：00"></el-option>
-                  <el-option label="18：00~20：00" value="18：00~20：00"></el-option>
-                  <el-option label="20：00~22：00" value="20：00~22：00"></el-option>
+                  <el-option label="8:00~10:00" value="8:00~10:00"></el-option>
+                  <el-option label="10:00~12:00" value="10:00~12:00"></el-option>
+                  <el-option label="14:00~16:00" value="14:00~16:00"></el-option>
+                  <el-option label="16:00~18:00" value="16:00~18:00"></el-option>
+                  <el-option label="18:00~20:00" value="18:00~20:00"></el-option>
+                  <el-option label="20:00~22:00" value="20:00~22:00"></el-option>
                 </el-select>
               </el-form-item>           
               <el-form-item>
