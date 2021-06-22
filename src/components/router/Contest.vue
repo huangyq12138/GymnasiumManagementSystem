@@ -475,6 +475,8 @@ export default {
         list=res.datas;
         for(let i=0;i<list.length;i++){
           let Tname=this.turnC_Type(list[i].type);
+          let Wname=this.getWeekName(list[i].week);
+          list[i].week=Wname;
           list[i].type=Tname;
         }
         this.tableData=list;
