@@ -520,11 +520,21 @@ export default {
       this.back();
       console.log(111);
       let type=new FormData();
+      let list=[];
       type.append('type',i)
       let res=await getConByType(type);
       // console.log(res);
       if(res.code==200){
-        this.tableData=res.datas;
+        if(res.datas.length!=0){
+          list=res.datas;
+          for(let i=0;i<list.length;i++){
+            let Tname=this.turnC_Type(list[i].type);
+            let Wname=this.getWeekName(list[i].week);
+            list[i].week=Wname;
+            list[i].type=Tname;
+          }
+        }
+        this.tableData=list;
       }else{
         console.log(res.title);
       }
@@ -706,6 +716,8 @@ export default {
       this.ContestJugment();
       this.ContestEquipment();
       this.detailCon.name=row.name;
+      this.detailCon.placeType=row.placeType;
+      this.detailCon.placeName=row.placeName;
       this.detailCon.type=row.type;
       this.detailCon.week=row.week;
       this.detailCon.timeZone=row.timeZone;
@@ -881,7 +893,7 @@ export default {
             console.log(res);
             if(res.code==200){
               this.$message.success(res.title);
-              this.detailCon.equipment=this.ContestEquipment();
+              this.ContestEquipment();
             }else{
               this.$message.error(res.title);
             }
