@@ -9,8 +9,8 @@
         <div class="input_box">
            <el-input v-model="input" placeholder="请输入用户账号" clearable></el-input>
            <el-button type="primary" @click="search()" style="margin-left:-10px">查询</el-button>
-           <el-button type="primary" @click="lookAdmin()">查看管理员</el-button>
-           <el-button type="primary" @click="addAdminBtn()">添加管理员</el-button>
+           <el-button type="primary" @click="lookAdmin()" v-show="isShow">查看管理员</el-button>
+           <el-button type="primary" @click="addAdminBtn()" v-show="isShow">添加管理员</el-button>
            <el-button type="primary" @click="lookUser()" v-show="istable_2||istable_3||istable_0">返回</el-button>
         </div>
         <!-- 用户信息表格 -->
@@ -197,15 +197,23 @@ export default {
           // academy:'',
           // major:'',
           // classes:'',
-        }]
+        }],
+        isShow:true,
       }
   },
   components: {},
   created(){
     // 获取用户信息
     this.getAllInfo();
+    this.getRole();
   },
   methods: {
+    //获取角色
+    getRole(){
+      if(sessionStorage.getItem("role")=='ROLE_admin'){
+        this.isShow=false;
+      };
+    },
     //获取所有用户信息
     async getAllInfo(){
       let data=await getAll();

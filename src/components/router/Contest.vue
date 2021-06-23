@@ -135,7 +135,7 @@
                 裁判
               </td>
               <td class="column">
-                <span v-for="(item,i) in detailCon.judge" :key="i">&nbsp;{{item}}&nbsp;</span>
+                <span v-for="(item,i) in detailCon.judge" :key="i">&nbsp;{{item.name}}&nbsp;</span>
               </td>
               <td class="column" v-show="isShow_3">
                 <el-button
@@ -248,11 +248,7 @@
           type="index"
           width="50">
         </el-table-column>
-        <el-table-column label="姓名" width="360px">
-           <template slot-scope="scope">
-             {{JugmentList[scope.$index]}}
-           </template>
-           </el-table-column>
+        <el-table-column label="姓名" width="360px" prop="name"></el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
                 <el-button
@@ -338,10 +334,12 @@ export default {
       setTimeout(() => {
         if (!Number.isInteger(parseInt(value))) {
           callback(new Error('请输入数字值'));
-        } else {
+        } else{
           if (value>this.maxNum) {
             callback(new Error('数量超过最大存储量'));
-          } else {
+          } else if(value<0){
+            callback(new Error('数量不能小于0！'));
+          }else{
             callback();
           }
         }
@@ -430,11 +428,7 @@ export default {
           number:'10'
         }
       ],
-      JugmentList:[
-        {
-          name:'黎明'
-        },
-      ],
+      JugmentList:[],
       AddJugmentData:{
           domains: [{
             value: ''

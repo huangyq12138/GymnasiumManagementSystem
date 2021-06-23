@@ -51,7 +51,7 @@ export const getJudge = (id) => post("http://47.97.164.97:8888/contest/queryJudg
     // 添加赛事裁判
 export const addJudge = (data) => post("http://47.97.164.97:8888/contest/admin/addJudge", data)
     // 删除赛事裁判
-export const deleteJudge = (id) => post("http://47.97.164.97:8888/contest/admin/deleteAnnounce", id)
+export const deleteJudge = (id) => post("http://47.97.164.97:8888/contest/admin/deleteJudgement", id)
     // 通过赛事id查询赛事器材
 export const getConEquip = (id) => post("http://47.97.164.97:8888/contest/queryEquipById", id)
     // 添加赛事器材

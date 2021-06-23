@@ -45,7 +45,7 @@
                 :collapse="isCollapse"
                 router
                 >
-                <el-menu-item index="User" v-show="isShow_2">
+                <el-menu-item index="User">
                   <i class="el-icon-s-custom"></i>
                   <span slot="title">用户管理</span>
                 </el-menu-item>
