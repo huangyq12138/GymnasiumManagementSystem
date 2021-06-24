@@ -120,9 +120,6 @@
               <el-form-item label="租用人姓名" :label-width="formLabelWidth" prop="name">
                 <el-input v-model="rent_form.name" autocomplete="off" ></el-input>
               </el-form-item>
-              <el-form-item label="租用人学号" :label-width="formLabelWidth" prop="stu_num">
-                <el-input v-model.number="rent_form.stu_num" autocomplete="off"></el-input>
-              </el-form-item>
               <el-form-item label="联系方式" :label-width="formLabelWidth" prop="phone">
                 <el-input v-model.number="rent_form.phone" autocomplete="off"></el-input>
               </el-form-item>
@@ -251,11 +248,6 @@ export default {
               pname:[
                   { required: true, message: '请选择场地名称', trigger: 'change' }
               ],
-              stu_num:[
-                  { required: true, message: '请输入学号', trigger: 'blur' },
-                  { pattern: /(\d){12}/, message: '学工号格式不正确',trigger: 'blur'},
-                  { type: 'number', message: '该项必须为数字值'}
-              ],
               time:[
                   { required: true, message: '请输入时间', trigger: 'blur' },
                   { type: 'number', message: '该项必须为数字值'}
@@ -352,12 +344,13 @@ export default {
       this.$refs[formName].validate((valid) => {
           if (valid) {
             let params=new FormData();
+            let userNumber=sessionStorage.getItem("userNumber");
             params.append("duration",this.rent_form.time)
             params.append("equipType",this.rent_form.type)
             params.append("phone",this.rent_form.phone)
             params.append("rentNumber",this.rent_form.num)
             params.append("username",this.rent_form.name)
-            params.append("userNumber",this.rent_form.stu_num)
+            params.append("userNumber",userNumber)
             let num=this.rent_form.num*this.money[this.rent_form.type]*this.rent_form.time
             this.$confirm('该租用需要支付'+num+'元, 是否继续?', '提示', {
               confirmButtonText: '已经支付',
@@ -368,10 +361,12 @@ export default {
                 data=>{
                   if(data.code==200){
                     this.equipment_all();
+                    this.rentVisible = false;
                     this.$message({
                       type: 'success',
                       message: '租用成功!'
-                    });             
+                    }); 
+
                   }else{
                     this.$message.error('租用失败!请重试！');           
                   }
