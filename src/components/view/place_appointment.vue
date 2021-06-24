@@ -20,9 +20,6 @@
           <!-- 个人预约 -->
           <div  v-show="this.flag.personal">
             <el-form  label-width="80px" class="checkContext" ref="personala" :model="personala" :rules="rule">
-              <el-form-item label="学号" :label-width="formLabelWidth" prop="std">
-                    <el-input v-model.number="personala.std" autocomplete="off"></el-input>
-              </el-form-item>
               <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="personala.name" autocomplete="off"></el-input>
               </el-form-item>
@@ -78,9 +75,6 @@
                   <el-option label="校队" value=3></el-option>
                   <el-option label="比赛" value=4></el-option>
                 </el-select>
-              </el-form-item>
-              <el-form-item label="学工号" :label-width="formLabelWidth" prop="std">
-                    <el-input v-model.number="speciala.std" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="speciala.name" autocomplete="off"></el-input>
@@ -262,11 +256,6 @@ export default {
               type:[
                   { required: true, message: '请选择场地类型', trigger: 'change' }
               ],
-              std:[
-                  { required: true, message: '请输入学号', trigger: 'blur' },
-                  { pattern: /(\d){12}/, message: '学工号格式不正确',trigger: 'blur'},
-                  { type: 'number', message: '该项必须为数字值'},
-              ],
               name:[
                   { required: true, message: '请输入名字', trigger: 'blur' },
               ],
@@ -302,12 +291,13 @@ export default {
         async personal(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
+            let userNumber=sessionStorage.getItem("userNumber");
             let params=new FormData();
             params.append("appointType",1)
             params.append("placeType",this.personala.type)
             params.append("username",this.personala.name)
             params.append("phone",this.personala.phone)
-            params.append("userNumber",this.personala.std)
+            params.append("userNumber",userNumber)
             params.append("placeName",this.personala.pname)
             params.append("week",this.personala.day)
             params.append("timeZone",this.personala.time)
@@ -354,10 +344,11 @@ export default {
           this.$refs[formName].validate((valid) => {
           if (valid) {
             let params=new FormData();
+            let userNumber=sessionStorage.getItem("userNumber");
             params.append("appointType",this.speciala.appointType)
             params.append("placeType",this.speciala.type)
             params.append("adminName",this.speciala.name)
-            params.append("adminNumber",this.speciala.std)
+            params.append("adminNumber",userNumber)
             params.append("phone",this.speciala.phone)
             params.append("placeName",this.speciala.pname)
             params.append("week",this.speciala.day)
@@ -386,7 +377,6 @@ export default {
         async my_info(){
           let params=new FormData();
           let userNumber=sessionStorage.getItem("userNumber");
-          console.log(userNumber);
           params.append("userNumber",userNumber)
           let data=await appointInfo(params) 
           this.my=data.datas;
