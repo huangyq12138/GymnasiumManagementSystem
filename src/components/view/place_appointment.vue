@@ -385,7 +385,9 @@ export default {
         // 查询我的预约信息
         async my_info(){
           let params=new FormData();
-          params.append("userNumber",1)
+          let userNumber=sessionStorage.getItem("userNumber");
+          console.log(userNumber);
+          params.append("userNumber",userNumber)
           let data=await appointInfo(params) 
           this.my=data.datas;
           for(let i=0;i<this.my.length;i++){

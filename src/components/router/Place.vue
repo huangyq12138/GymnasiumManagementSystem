@@ -89,10 +89,6 @@ export default {
       radio: 1,
     }
   },
-  mounted(){
-    // this.get_type();
-    
-  },
   created(){
     this.getRole();
   },
