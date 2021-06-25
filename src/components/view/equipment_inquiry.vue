@@ -364,13 +364,14 @@ export default {
           params.append("userNumber",row.userNumber)
           rentDelete(params).then(res=>{
             if(res.code==200){
-              this.tableData.splice(i);
               this.$message({
                 type: 'success',
                 message: '归还成功!'
               });
-              if(this.radio!="rent"){
+              if(this.radio!="rent"){                
                 this.detailVisible=false;
+              }else{
+                this.rent()
               }
             }else{
               this.$message.error('归还失败！请重试！');

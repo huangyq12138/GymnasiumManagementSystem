@@ -162,7 +162,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="报修数量" :label-width="formLabelWidth" prop="num">
-                <el-input v-model="repair_form.num" autocomplete="off"></el-input>
+                <el-input v-model.number="repair_form.num" autocomplete="off"></el-input>
               </el-form-item>              
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -377,10 +377,6 @@ export default {
             return false;
           }
         });
-      
-      
-      
-      // this.rentVisible = false;
     },
     // 报修器材
     async repairEq(formName){
